@@ -1,0 +1,87 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+.env
+venv/
+ENV/
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Node.js / React
+node_modules/
+coverage/
+.next/
+.nuxt/
+.cache/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+lerna-debug.log*
+*.tsbuildinfo
+build/
+
+# IDEs and Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+
+# Database
+*.sqlite3
+*.db
+
+# Uploads and user-generated content
+uploads/
+media/
+static/
+!static/.gitkeep
+data/
+!data/.gitkeep
+
+# Environment variables
+.env*
+!.env.example
+
+# Docker
+.docker/
+.dockerignore
+docker-compose.override.yml
+
+# Testing
+coverage/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Project specific
+ai_models/
+*.h5
+model_checkpoints/
