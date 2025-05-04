@@ -1,0 +1,178 @@
+version: '3.8'
+
+services:
+  # 백엔드 API 서비스
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=True
+      - DB_ENGINE=postgresql
+      - DB_NAME=ai_procurement
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - MONGODB_URI=mongodb://mongodb:27017/
+      - MONGODB_NAME=ai_procurement
+      - SECRET_KEY=${SECRET_KEY:-dev_secret_key}
+      - ALLOWED_HOSTS=*
+      - CORS_ORIGIN_WHITELIST=http://localhost:3000,http://frontend:3000
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # 프론트엔드 서비스
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8000
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # PostgreSQL 데이터베이스
+  postgres:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ai_procurement
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # MongoDB 데이터베이스
+  mongodb:
+    image: mongo:5
+    volumes:
+      - mongodb_data:/data/db
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=ai_procurement
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Redis 캐시 및 메시지 브로커
+  redis:
+    image: redis:6
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Celery 워커
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A core worker --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=True
+      - DB_ENGINE=postgresql
+      - DB_NAME=ai_procurement
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - MONGODB_URI=mongodb://mongodb:27017/
+      - MONGODB_NAME=ai_procurement
+      - SECRET_KEY=${SECRET_KEY:-dev_secret_key}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Celery Beat (스케줄러)
+  celery-beat:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A core beat --loglevel=info
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=True
+      - DB_ENGINE=postgresql
+      - DB_NAME=ai_procurement
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - MONGODB_URI=mongodb://mongodb:27017/
+      - MONGODB_NAME=ai_procurement
+      - SECRET_KEY=${SECRET_KEY:-dev_secret_key}
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - mongodb
+      - redis
+      - backend
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # MinIO (S3 호환 스토리지)
+  minio:
+    image: minio/minio
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin
+    command: server /data --console-address ":9001"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  mongodb_data:
+  redis_data:
+  backend_data:
+  minio_data:
+
+networks:
+  app-network:
+    driver: bridge
