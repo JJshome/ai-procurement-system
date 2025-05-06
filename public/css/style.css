@@ -1,0 +1,142 @@
+/* Main Styles for AI-Powered Procurement System Demo */
+
+/* General Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+/* Avatar Styles */
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-weight: 600;
+}
+
+/* Icon Square Styles */
+.icon-square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 0.25rem;
+}
+
+/* Price Range Styles */
+.price-range {
+  height: 50px;
+}
+
+.price-min {
+  bottom: -25px;
+  left: 20%;
+  font-size: 0.8rem;
+}
+
+.price-recommended {
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.price-max {
+  bottom: -25px;
+  right: 20%;
+  font-size: 0.8rem;
+}
+
+/* Text Truncation */
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Chat Messages Styles */
+.chat-messages {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.message {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.message.user {
+  align-items: flex-end;
+}
+
+.message.ai {
+  align-items: flex-start;
+}
+
+.message-content {
+  max-width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.message.user .message-content {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.message.ai .message-content {
+  background-color: #f0f0f0;
+  color: #212529;
+}
+
+/* Document Editor Styles */
+.document-container {
+  min-height: 600px;
+  background-color: #fff;
+}
+
+.document-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.document-content h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.document-content h2 {
+  font-size: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+}
+
+.document-content h3 {
+  font-size: 18px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+.document-content p {
+  margin-bottom: 15px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .price-min, .price-recommended, .price-max {
+    font-size: 0.7rem;
+  }
+  
+  .message-content {
+    max-width: 90%;
+  }
+}
