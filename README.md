@@ -17,8 +17,6 @@ The AI-Powered Procurement System (AIPS) is an innovative platform designed to r
 
 ## System Architecture
 
-![System Architecture](assets/architecture-diagram.svg)
-
 The system consists of the following key modules:
 
 1. **Data Collection Module** - Gathers and processes data from multiple sources
@@ -114,7 +112,8 @@ npm run dev
 
 ### Demo
 
-A live demo of the application is available at the following URL: [AIPS Demo](https://jjshome.github.io/ai-procurement-system/)
+A live demo of the application is available at the following URL:
+[AIPS Demo](https://jjshome.github.io/ai-procurement-system/)
 
 Use the following credentials to access the demo:
 - Username: `demo@example.com`
