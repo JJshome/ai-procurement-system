@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AI-Powered Procurement System (AIPS) Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.ico">
+</head>
+<body class="bg-light">
+  <!-- Header with animated logo -->
+  <header class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-2">
+          <a href="index.html">
+            <img src="img/aips-logo.svg" alt="AIPS Logo" class="img-fluid animate__animated animate__pulse animate__infinite" style="max-width: 100px;">
+          </a>
+        </div>
+        <div class="col-md-10">
+          <h1 class="display-5">AI-Powered Procurement System</h1>
+          <p class="lead mb-0">Experience the future of procurement bidding with artificial intelligence</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h3 class="h5 mb-0">Login to AIPS Demo</h3>
+          </div>
+          <div class="card-body p-4">
+            <div id="loginStatus"></div>
+            
+            <form id="loginForm">
+              <div class="mb-3">
+                <label for="username" class="form-label">Email address</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                  <input type="email" class="form-control" id="username" placeholder="Enter your email" required>
+                </div>
+                <div class="form-text">Use demo@example.com for this demo</div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                  <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                </div>
+                <div class="form-text">Use AIprocurement2025 for this demo</div>
+              </div>
+              
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary" id="loginButton">
+                  <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="loginSpinner"></span>
+                  Log In
+                </button>
+              </div>
+            </form>
+            
+            <div class="alert alert-info mt-4">
+              <div class="d-flex">
+                <div class="me-2"><i class="bi bi-info-circle"></i></div>
+                <div>
+                  <h6 class="alert-heading">Demo Access</h6>
+                  <p class="mb-0 small">This is a demonstration version of the AI-Powered Procurement System. Please use the provided demo credentials to access the system.</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center mt-3">
+              <a href="index.html" class="text-decoration-none">
+                <i class="bi bi-arrow-left"></i> Back to homepage
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="small text-muted mb-0">© 2025 TechInnovate Solutions. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="small text-muted mb-0">Powered by AI-Powered Procurement System (AIPS)</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="js/login.js"></script>
+</body>
+</html>
