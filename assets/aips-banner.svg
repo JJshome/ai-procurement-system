@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="400" viewBox="0 0 1200 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0056b3"/>
+      <stop offset="100%" stop-color="#17a2b8"/>
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="10" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="5" dy="5" stdDeviation="10" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1200" height="400" fill="url(#bgGradient)"/>
+  
+  <!-- Circuit Board Pattern -->
+  <g stroke="#ffffff" stroke-width="1" opacity="0.1">
+    <path d="M0,100 L1200,100 M0,200 L1200,200 M0,300 L1200,300" />
+    <path d="M100,0 L100,400 M200,0 L200,400 M300,0 L300,400 M400,0 L400,400 M500,0 L500,400 
+             M600,0 L600,400 M700,0 L700,400 M800,0 L800,400 M900,0 L900,400 M1000,0 L1000,400 M1100,0 L1100,400" />
+    <!-- Connection dots -->
+    <g fill="#ffffff">
+      <circle cx="100" cy="100" r="3"/>
+      <circle cx="100" cy="200" r="3"/>
+      <circle cx="100" cy="300" r="3"/>
+      <circle cx="200" cy="100" r="3"/>
+      <circle cx="200" cy="200" r="3"/>
+      <circle cx="200" cy="300" r="3"/>
+      <circle cx="300" cy="100" r="3"/>
+      <circle cx="300" cy="200" r="3"/>
+      <circle cx="300" cy="300" r="3"/>
+      <circle cx="400" cy="100" r="3"/>
+      <circle cx="400" cy="200" r="3"/>
+      <circle cx="400" cy="300" r="3"/>
+      <circle cx="500" cy="100" r="3"/>
+      <circle cx="500" cy="200" r="3"/>
+      <circle cx="500" cy="300" r="3"/>
+      <circle cx="600" cy="100" r="3"/>
+      <circle cx="600" cy="200" r="3"/>
+      <circle cx="600" cy="300" r="3"/>
+      <circle cx="700" cy="100" r="3"/>
+      <circle cx="700" cy="200" r="3"/>
+      <circle cx="700" cy="300" r="3"/>
+      <circle cx="800" cy="100" r="3"/>
+      <circle cx="800" cy="200" r="3"/>
+      <circle cx="800" cy="300" r="3"/>
+      <circle cx="900" cy="100" r="3"/>
+      <circle cx="900" cy="200" r="3"/>
+      <circle cx="900" cy="300" r="3"/>
+      <circle cx="1000" cy="100" r="3"/>
+      <circle cx="1000" cy="200" r="3"/>
+      <circle cx="1000" cy="300" r="3"/>
+      <circle cx="1100" cy="100" r="3"/>
+      <circle cx="1100" cy="200" r="3"/>
+      <circle cx="1100" cy="300" r="3"/>
+    </g>
+  </g>
+  
+  <!-- Data Flow Animation Lines -->
+  <g stroke="#ffffff" stroke-width="2" opacity="0.3">
+    <path d="M100,100 L200,100 L200,200 L300,200 L300,100 L400,100" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" from="0" to="20" dur="2s" repeatCount="indefinite" />
+    </path>
+    <path d="M500,300 L600,300 L600,200 L700,200 L700,300 L800,300" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" from="0" to="20" dur="2s" repeatCount="indefinite" />
+    </path>
+    <path d="M900,100 L1000,100 L1000,200 L1100,200" stroke-dasharray="5,5">
+      <animate attributeName="stroke-dashoffset" from="0" to="20" dur="1.5s" repeatCount="indefinite" />
+    </path>
+  </g>
+  
+  <!-- Binary Data -->
+  <g fill="#ffffff" opacity="0.1" font-family="monospace" font-size="10">
+    <text x="120" y="120">10100110</text>
+    <text x="320" y="220">01001101</text>
+    <text x="520" y="120">11001010</text>
+    <text x="720" y="320">00101011</text>
+    <text x="920" y="220">10110110</text>
+    <text x="1020" y="120">00110101</text>
+  </g>
+  
+  <!-- Logo and Title -->
+  <g transform="translate(150, 200)">
+    <!-- Logo -->
+    <g transform="scale(0.8)" filter="url(#shadow)">
+      <circle cx="0" cy="0" r="70" fill="#ffffff"/>
+      <g transform="translate(0, 0) scale(0.7)">
+        <!-- From the aips-logo.svg content -->
+        <circle cx="0" cy="0" r="90" fill="url(#bgGradient)" />
+        <circle cx="0" cy="0" r="70" fill="#ffffff" opacity="0.1" />
+        
+        <!-- Circuit Board Pattern -->
+        <path d="M-60,0 L-20,0 M20,0 L60,0 M0,-60 L0,-20 M0,20 L0,60" 
+              stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.6" />
+        <circle cx="0" cy="0" r="5" fill="#ffffff" />
+        <circle cx="-40" cy="0" r="5" fill="#ffffff" />
+        <circle cx="40" cy="0" r="5" fill="#ffffff" />
+        <circle cx="0" cy="-40" r="5" fill="#ffffff" />
+        <circle cx="0" cy="40" r="5" fill="#ffffff" />
+        
+        <!-- AI Pattern -->
+        <path d="M-30,30 Q0,-30 30,30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" />
+        <path d="M-30,-30 Q0,30 30,-30" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" />
+        
+        <!-- Gear Icon -->
+        <circle cx="40" cy="-40" r="15" fill="#ffffff" />
+        <circle cx="40" cy="-40" r="8" fill="url(#bgGradient)" />
+        <path d="M40,-60 L40,-55 M40,-25 L40,-20 M20,-40 L25,-40 M55,-40 L60,-40 M25,-55 L30,-50 M50,-30 L55,-25 M25,-25 L30,-30 M50,-50 L55,-55" 
+              stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+        
+        <!-- Document Icon -->
+        <rect x="-55" y="-50" width="30" height="40" rx="2" fill="#ffffff" />
+        <path d="M-50,-40 L-30,-40 M-50,-30 L-30,-30 M-50,-20 L-40,-20" stroke="url(#bgGradient)" stroke-width="2" />
+      </g>
+    </g>
+    
+    <!-- Title -->
+    <g transform="translate(180, 0)" filter="url(#glow)">
+      <text font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#textGradient)" text-anchor="start">AI-Powered</text>
+      <text font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="url(#textGradient)" text-anchor="start" y="70">Procurement System</text>
+      <text font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="start" y="110" opacity="0.9">Revolutionizing public procurement bidding with artificial intelligence</text>
+    </g>
+  </g>
+  
+  <!-- Decorative Elements -->
+  <g opacity="0.2" fill="#ffffff">
+    <!-- Top Right Corner -->
+    <circle cx="1100" cy="50" r="80" fill-opacity="0.05"/>
+    <circle cx="1150" cy="100" r="40" fill-opacity="0.05"/>
+    
+    <!-- Bottom Left Corner -->
+    <circle cx="100" cy="350" r="60" fill-opacity="0.05"/>
+    <circle cx="50" cy="300" r="30" fill-opacity="0.05"/>
+  </g>
+</svg>
