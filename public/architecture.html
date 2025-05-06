@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Architecture - AI-Powered Procurement System (AIPS)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.ico">
+</head>
+<body>
+  <!-- Header with animated logo -->
+  <header class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-2">
+          <a href="index.html">
+            <img src="img/aips-logo.svg" alt="AIPS Logo" class="img-fluid animate__animated animate__pulse animate__infinite" style="max-width: 100px;">
+          </a>
+        </div>
+        <div class="col-md-7">
+          <h1 class="display-5">AI-Powered Procurement System</h1>
+          <p class="lead mb-0">Experience the future of procurement bidding with artificial intelligence</p>
+        </div>
+        <div class="col-md-3 text-md-end d-none" id="userInfoContainer">
+          <div class="dropdown">
+            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-person-circle me-1"></i>
+              <span id="userDisplay">demo@example.com</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-question-circle me-2"></i>Help</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="logoutButton"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="architecture.html"><i class="bi bi-diagram-3 me-1"></i>Architecture</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html#opportunity"><i class="bi bi-search me-1"></i>Demo</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <main class="container my-5">
+    <div class="row">
+      <div class="col-lg-12 mb-4">
+        <div class="card border-0 shadow-sm">
+          <div class="card-header bg-primary text-white">
+            <h2 class="h3 mb-0">System Architecture</h2>
+          </div>
+          <div class="card-body">
+            <div class="text-center mb-4">
+              <img src="assets/architecture-diagram.svg" alt="System Architecture" class="img-fluid mb-4" style="max-width: 100%;">
+            </div>
+            
+            <p class="lead">The AI-Powered Procurement System is designed with a modular architecture to ensure scalability, flexibility, and maintainability. Each module serves a specific purpose in the procurement bidding process.</p>
+            
+            <h3 class="h4 mt-4">Key Modules</h3>
+            <div class="row mt-3">
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">1. Data Collection Module</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Gathers and processes data from multiple sources including government procurement portals, market reports, and historical bidding data. This module ensures that all information is standardized and properly structured for analysis.</p>
+                    <ul>
+                      <li>API integration with procurement platforms</li>
+                      <li>Automated web scraping of public bid information</li>
+                      <li>Data normalization and cleansing</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">2. AI Analysis Module</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Analyzes collected data and builds predictive models to identify opportunities, assess success probability, and generate insights. This module employs advanced machine learning algorithms and natural language processing.</p>
+                    <ul>
+                      <li>Opportunity matching algorithms</li>
+                      <li>Success probability prediction</li>
+                      <li>Competitive analysis</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">3. Automation & Optimization Solutions</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Generates bid documents and optimizes processes based on AI analysis and templates. This module automates repetitive tasks and ensures that bid documents follow best practices and requirements.</p>
+                    <ul>
+                      <li>Document generation with AI templates</li>
+                      <li>Workflow automation</li>
+                      <li>Compliance checking and optimization</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">4. User Interface</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Allows users to interact with the platform through intuitive dashboards, visualizations, and controls. This module focuses on user experience and ensures that complex data is presented in an accessible manner.</p>
+                    <ul>
+                      <li>Responsive web interface</li>
+                      <li>Interactive data visualizations</li>
+                      <li>Multi-device support</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">5. Monitoring & Management</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Tracks system status and performance, providing insights into system health and operation. This module ensures that all components are functioning optimally and identifies any issues that need attention.</p>
+                    <ul>
+                      <li>Real-time system monitoring</li>
+                      <li>Performance analytics</li>
+                      <li>Automated alerts and notifications</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="card mb-3 border-primary">
+                  <div class="card-header bg-primary text-white">
+                    <h4 class="h5 mb-0">6. Security Module</h4>
+                  </div>
+                  <div class="card-body">
+                    <p>Manages data and system security, ensuring that all information is protected and access is controlled. This module implements blockchain technology for data integrity and advanced encryption for sensitive information.</p>
+                    <ul>
+                      <li>Blockchain-based data integrity</li>
+                      <li>Advanced access control</li>
+                      <li>Encryption and security protocols</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <h3 class="h4 mt-4">Technical Implementation</h3>
+            <p>The system is built using modern technologies and best practices:</p>
+            <ul>
+              <li><strong>Frontend:</strong> Responsive web application using React, Bootstrap, and D3.js for visualizations</li>
+              <li><strong>Backend:</strong> Node.js with Express framework, MongoDB for database, and Redis for caching</li>
+              <li><strong>AI Components:</strong> TensorFlow and PyTorch for machine learning models, BERT for NLP tasks</li>
+              <li><strong>Blockchain:</strong> Hyperledger Fabric for secure, immutable record-keeping</li>
+              <li><strong>DevOps:</strong> Docker containers, Kubernetes for orchestration, CI/CD pipelines for continuous deployment</li>
+            </ul>
+            
+            <div class="alert alert-info mt-4">
+              <div class="d-flex">
+                <div class="me-3 fs-3"><i class="bi bi-info-circle"></i></div>
+                <div>
+                  <h5 class="alert-heading">Explore the Demo</h5>
+                  <p class="mb-0">Experience the AI-Powered Procurement System in action through our interactive demo. See how the architecture comes together to create a seamless procurement bidding experience.</p>
+                  <div class="mt-3">
+                    <a href="index.html#opportunity" class="btn btn-primary">Try the Demo</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-light py-4 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <p class="small text-muted mb-0">© 2025 TechInnovate Solutions. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="small text-muted mb-0">Powered by AI-Powered Procurement System (AIPS)</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JS -->
+  <script src="js/login.js"></script>
+</body>
+</html>
