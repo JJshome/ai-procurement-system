@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI-Powered Procurement System (AIPS) Demo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="img/favicon.ico">
+</head>
+<body>
+  <!-- Header with animated logo -->
+  <header class="bg-dark text-white py-4">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-2">
+          <img src="img/aips-logo.svg" alt="AIPS Logo" class="img-fluid animate__animated animate__pulse animate__infinite" style="max-width: 100px;">
+        </div>
+        <div class="col-md-10">
+          <h1 class="display-5">AI-Powered Procurement System</h1>
+          <p class="lead mb-0">Experience the future of procurement bidding with artificial intelligence</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container my-5">
+    <!-- Interactive demo tabs -->
+    <ul class="nav nav-tabs mb-4" id="demoTabs" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="welcome-tab" data-bs-toggle="tab" data-bs-target="#welcome" type="button" role="tab" aria-controls="welcome" aria-selected="true">Welcome</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="opportunity-tab" data-bs-toggle="tab" data-bs-target="#opportunity" type="button" role="tab" aria-controls="opportunity" aria-selected="false">Opportunity Discovery</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab" aria-controls="analysis" aria-selected="false">Bid Analysis</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="document-tab" data-bs-toggle="tab" data-bs-target="#document" type="button" role="tab" aria-controls="document" aria-selected="false">Document Generation</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="collaboration-tab" data-bs-toggle="tab" data-bs-target="#collaboration" type="button" role="tab" aria-controls="collaboration" aria-selected="false">Collaboration</button>
+      </li>
+    </ul>
+
+    <!-- Tab content -->
+    <div class="tab-content" id="demoTabsContent">
+      <!-- Welcome tab -->
+      <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card border-0 shadow-sm">
+              <div class="card-body p-4">
+                <h2 class="card-title text-primary">Welcome to AIPS Demo</h2>
+                <p class="card-text">This interactive demo showcases how our AI-powered procurement system revolutionizes the bidding process for government contracts. Experience the full workflow:</p>
+                <ol class="mb-4">
+                  <li><strong>Opportunity Discovery</strong> - AI scans procurement platforms for relevant opportunities</li>
+                  <li><strong>Bid Analysis</strong> - Advanced analytics calculate success probability and optimal strategy</li>
+                  <li><strong>Document Generation</strong> - AI creates tailored bid documents highlighting your strengths</li>
+                  <li><strong>Collaboration</strong> - Real-time team collaboration with AI assistance</li>
+                </ol>
+                <div class="alert alert-info">
+                  <h5 class="alert-heading">Demo Company Profile</h5>
+                  <p class="mb-0">For this demo, you'll be using the profile of "TechInnovate Solutions," a mid-sized IT services company with 8 years of experience in government contracting.</p>
+                </div>
+                <button class="btn btn-primary btn-lg mt-3" onclick="document.getElementById('opportunity-tab').click()">Start Demo</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
+              <iframe src="https://www.youtube.com/embed/demo-placeholder" title="AIPS Introduction" allowfullscreen></iframe>
+            </div>
+            <div class="card mt-4 border-0 shadow-sm">
+              <div class="card-body bg-light rounded">
+                <h3 class="h5"><i class="bi bi-lightbulb"></i> Benefits Overview</h3>
+                <div class="row text-center mt-3">
+                  <div class="col-6 col-md-3 mb-3">
+                    <div class="display-6 text-primary">40%</div>
+                    <p class="small">Time Saved</p>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3">
+                    <div class="display-6 text-primary">35%</div>
+                    <p class="small">Success Rate Improvement</p>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3">
+                    <div class="display-6 text-primary">60%</div>
+                    <p class="small">Fewer Compliance Issues</p>
+                  </div>
+                  <div class="col-6 col-md-3 mb-3">
+                    <div class="display-6 text-primary">30%</div>
+                    <p class="small">Cost Savings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Opportunity Discovery tab -->
+      <div class="tab-pane fade" id="opportunity" role="tabpanel" aria-labelledby="opportunity-tab">
+        <div class="row">
+          <div class="col-md-4">
+            <div class="card border-0 shadow-sm mb-4">
+              <div class="card-header bg-primary text-white">
+                <h3 class="h5 mb-0">Search Opportunities</h3>
+              </div>
+              <div class="card-body">
+                <form id="opportunitySearchForm">
+                  <div class="mb-3">
+                    <label for="searchKeywords" class="form-label">Keywords</label>
+                    <input type="text" class="form-control" id="searchKeywords" placeholder="e.g., IT services, cybersecurity">
+                  </div>
+                  <div class="mb-3">
+                    <label for="searchCategory" class="form-label">Category</label>
+                    <select class="form-select" id="searchCategory">
+                      <option value="">All Categories</option>
+                      <option value="IT" selected>Information Technology</option>
+                      <option value="Construction">Construction</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Professional">Professional Services</option>
+                      <option value="Research">Research & Development</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="searchAgency" class="form-label">Agency</label>
+                    <select class="form-select" id="searchAgency">
+                      <option value="">All Agencies</option>
+                      <option value="DOD">Department of Defense</option>
+                      <option value="HHS">Health & Human Services</option>
+                      <option value="DHS" selected>Homeland Security</option>
+                      <option value="VA">Veterans Affairs</option>
+                      <option value="DOE">Department of Energy</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="searchValue" class="form-label">Contract Value</label>
+                    <select class="form-select" id="searchValue">
+                      <option value="">Any Value</option>
+                      <option value="small">Under $150k</option>
+                      <option value="medium" selected>$150k - $1M</option>
+                      <option value="large">$1M - $10M</option>
+                      <option value="xlarge">Over $10M</option>
+                    </select>
+                  </div>
+                  <button type="submit" class="btn btn-primary w-100" id="searchButton">
+                    <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true" id="searchSpinner"></span>
+                    Search Opportunities
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="card border-0 shadow-sm">
+              <div class="card-header bg-info text-white">
+                <h3 class="h5 mb-0">AI Assistant</h3>
+              </div>
+              <div class="card-body">
+                <div class="chat-messages mb-3" id="aiAssistantChat">
+                  <div class="message ai">
+                    <div class="message-content">
+                      <p>I'm your AI procurement assistant. How can I help you find the perfect opportunity?</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Ask the AI assistant..." id="aiAssistantInput">
+                  <button class="btn btn-info" type="button" id="aiAssistantButton">Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card border-0 shadow-sm">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Opportunities (3 results)</h3>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" id="dropdownSort" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort by: Match Score
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownSort">
+                    <li><a class="dropdown-item active" href="#">Match Score</a></li>
+                    <li><a class="dropdown-item" href="#">Due Date</a></li>
+                    <li><a class="dropdown-item" href="#">Contract Value</a></li>
+                    <li><a class="dropdown-item" href="#">Agency</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body p-0">
+                <div class="list-group list-group-flush" id="opportunityList">
+                  <!-- Opportunity 1 -->
+                  <div class="list-group-item list-group-item-action p-3">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <h5 class="mb-1">Cybersecurity Infrastructure Upgrade</h5>
+                      <span class="badge bg-success rounded-pill">94% Match</span>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-8">
+                        <p class="mb-1 text-truncate-3">The Department of Homeland Security seeks cybersecurity infrastructure upgrades for critical systems protection. Includes hardware, software, and ongoing support services.</p>
+                        <div class="d-flex small text-muted mt-2">
+                          <div class="me-3"><i class="bi bi-building"></i> Dept. of Homeland Security</div>
+                          <div class="me-3"><i class="bi bi-tag"></i> IT Services</div>
+                          <div><i class="bi bi-currency-dollar"></i> $750,000 - $850,000</div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="d-flex flex-column align-items-end justify-content-between h-100">
+                          <div class="text-danger fw-bold small mb-2">Due in 14 days</div>
+                          <button class="btn btn-sm btn-primary mt-2 opportunity-select" data-id="opp-1">View Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Opportunity 2 -->
+                  <div class="list-group-item list-group-item-action p-3">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <h5 class="mb-1">Cloud Migration Services</h5>
+                      <span class="badge bg-warning text-dark rounded-pill">82% Match</span>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-8">
+                        <p class="mb-1 text-truncate-3">The Department of Homeland Security requires services to migrate existing applications and data to a cloud infrastructure. Includes assessment, planning, execution, and training.</p>
+                        <div class="d-flex small text-muted mt-2">
+                          <div class="me-3"><i class="bi bi-building"></i> Dept. of Homeland Security</div>
+                          <div class="me-3"><i class="bi bi-tag"></i> Cloud Services</div>
+                          <div><i class="bi bi-currency-dollar"></i> $500,000 - $650,000</div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="d-flex flex-column align-items-end justify-content-between h-100">
+                          <div class="text-warning fw-bold small mb-2">Due in 21 days</div>
+                          <button class="btn btn-sm btn-outline-primary mt-2 opportunity-select" data-id="opp-2">View Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Opportunity 3 -->
+                  <div class="list-group-item list-group-item-action p-3">
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <h5 class="mb-1">IT Support and Maintenance</h5>
+                      <span class="badge bg-warning text-dark rounded-pill">78% Match</span>
+                    </div>
+                    <div class="row mt-2">
+                      <div class="col-md-8">
+                        <p class="mb-1 text-truncate-3">Seeking IT support and maintenance services for multiple DHS facilities. Includes hardware maintenance, software updates, troubleshooting, and user support.</p>
+                        <div class="d-flex small text-muted mt-2">
+                          <div class="me-3"><i class="bi bi-building"></i> Dept. of Homeland Security</div>
+                          <div class="me-3"><i class="bi bi-tag"></i> IT Support</div>
+                          <div><i class="bi bi-currency-dollar"></i> $300,000 - $400,000</div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="d-flex flex-column align-items-end justify-content-between h-100">
+                          <div class="text-success fw-bold small mb-2">Due in 30 days</div>
+                          <button class="btn btn-sm btn-outline-primary mt-2 opportunity-select" data-id="opp-3">View Details</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Opportunity Details (Initially Hidden) -->
+            <div class="card border-0 shadow-sm mt-4 d-none" id="opportunityDetails">
+              <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="h5 mb-0">Opportunity Details</h3>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close" id="closeOpportunityDetails"></button>
+              </div>
+              <div class="card-body">
+                <h4 id="detailTitle">Cybersecurity Infrastructure Upgrade</h4>
+                <div class="row mt-3">
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">Agency</h5>
+                      <p id="detailAgency">Department of Homeland Security</p>
+                    </div>
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">Category</h5>
+                      <p id="detailCategory">IT Services</p>
+                    </div>
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">Contract Value</h5>
+                      <p id="detailValue">$750,000 - $850,000</p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">Due Date</h5>
+                      <p id="detailDueDate">May 20, 2025 (14 days remaining)</p>
+                    </div>
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">Publication Date</h5>
+                      <p id="detailPublicationDate">April 22, 2025</p>
+                    </div>
+                    <div class="mb-3">
+                      <h5 class="h6 text-muted">ID Number</h5>
+                      <p id="detailIdNumber">DHS-CISA-2025-0042</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <h5 class="h6 text-muted">Description</h5>
+                  <p id="detailDescription">The Department of Homeland Security seeks cybersecurity infrastructure upgrades for critical systems protection. This project includes hardware installation, software deployment, and ongoing support services. The contractor will be responsible for assessing current vulnerabilities, implementing security improvements, and providing maintenance and monitoring services.
+                  
+                  Key requirements include:
+                  
+                  • Advanced threat detection and prevention capabilities
+                  • Compliance with NIST 800-53 security controls
+                  • Integration with existing security systems
+                  • Comprehensive documentation and knowledge transfer
+                  • 24/7 incident response capabilities
+                  
+                  Interested vendors must have demonstrated experience with federal cybersecurity projects and appropriate security clearances.</p>
+                </div>
+                <div class="mb-3">
+                  <h5 class="h6 text-muted">Requirements</h5>
+                  <ul id="detailRequirements" class="list-group list-group-flush">
+                    <li class="list-group-item d-flex align-items-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="req1" checked disabled>
+                        <label class="form-check-label" for="req1">
+                          Minimum 5 years experience with federal IT projects
+                        </label>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="req2" checked disabled>
+                        <label class="form-check-label" for="req2">
+                          CMMC Level 3 certification
+                        </label>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="req3" checked disabled>
+                        <label class="form-check-label" for="req3">
+                          Staff with active security clearances
+                        </label>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="req4" checked disabled>
+                        <label class="form-check-label" for="req4">
+                          Previous DHS contracts experience
+                        </label>
+                      </div>
+                    </li>
+                    <li class="list-group-item d-flex align-items-center">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="req5" checked disabled>
+                        <label class="form-check-label" for="req5">
+                          24/7 support capabilities
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+                <div class="text-center mt-4">
+                  <button class="btn btn-primary" onclick="document.getElementById('analysis-tab').click()">Analyze This Opportunity</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
