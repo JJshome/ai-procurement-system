@@ -1,0 +1,3 @@
+build:
+  source: public
+  deployment: github-pages
