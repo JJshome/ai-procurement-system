@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1000" height="700" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="headerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0056b3"/>
+      <stop offset="100%" stop-color="#007bff"/>
+    </linearGradient>
+    <linearGradient id="module1Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007bff"/>
+      <stop offset="100%" stop-color="#0056b3"/>
+    </linearGradient>
+    <linearGradient id="module2Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6f42c1"/>
+      <stop offset="100%" stop-color="#6610f2"/>
+    </linearGradient>
+    <linearGradient id="module3Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#28a745"/>
+      <stop offset="100%" stop-color="#1e7e34"/>
+    </linearGradient>
+    <linearGradient id="module4Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#17a2b8"/>
+      <stop offset="100%" stop-color="#138496"/>
+    </linearGradient>
+    <linearGradient id="module5Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffc107"/>
+      <stop offset="100%" stop-color="#d39e00"/>
+    </linearGradient>
+    <linearGradient id="module6Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#dc3545"/>
+      <stop offset="100%" stop-color="#bd2130"/>
+    </linearGradient>
+    <linearGradient id="module7Gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c757d"/>
+      <stop offset="100%" stop-color="#495057"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="3" dy="3" stdDeviation="5" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1000" height="700" rx="20" fill="url(#bgGradient)"/>
+  
+  <!-- Architecture Diagram Title -->
+  <rect x="50" y="30" width="900" height="60" rx="5" fill="url(#headerGradient)" filter="url(#shadow)"/>
+  <text x="500" y="70" font-family="Arial" font-size="24" font-weight="bold" fill="white" text-anchor="middle">AI-Powered Procurement System (AIPS) - Architecture</text>
+  
+  <!-- Core System Container -->
+  <rect x="100" y="120" width="800" height="550" rx="10" fill="white" stroke="#dee2e6" stroke-width="2" filter="url(#shadow)"/>
+  
+  <!-- Module Boxes -->
+  <!-- 1. Data Collection Module -->
+  <g transform="translate(200, 200)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module1Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Data Collection Module</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Government Portal APIs</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Web Scraping System</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Data Normalization</text>
+  </g>
+  
+  <!-- 2. AI Analysis Module -->
+  <g transform="translate(500, 200)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module2Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">AI Analysis Module</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- NLP Processing</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Predictive Analytics</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Machine Learning Models</text>
+  </g>
+  
+  <!-- 3. Document Generation Engine -->
+  <g transform="translate(800, 200)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module3Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Document Generation</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Template System</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Content Optimization</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Compliance Verification</text>
+  </g>
+  
+  <!-- 4. User Interface -->
+  <g transform="translate(200, 400)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module4Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">User Interface</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Responsive Dashboard</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Interactive Visualization</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Multi-device Support</text>
+  </g>
+  
+  <!-- 5. Collaboration Tools -->
+  <g transform="translate(500, 400)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module5Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Collaboration Tools</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Real-time Editing</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Comment System</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Version Control</text>
+  </g>
+  
+  <!-- 6. Blockchain Ledger -->
+  <g transform="translate(800, 400)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module6Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Blockchain Ledger</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Smart Contracts</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Document Verification</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Audit Trail</text>
+  </g>
+  
+  <!-- 7. Monitoring & Analytics -->
+  <g transform="translate(500, 600)">
+    <rect x="-100" y="-60" width="200" height="120" rx="10" fill="url(#module7Gradient)" filter="url(#shadow)"/>
+    <text x="0" y="-30" font-family="Arial" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Monitoring & Analytics</text>
+    <line x1="-80" y1="-15" x2="80" y2="-15" stroke="white" stroke-width="1" opacity="0.7"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Performance Metrics</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- Success Rate Tracking</text>
+    <text x="0" y="40" font-family="Arial" font-size="12" fill="white" text-anchor="middle">- ROI Analysis</text>
+  </g>
+  
+  <!-- Connecting Lines -->
+  <!-- Data Collection to AI Analysis -->
+  <path d="M300,200 L400,200" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="400,200 395,197 395,203" fill="#6c757d"/>
+  
+  <!-- AI Analysis to Document Generation -->
+  <path d="M600,200 L700,200" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="700,200 695,197 695,203" fill="#6c757d"/>
+  
+  <!-- User Interface to Collaboration Tools -->
+  <path d="M300,400 L400,400" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="400,400 395,397 395,403" fill="#6c757d"/>
+  
+  <!-- Collaboration Tools to Blockchain Ledger -->
+  <path d="M600,400 L700,400" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="700,400 695,397 695,403" fill="#6c757d"/>
+  
+  <!-- Data Collection to User Interface -->
+  <path d="M200,260 L200,340" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="200,340 197,335 203,335" fill="#6c757d"/>
+  
+  <!-- AI Analysis to Collaboration Tools -->
+  <path d="M500,260 L500,340" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="500,340 497,335 503,335" fill="#6c757d"/>
+  
+  <!-- Document Generation to Blockchain Ledger -->
+  <path d="M800,260 L800,340" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="800,340 797,335 803,335" fill="#6c757d"/>
+  
+  <!-- Collaboration Tools to Monitoring & Analytics -->
+  <path d="M500,460 L500,540" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+  <polygon points="500,540 497,535 503,535" fill="#6c757d"/>
+  
+  <!-- Central Hub and Connections -->
+  <circle cx="500" cy="350" r="30" fill="#0056b3" opacity="0.2"/>
+  <circle cx="500" cy="350" r="20" fill="#0056b3" opacity="0.5"/>
+  <circle cx="500" cy="350" r="10" fill="#0056b3"/>
+  
+  <!-- Radial Connections from Center -->
+  <path d="M512,338 L550,300" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M522,350 L600,350" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M512,362 L550,400" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M500,372 L500,450" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M488,362 L450,400" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M478,350 L400,350" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M488,338 L450,300" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  <path d="M500,328 L500,250" stroke="#0056b3" stroke-width="1" opacity="0.5"/>
+  
+  <!-- External Systems -->
+  <!-- Government Portals -->
+  <g transform="translate(100, 120)">
+    <rect x="-60" y="-30" width="120" height="60" rx="5" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">Government</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">Portals</text>
+    <path d="M60,0 L100,0" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+    <polygon points="100,0 95,-3 95,3" fill="#6c757d"/>
+  </g>
+  
+  <!-- Client Devices -->
+  <g transform="translate(100, 640)">
+    <rect x="-60" y="-30" width="120" height="60" rx="5" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">Client</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">Devices</text>
+    <path d="M60,0 L100,0" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+    <polygon points="100,0 95,-3 95,3" fill="#6c757d"/>
+  </g>
+  
+  <!-- API Gateway -->
+  <g transform="translate(900, 500)">
+    <rect x="-60" y="-30" width="120" height="60" rx="5" fill="#f8f9fa" stroke="#dee2e6" stroke-width="2"/>
+    <text x="0" y="0" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">API</text>
+    <text x="0" y="20" font-family="Arial" font-size="12" fill="#212529" text-anchor="middle">Gateway</text>
+    <path d="M-60,0 L-100,0" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+    <polygon points="-60,0 -65,-3 -65,3" fill="#6c757d"/>
+  </g>
+  
+  <!-- Legend -->
+  <g transform="translate(900, 640)">
+    <rect x="-60" y="-60" width="120" height="120" rx="5" fill="white" stroke="#dee2e6" stroke-width="1"/>
+    <text x="0" y="-40" font-family="Arial" font-size="12" font-weight="bold" fill="#212529" text-anchor="middle">Legend</text>
+    
+    <line x1="-40" y1="-20" x2="-20" y2="-20" stroke="#6c757d" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="20" y="-15" font-family="Arial" font-size="10" fill="#212529" text-anchor="start">Data Flow</text>
+    
+    <rect x="-40" y="0" width="20" height="10" rx="2" fill="#0056b3"/>
+    <text x="20" y="8" font-family="Arial" font-size="10" fill="#212529" text-anchor="start">Core Module</text>
+    
+    <rect x="-40" y="20" width="20" height="10" rx="2" fill="#f8f9fa" stroke="#dee2e6" stroke-width="1"/>
+    <text x="20" y="28" font-family="Arial" font-size="10" fill="#212529" text-anchor="start">External System</text>
+    
+    <circle cx="-30" cy="40" r="5" fill="#0056b3"/>
+    <text x="20" y="43" font-family="Arial" font-size="10" fill="#212529" text-anchor="start">Integration Hub</text>
+  </g>
+</svg>
