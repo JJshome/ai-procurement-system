@@ -1,6 +1,6 @@
 # AI-Powered Procurement System (AIPS)
 
-![AIPS Banner](public/img/aips-banner.png)
+![AIPS Banner](assets/aips-banner.svg)
 
 ## Project Overview
 
@@ -17,7 +17,7 @@ The AI-Powered Procurement System (AIPS) is an innovative platform designed to r
 
 ## System Architecture
 
-![System Architecture](public/img/system-architecture.svg)
+![System Architecture](assets/architecture-diagram.svg)
 
 The system consists of the following key modules:
 
@@ -34,7 +34,7 @@ The system consists of the following key modules:
 
 The system employs advanced Natural Language Processing (NLP) techniques to automatically generate customized bidding documents:
 
-![Document Generation](public/img/document-generation.png)
+![Document Generation](assets/feature-document-gen.svg)
 
 - Uses BERT models to analyze RFP requirements
 - Creates tailored documents based on company profile and strengths
@@ -42,7 +42,7 @@ The system employs advanced Natural Language Processing (NLP) techniques to auto
 
 ### Predictive Analytics
 
-![Analytics Dashboard](public/img/analytics-dashboard.png)
+![Analytics Dashboard](assets/feature-analytics.svg)
 
 - Employs ensemble machine learning models including Random Forest, XGBoost, and deep learning
 - Predicts bid success probability based on historical data
@@ -58,7 +58,7 @@ The system employs advanced Natural Language Processing (NLP) techniques to auto
 
 ### Real-Time Collaboration
 
-![Collaboration Platform](public/img/collaboration-platform.png)
+![Collaboration Platform](assets/feature-collaboration.svg)
 
 - Cloud-based document co-editing capabilities
 - AI chatbot for 24/7 bidding assistance
