@@ -114,12 +114,19 @@ npm run dev
 
 ### Demo
 
-A live demo of the application is available at the following URL:
-[AIPS Demo](https://aips-demo.example.com)
+A live demo of the application is available at the following URL: [AIPS Demo](https://jjshome.github.io/ai-procurement-system/)
 
 Use the following credentials to access the demo:
 - Username: `demo@example.com`
 - Password: `AIprocurement2025`
+
+This interactive demo showcases the key features of our AI-powered procurement system, including:
+- Opportunity discovery
+- Bid analysis with AI recommendations
+- Automated document generation
+- Real-time team collaboration tools
+
+The demo is automatically deployed from our main branch and provides a hands-on experience of how the system streamlines the procurement process.
 
 ## Project Structure
 
