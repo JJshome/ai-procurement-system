@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8f9fa"/>
+      <stop offset="100%" stop-color="#e9ecef"/>
+    </linearGradient>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#007bff"/>
+      <stop offset="100%" stop-color="#0056b3"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="600" height="400" rx="20" fill="url(#bgGradient)"/>
+  
+  <!-- Database Icon -->
+  <g transform="translate(300, 160)">
+    <!-- Database Body -->
+    <path d="M-80,-40 C-80,-58 80,-58 80,-40 L80,60 C80,78 -80,78 -80,60 Z" fill="#f8f9fa" stroke="#0056b3" stroke-width="5"/>
+    <path d="M-80,-40 C-80,-58 80,-58 80,-40 L80,-20 C80,-2 -80,-2 -80,-20 Z" fill="#f8f9fa" stroke="#0056b3" stroke-width="5"/>
+    <path d="M-80,20 C-80,2 80,2 80,20" fill="none" stroke="#0056b3" stroke-width="3" stroke-dasharray="5,5"/>
+    
+    <!-- Data Flow Lines -->
+    <path d="M-150,-20 L-100,-20" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    <path d="M-150,0 L-100,0" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    <path d="M-150,20 L-100,20" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    
+    <path d="M100,-20 L150,-20" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    <path d="M100,0 L150,0" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    <path d="M100,20 L150,20" stroke="#007bff" stroke-width="3" stroke-dasharray="8,4"/>
+    
+    <!-- Data Source Icons -->
+    <g transform="translate(-180, -60)">
+      <rect width="50" height="40" rx="5" fill="url(#primaryGradient)"/>
+      <text x="25" y="25" font-family="Arial" font-size="14" fill="white" text-anchor="middle">SAM</text>
+    </g>
+    
+    <g transform="translate(-180, 0)">
+      <rect width="50" height="40" rx="5" fill="url(#primaryGradient)"/>
+      <text x="25" y="25" font-family="Arial" font-size="14" fill="white" text-anchor="middle">FBO</text>
+    </g>
+    
+    <g transform="translate(-180, 60)">
+      <rect width="50" height="40" rx="5" fill="url(#primaryGradient)"/>
+      <text x="25" y="25" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Gov</text>
+    </g>
+    
+    <!-- AI Processing -->
+    <g transform="translate(180, 0)">
+      <circle r="40" fill="url(#primaryGradient)"/>
+      <text x="0" y="5" font-family="Arial" font-size="14" fill="white" text-anchor="middle">AI</text>
+      <text x="0" y="25" font-family="Arial" font-size="14" fill="white" text-anchor="middle">Analysis</text>
+    </g>
+  </g>
+  
+  <!-- Title -->
+  <text x="300" y="50" font-family="Arial" font-size="24" font-weight="bold" fill="#0056b3" text-anchor="middle">Intelligent Data Collection</text>
+  
+  <!-- Description -->
+  <text x="300" y="350" font-family="Arial" font-size="16" fill="#212529" text-anchor="middle">Automated real-time procurement data gathering from multiple sources</text>
+</svg>
