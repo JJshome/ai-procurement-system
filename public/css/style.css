@@ -1,56 +1,25 @@
-/* Main Styles for AI-Powered Procurement System Demo */
+/* AI-Powered Procurement System - Main Stylesheet */
 
-/* General Styles */
+/* Global Styles */
+:root {
+  --primary-color: #0056b3;
+  --secondary-color: #17a2b8;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --light-color: #f8f9fa;
+  --dark-color: #343a40;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #212529;
-  background-color: #f8f9fa;
+  color: #333;
+  background-color: #f5f7fa;
 }
 
-/* Avatar Styles */
-.avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  font-weight: 600;
-}
-
-/* Icon Square Styles */
-.icon-square {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 0.25rem;
-}
-
-/* Price Range Styles */
-.price-range {
-  height: 50px;
-}
-
-.price-min {
-  bottom: -25px;
-  left: 20%;
-  font-size: 0.8rem;
-}
-
-.price-recommended {
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-
-.price-max {
-  bottom: -25px;
-  right: 20%;
-  font-size: 0.8rem;
+/* Header Animation */
+header .animate__pulse {
+  animation-duration: 2s;
 }
 
 /* Text Truncation */
@@ -59,10 +28,20 @@ body {
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
-/* Chat Messages Styles */
+/* Avatar */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Chat Messages */
 .chat-messages {
   max-height: 300px;
   overflow-y: auto;
@@ -70,73 +49,115 @@ body {
 
 .message {
   margin-bottom: 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.message.user {
-  align-items: flex-end;
 }
 
 .message.ai {
-  align-items: flex-start;
+  text-align: left;
+}
+
+.message.user {
+  text-align: right;
 }
 
 .message-content {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 18px;
   max-width: 80%;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.message.user .message-content {
-  background-color: #007bff;
-  color: #fff;
 }
 
 .message.ai .message-content {
-  background-color: #f0f0f0;
-  color: #212529;
+  background-color: #e9ecef;
 }
 
-/* Document Editor Styles */
+.message.user .message-content {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Price Range Slider */
+.price-range {
+  height: 40px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.price-min {
+  bottom: -25px;
+  left: 0;
+  font-size: 12px;
+}
+
+.price-max {
+  bottom: -25px;
+  right: 0;
+  font-size: 12px;
+}
+
+.price-recommended {
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Document Container */
 .document-container {
-  min-height: 600px;
-  background-color: #fff;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .document-content {
-  max-width: 800px;
-  margin: 0 auto;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .document-content h1 {
   font-size: 24px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 .document-content h2 {
-  font-size: 20px;
-  margin-top: 20px;
-  margin-bottom: 15px;
-}
-
-.document-content h3 {
   font-size: 18px;
   margin-top: 15px;
   margin-bottom: 10px;
 }
 
 .document-content p {
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.document-content ul {
   margin-bottom: 15px;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse {
+  animation: pulse 2s infinite;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-  .price-min, .price-recommended, .price-max {
-    font-size: 0.7rem;
+  .avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
   }
   
-  .message-content {
-    max-width: 90%;
+  .document-container {
+    max-height: 400px;
   }
 }
