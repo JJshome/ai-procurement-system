@@ -163,12 +163,6 @@ ai-procurement-system/
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Acknowledgements
-
-- Department of Homeland Security for project inspiration
-- SAP Ariba, Oracle, and Coupa Software for procurement software best practices
-- IBM, GEP Smart, and JAGGAER for AI and automation technology insights
-
 ---
 
-© 2025 TechInnovate Solutions. All rights reserved.
+© 2025 Ucaretron Inc. All rights reserved.
