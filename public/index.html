@@ -1,169 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI-Powered Procurement System (AIPS) Demo</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" href="img/favicon.ico">
-</head>
-<body>
-  <!-- Header with animated logo -->
-  <header class="bg-dark text-white py-4">
-    <div class="container">
-      <div class="row align-items-center">
-        <div class="col-md-2">
-          <img src="img/aips-logo.svg" alt="AIPS Logo" class="img-fluid animate__animated animate__pulse animate__infinite" style="max-width: 100px;">
-        </div>
-        <div class="col-md-7">
-          <h1 class="display-5">AI-Powered Procurement System</h1>
-          <p class="lead mb-0">Experience the future of procurement bidding with artificial intelligence</p>
-        </div>
-        <div class="col-md-3 text-md-end d-none" id="userInfoContainer">
-          <div class="dropdown">
-            <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-person-circle me-1"></i>
-              <span id="userDisplay">demo@example.com</span>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-question-circle me-2"></i>Help</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#" id="logoutButton"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html"><i class="bi bi-house-door me-1"></i>Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="architecture.html"><i class="bi bi-diagram-3 me-1"></i>Architecture</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="login.html"><i class="bi bi-box-arrow-in-right me-1"></i>Login</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Main content -->
-  <main class="container my-5">
-    <!-- Interactive demo tabs -->
-    <ul class="nav nav-tabs mb-4" id="demoTabs" role="tablist">
-      <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="welcome-tab" data-bs-toggle="tab" data-bs-target="#welcome" type="button" role="tab" aria-controls="welcome" aria-selected="true">Welcome</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="opportunity-tab" data-bs-toggle="tab" data-bs-target="#opportunity" type="button" role="tab" aria-controls="opportunity" aria-selected="false">Opportunity Discovery</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="analysis-tab" data-bs-toggle="tab" data-bs-target="#analysis" type="button" role="tab" aria-controls="analysis" aria-selected="false">Bid Analysis</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="document-tab" data-bs-toggle="tab" data-bs-target="#document" type="button" role="tab" aria-controls="document" aria-selected="false">Document Generation</button>
-      </li>
-      <li class="nav-item" role="presentation">
-        <button class="nav-link" id="collaboration-tab" data-bs-toggle="tab" data-bs-target="#collaboration" type="button" role="tab" aria-controls="collaboration" aria-selected="false">Collaboration</button>
-      </li>
-    </ul>
-
-    <!-- Tab content -->
-    <div class="tab-content" id="demoTabsContent">
-      <!-- Welcome tab -->
-      <div class="tab-pane fade show active" id="welcome" role="tabpanel" aria-labelledby="welcome-tab">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card border-0 shadow-sm">
-              <div class="card-body p-4">
-                <h2 class="card-title text-primary">Welcome to AIPS Demo</h2>
-                <p class="card-text">This interactive demo showcases how our AI-powered procurement system revolutionizes the bidding process for government contracts. Experience the full workflow:</p>
-                <ol class="mb-4">
-                  <li><strong>Opportunity Discovery</strong> - AI scans procurement platforms for relevant opportunities</li>
-                  <li><strong>Bid Analysis</strong> - Advanced analytics calculate success probability and optimal strategy</li>
-                  <li><strong>Document Generation</strong> - AI creates tailored bid documents highlighting your strengths</li>
-                  <li><strong>Collaboration</strong> - Real-time team collaboration with AI assistance</li>
-                </ol>
-                <div class="alert alert-info">
-                  <h5 class="alert-heading">Demo Company Profile</h5>
-                  <p class="mb-0">For this demo, you'll be using the profile of "TechInnovate Solutions," a mid-sized IT services company with 8 years of experience in government contracting.</p>
-                </div>
-                <div class="d-flex">
-                  <button class="btn btn-primary btn-lg mt-3 me-2" onclick="document.getElementById('opportunity-tab').click()">Start Demo</button>
-                  <a href="architecture.html" class="btn btn-outline-primary btn-lg mt-3">View Architecture</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
-              <iframe src="https://www.youtube.com/embed/demo-placeholder" title="AIPS Introduction" allowfullscreen></iframe>
-            </div>
-            <div class="card mt-4 border-0 shadow-sm">
-              <div class="card-body bg-light rounded">
-                <h3 class="h5"><i class="bi bi-lightbulb"></i> Benefits Overview</h3>
-                <div class="row text-center mt-3">
-                  <div class="col-6 col-md-3 mb-3">
-                    <div class="display-6 text-primary">40%</div>
-                    <p class="small">Time Saved</p>
-                  </div>
-                  <div class="col-6 col-md-3 mb-3">
-                    <div class="display-6 text-primary">35%</div>
-                    <p class="small">Success Rate Improvement</p>
-                  </div>
-                  <div class="col-6 col-md-3 mb-3">
-                    <div class="display-6 text-primary">60%</div>
-                    <p class="small">Fewer Compliance Issues</p>
-                  </div>
-                  <div class="col-6 col-md-3 mb-3">
-                    <div class="display-6 text-primary">30%</div>
-                    <p class="small">Cost Savings</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Other tab content remains the same -->
-      <!-- ... -->
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-light py-4 mt-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <p class="small text-muted mb-0">© 2025 TechInnovate Solutions. All rights reserved.</p>
-        </div>
-        <div class="col-md-6 text-md-end">
-          <p class="small text-muted mb-0">Powered by AI-Powered Procurement System (AIPS)</p>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <!-- Custom JS -->
-  <script src="js/main.js"></script>
-  <script src="js/login.js"></script>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#3B82F6" />
+    <meta
+      name="description"
+      content="인공지능 기반 공공조달 입찰 최적화 시스템 - AI 기술을 활용한 혁신적인 공공조달 플랫폼"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Pretendard:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>AI 공공조달 입찰 최적화 시스템</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Pretendard', 'Noto Sans KR', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      code {
+        font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+          monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>이 앱을 실행하기 위해서는 JavaScript를 활성화해야 합니다.</noscript>
+    <div id="root"></div>
+  </body>
 </html>
