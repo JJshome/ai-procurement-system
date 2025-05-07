@@ -1,6 +1,11 @@
 /**
  * AI-Powered Procurement System (AIPS)
- * Core Modules Index
+ * Modules Index
+ * 
+ * This file exports all core modules of the system.
+ * 
+ * Based on Ucaretron Inc.'s patent technology for optimizing 
+ * public procurement bidding processes through artificial intelligence.
  */
 
 const DataCollectionModule = require('./DataCollectionModule');
