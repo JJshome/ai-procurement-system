@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" viewBox="0 0 900 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="moduleBg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#4338CA" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="moduleBg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0EA5E9" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#0369A1" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="moduleBg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#047857" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="moduleBg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#B45309" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="moduleBg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#BE185D" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="moduleBg6" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#6D28D9" stop-opacity="0.9"/>
+    </linearGradient>
+    
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#000" flood-opacity="0.2"/>
+    </filter>
+    
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#64748B"/>
+    </marker>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="900" height="600" fill="#F8FAFC"/>
+  
+  <!-- Title -->
+  <text x="450" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#1E293B" text-anchor="middle">인공지능 기반 공공조달 입찰 최적화 시스템 아키텍처</text>
+  
+  <!-- Module Boxes -->
+  <!-- 1. Data Collection Module -->
+  <g transform="translate(130, 150)">
+    <rect width="200" height="120" rx="10" fill="url(#moduleBg1)" filter="url(#shadow)"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">데이터 수집 모듈</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">SAM.gov 데이터 수집</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">공공 데이터 통합</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">시장 정보 크롤링</text>
+  </g>
+  
+  <!-- 2. AI Analysis Module -->
+  <g transform="translate(570, 150)">
+    <rect width="200" height="120" rx="10" fill="url(#moduleBg2)" filter="url(#shadow)"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">AI 분석 모듈</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">자연어 처리 (NLP)</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">패턴 인식 및 예측</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">머신러닝 모델 학습</text>
+  </g>
+  
+  <!-- 3. Automation & Optimization Module -->
+  <g transform="translate(350, 300)">
+    <rect width="200" height="120" rx="10" fill="url(#moduleBg3)" filter="url(#shadow)"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">자동화 및 최적화</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">입찰 문서 자동 생성</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">프로세스 자동화</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">전략적 의사결정 지원</text>
+  </g>
+  
+  <!-- 4. User Interface -->
+  <g transform="translate(130, 450)">
+    <rect width="200" height="120" rx="10" fill="url(#moduleBg4)" filter="url(#shadow)"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">사용자 인터페이스</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">대시보드 및 시각화</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">협업 도구</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">문서 관리 시스템</text>
+  </g>
+  
+  <!-- 5. Blockchain Layer -->
+  <g transform="translate(570, 450)">
+    <rect width="200" height="120" rx="10" fill="url(#moduleBg5)" filter="url(#shadow)"/>
+    <text x="100" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">블록체인 레이어</text>
+    <text x="100" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">데이터 무결성 보장</text>
+    <text x="100" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">스마트 계약</text>
+    <text x="100" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">분산 원장 기술</text>
+  </g>
+  
+  <!-- 6. Security Module -->
+  <g transform="translate(700, 300)">
+    <rect width="140" height="120" rx="10" fill="url(#moduleBg6)" filter="url(#shadow)"/>
+    <text x="70" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">보안 모듈</text>
+    <text x="70" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">데이터 암호화</text>
+    <text x="70" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">접근 제어</text>
+    <text x="70" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">감사 추적</text>
+  </g>
+  
+  <!-- External Systems -->
+  <g transform="translate(60, 300)">
+    <rect width="140" height="120" rx="10" fill="#94A3B8" filter="url(#shadow)"/>
+    <text x="70" y="40" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">외부 시스템</text>
+    <text x="70" y="70" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">SAM.gov</text>
+    <text x="70" y="90" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">공공 데이터 포털</text>
+    <text x="70" y="110" font-family="Arial, sans-serif" font-size="12" fill="white" text-anchor="middle">기업 내부 시스템</text>
+  </g>
+  
+  <!-- Connection Lines -->
+  <!-- External Systems to Data Collection -->
+  <path d="M130,300 L170,270" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Data Collection to AI Analysis -->
+  <path d="M330,210 L570,210" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- AI Analysis to Automation & Optimization -->
+  <path d="M670,270 L550,320" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Data Collection to Automation & Optimization -->
+  <path d="M230,270 L350,320" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Automation & Optimization to User Interface -->
+  <path d="M370,420 L300,450" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Automation & Optimization to Blockchain Layer -->
+  <path d="M530,420 L600,450" stroke="#64748B" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  
+  <!-- Security Module to Other Modules (dotted lines) -->
+  <path d="M700,340 L570,280" stroke="#64748B" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  <path d="M700,380 L600,450" stroke="#64748B" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  <path d="M700,360 L450,360" stroke="#64748B" stroke-width="2" stroke-dasharray="5,5" fill="none"/>
+  
+  <!-- Legend -->
+  <g transform="translate(40, 580)">
+    <rect width="10" height="10" fill="#64748B"/>
+    <text x="20" y="10" font-family="Arial, sans-serif" font-size="12" fill="#475569">데이터 흐름</text>
+    
+    <rect x="120" width="10" height="10" fill="none" stroke="#64748B" stroke-width="2" stroke-dasharray="5,5"/>
+    <text x="140" y="10" font-family="Arial, sans-serif" font-size="12" fill="#475569">보안 통제</text>
+  </g>
+</svg>
