@@ -1,441 +1,584 @@
 /**
+ * AI-Powered Procurement System (AIPS)
  * Data Collection Module
  * 
- * This module is responsible for gathering procurement data from various sources,
- * including government procurement platforms like SAM.gov, and processing this data
- * for further analysis.
+ * This module is responsible for collecting and processing data from various sources,
+ * including SAM.gov and other procurement platforms. It provides a unified interface
+ * for accessing procurement-related data.
  * 
- * Features:
- * - Real-time data collection from multiple procurement platforms
- * - Advanced data cleansing and normalization
- * - Multi-language processing capabilities
- * - Intelligent categorization of opportunities
- * - Company profile matching
+ * Based on Ucaretron Inc.'s patent technology for optimizing 
+ * public procurement bidding processes through artificial intelligence.
  */
 
+const fs = require('fs');
+const path = require('path');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const natural = require('natural');
-const { v4: uuidv4 } = require('uuid');
-const logger = require('../utils/logger');
+
+// Import sample data for demonstration purposes
+const sampleOpportunities = require('../data/opportunities.json');
+const sampleCompanies = require('../data/companies.json');
+const samplePastBids = require('../data/pastBids.json');
 
 class DataCollectionModule {
   constructor() {
-    this.sources = [
+    console.log('Initializing Data Collection Module...');
+    this.opportunities = sampleOpportunities.opportunities;
+    this.companies = sampleCompanies.companies;
+    this.pastBids = samplePastBids.pastBids;
+    
+    // Initialize in-memory storage for demo
+    this.users = [
       {
-        id: 'sam_gov',
-        name: 'SAM.gov',
-        url: 'https://sam.gov/data-services/contract-opportunities',
-        apiEndpoint: process.env.SAM_GOV_API_ENDPOINT,
-        apiKey: process.env.SAM_GOV_API_KEY,
-        type: 'api'
-      },
-      {
-        id: 'usaspending',
-        name: 'USASpending.gov',
-        url: 'https://www.usaspending.gov/api',
-        apiEndpoint: process.env.USASPENDING_API_ENDPOINT,
-        apiKey: process.env.USASPENDING_API_KEY,
-        type: 'api'
-      },
-      {
-        id: 'ted_europa',
-        name: 'TED (Tenders Electronic Daily)',
-        url: 'https://ted.europa.eu/TED/browse/browseByMap.do',
-        type: 'scraper'
-      },
-      // More sources can be added here
+        id: 'demo-user-001',
+        email: 'demo@example.com',
+        name: 'Demo User',
+        company: 'Demo Company',
+        role: 'Procurement Manager',
+        settings: {
+          notificationPreferences: {
+            email: true,
+            inApp: true,
+            bidDeadlineAlerts: 48, // hours before deadline
+            newOpportunitiesAlerts: true
+          },
+          defaultCompanyProfile: 'COMP-001',
+          dashboardLayout: 'standard',
+          theme: 'light',
+          language: 'en-US'
+        }
+      }
     ];
     
-    // Initialize NLP tokenizer for text processing
-    this.tokenizer = new natural.WordTokenizer();
-    this.stemmer = natural.PorterStemmer;
-    
-    // Initialize data storage
-    this.opportunities = new Map();
-    this.lastUpdated = null;
-    
-    logger.info('Data Collection Module initialized');
-  }
-  
-  /**
-   * Fetch procurement opportunities from all configured sources
-   * @param {Object} filters - Optional filters to apply to the search
-   * @returns {Promise<Array>} - Array of procurement opportunities
-   */
-  async fetchOpportunities(filters = {}) {
-    logger.info('Fetching procurement opportunities', { filters });
-    
-    const results = [];
-    const fetchPromises = this.sources.map(source => this.fetchFromSource(source, filters));
-    
-    try {
-      const sourceResults = await Promise.allSettled(fetchPromises);
-      
-      sourceResults.forEach((result, index) => {
-        if (result.status === 'fulfilled') {
-          const sourceData = result.value;
-          results.push(...sourceData);
-          logger.info(`Successfully fetched ${sourceData.length} opportunities from ${this.sources[index].name}`);
-        } else {
-          logger.error(`Failed to fetch from ${this.sources[index].name}:`, result.reason);
-        }
-      });
-      
-      // Process and normalize the collected data
-      const normalizedResults = this.normalizeData(results);
-      
-      // Update internal storage
-      normalizedResults.forEach(opp => {
-        this.opportunities.set(opp.id, opp);
-      });
-      
-      this.lastUpdated = new Date();
-      
-      return normalizedResults;
-    } catch (error) {
-      logger.error('Error fetching procurement opportunities:', error);
-      throw new Error('Failed to fetch procurement opportunities');
-    }
-  }
-  
-  /**
-   * Fetch data from a specific source
-   * @param {Object} source - Source configuration
-   * @param {Object} filters - Filters to apply
-   * @returns {Promise<Array>} - Procurement opportunities from this source
-   */
-  async fetchFromSource(source, filters) {
-    logger.debug(`Fetching from source: ${source.name}`);
-    
-    if (source.type === 'api') {
-      return this.fetchFromAPI(source, filters);
-    } else if (source.type === 'scraper') {
-      return this.scrapeFromWebsite(source, filters);
-    } else {
-      logger.warn(`Unknown source type: ${source.type} for ${source.name}`);
-      return [];
-    }
-  }
-  
-  /**
-   * Fetch data from an API source
-   * @param {Object} source - API source configuration
-   * @param {Object} filters - Filters to apply
-   * @returns {Promise<Array>} - Procurement opportunities from this API
-   */
-  async fetchFromAPI(source, filters) {
-    try {
-      // Construct API request with appropriate parameters
-      const params = this.constructAPIParams(source, filters);
-      
-      const response = await axios.get(source.apiEndpoint, {
-        params,
-        headers: {
-          'X-Api-Key': source.apiKey,
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (response.status === 200 && response.data) {
-        // Transform the API-specific response to our standard format
-        return this.transformAPIResponse(source, response.data);
-      } else {
-        logger.warn(`Unexpected response from ${source.name}: ${response.status}`);
-        return [];
+    this.notifications = [
+      {
+        id: 'notif-001',
+        userId: 'demo-user-001',
+        type: 'deadline',
+        title: 'Bid Deadline Approaching',
+        message: 'The bid deadline for "Advanced Cybersecurity Solutions for Federal Agency" is in 48 hours.',
+        relatedTo: 'OPP-2025-001',
+        createdAt: '2025-04-13T08:00:00Z',
+        read: false,
+        priority: 'high'
+      },
+      {
+        id: 'notif-002',
+        userId: 'demo-user-001',
+        type: 'recommendation',
+        title: 'New Recommended Opportunity',
+        message: 'A new opportunity matching your company profile has been identified: "Healthcare Data Interoperability Platform"',
+        relatedTo: 'OPP-2025-003',
+        createdAt: '2025-04-03T10:15:00Z',
+        read: true,
+        priority: 'medium'
+      },
+      {
+        id: 'notif-003',
+        userId: 'demo-user-001',
+        type: 'analysis',
+        title: 'Bid Analysis Complete',
+        message: 'The AI analysis for your bid on "Smart City Transportation Management System" is now available.',
+        relatedTo: 'OPP-2025-002',
+        createdAt: '2025-04-05T14:30:00Z',
+        read: false,
+        priority: 'medium'
       }
-    } catch (error) {
-      logger.error(`API fetch error for ${source.name}:`, error);
-      return [];
-    }
-  }
-  
-  /**
-   * Scrape data from a website source
-   * @param {Object} source - Website source configuration
-   * @param {Object} filters - Filters to apply
-   * @returns {Promise<Array>} - Procurement opportunities from this website
-   */
-  async scrapeFromWebsite(source, filters) {
-    try {
-      // Construct the URL with appropriate parameters
-      const url = this.constructScraperURL(source, filters);
-      
-      const response = await axios.get(url, {
-        headers: {
-          'User-Agent': 'AIPS Data Collection Bot/1.0'
-        }
-      });
-      
-      if (response.status === 200 && response.data) {
-        // Parse the HTML response
-        const $ = cheerio.load(response.data);
-        
-        // Extract procurement opportunities
-        return this.extractOpportunitiesFromHTML(source, $);
-      } else {
-        logger.warn(`Unexpected response from ${source.name}: ${response.status}`);
-        return [];
+    ];
+    
+    this.activities = [
+      {
+        id: 'act-001',
+        userId: 'demo-user-001',
+        type: 'opportunity_saved',
+        description: 'Saved opportunity "Advanced Cybersecurity Solutions for Federal Agency" to watchlist',
+        timestamp: '2025-04-11T09:23:15Z',
+        relatedTo: 'OPP-2025-001'
+      },
+      {
+        id: 'act-002',
+        userId: 'demo-user-001',
+        type: 'document_generated',
+        description: 'Generated proposal draft for "Smart City Transportation Management System"',
+        timestamp: '2025-04-02T13:45:22Z',
+        relatedTo: 'OPP-2025-002'
+      },
+      {
+        id: 'act-003',
+        userId: 'demo-user-001',
+        type: 'analysis_requested',
+        description: 'Requested AI analysis for "Healthcare Data Interoperability Platform"',
+        timestamp: '2025-04-05T10:12:08Z',
+        relatedTo: 'OPP-2025-003'
       }
-    } catch (error) {
-      logger.error(`Scraper error for ${source.name}:`, error);
-      return [];
-    }
+    ];
+    
+    this.calendarEvents = [
+      {
+        id: 'evt-001',
+        userId: 'demo-user-001',
+        title: 'Bid Submission Deadline - Cybersecurity Solutions',
+        start: '2025-06-15T23:59:59Z',
+        end: '2025-06-15T23:59:59Z',
+        type: 'deadline',
+        relatedTo: 'OPP-2025-001',
+        description: 'Final deadline for submitting the bid for the DHS cybersecurity project'
+      },
+      {
+        id: 'evt-002',
+        userId: 'demo-user-001',
+        title: 'Team Meeting - Smart City Transportation Proposal',
+        start: '2025-04-10T14:00:00Z',
+        end: '2025-04-10T15:30:00Z',
+        type: 'meeting',
+        relatedTo: 'OPP-2025-002',
+        description: 'Internal team meeting to discuss the technical approach for the Smart City proposal'
+      },
+      {
+        id: 'evt-003',
+        userId: 'demo-user-001',
+        title: 'Pre-bid Conference - Healthcare Data Platform',
+        start: '2025-04-15T10:00:00Z',
+        end: '2025-04-15T12:00:00Z',
+        type: 'conference',
+        relatedTo: 'OPP-2025-003',
+        description: 'Virtual pre-bid conference with HHS for the Healthcare Data Interoperability Platform'
+      }
+    ];
+    
+    this.activeBids = [
+      {
+        id: 'active-bid-001',
+        userId: 'demo-user-001',
+        opportunityId: 'OPP-2025-001',
+        title: 'Advanced Cybersecurity Solutions for Federal Agency',
+        stage: 'Technical Writing',
+        progress: 65,
+        dueDate: '2025-06-15T23:59:59Z',
+        team: ['demo-user-001', 'technical-lead', 'pricing-specialist', 'proposal-manager'],
+        documents: [
+          { id: 'doc-001', name: 'Technical Approach.docx', status: 'In Progress' },
+          { id: 'doc-002', name: 'Past Performance.docx', status: 'Complete' },
+          { id: 'doc-003', name: 'Pricing Sheet.xlsx', status: 'In Progress' }
+        ]
+      },
+      {
+        id: 'active-bid-002',
+        userId: 'demo-user-001',
+        opportunityId: 'OPP-2025-002',
+        title: 'Smart City Transportation Management System',
+        stage: 'Final Review',
+        progress: 90,
+        dueDate: '2025-05-20T23:59:59Z',
+        team: ['demo-user-001', 'technical-lead', 'pricing-specialist', 'proposal-manager'],
+        documents: [
+          { id: 'doc-004', name: 'Technical Approach.docx', status: 'Complete' },
+          { id: 'doc-005', name: 'Past Performance.docx', status: 'Complete' },
+          { id: 'doc-006', name: 'Pricing Sheet.xlsx', status: 'Complete' },
+          { id: 'doc-007', name: 'Final Proposal.pdf', status: 'In Progress' }
+        ]
+      }
+    ];
   }
-  
+
   /**
-   * Normalize data from different sources into a standard format
-   * @param {Array} data - Raw data from various sources
-   * @returns {Array} - Normalized data
+   * Search for procurement opportunities based on criteria
+   * @param {string} query - Search query
+   * @param {number} page - Page number
+   * @param {number} limit - Results per page
+   * @param {string} sortBy - Sort field
+   * @param {string} sortOrder - Sort order ('asc' or 'desc')
+   * @return {object} Opportunities matching the criteria
    */
-  normalizeData(data) {
-    return data.map(item => {
-      // Ensure each opportunity has a unique ID
-      const id = item.id || uuidv4();
+  searchOpportunities(query, page = 1, limit = 10, sortBy = 'releaseDate', sortOrder = 'desc') {
+    console.log(`Searching for opportunities with query: ${query}`);
+    
+    let results = [...this.opportunities];
+    
+    // Apply search query if provided
+    if (query) {
+      const queryLower = query.toLowerCase();
+      results = results.filter(opp => 
+        opp.title.toLowerCase().includes(queryLower) ||
+        opp.description.toLowerCase().includes(queryLower) ||
+        opp.agency.toLowerCase().includes(queryLower) ||
+        opp.category.toLowerCase().includes(queryLower) ||
+        (opp.tags && opp.tags.some(tag => tag.toLowerCase().includes(queryLower)))
+      );
+    }
+    
+    // Apply sorting
+    results.sort((a, b) => {
+      let aValue = a[sortBy];
+      let bValue = b[sortBy];
       
-      // Normalize dates to ISO format
-      const publishDate = item.publishDate ? new Date(item.publishDate).toISOString() : null;
-      const closeDate = item.closeDate ? new Date(item.closeDate).toISOString() : null;
+      // Handle dates
+      if (sortBy === 'releaseDate' || sortBy === 'closeDate') {
+        aValue = new Date(aValue).getTime();
+        bValue = new Date(bValue).getTime();
+      }
       
-      // Extract keywords from description
-      const keywords = this.extractKeywords(item.description || '');
-      
-      return {
-        id,
-        source: item.source,
-        sourceId: item.sourceId,
-        title: item.title || 'Untitled Opportunity',
-        description: item.description || '',
-        publishDate,
-        closeDate,
-        agency: item.agency || item.organization || 'Unknown Agency',
-        type: item.type || 'Unknown',
-        category: item.category || 'Uncategorized',
-        value: item.value || null,
-        location: item.location || 'Not specified',
-        keywords,
-        contactInfo: item.contactInfo || null,
-        url: item.url || null,
-        documents: item.documents || [],
-        status: item.status || 'active',
-        lastUpdated: new Date().toISOString()
-      };
+      // Apply sort order
+      if (sortOrder === 'asc') {
+        return aValue > bValue ? 1 : -1;
+      } else {
+        return aValue < bValue ? 1 : -1;
+      }
     });
-  }
-  
-  /**
-   * Extract keywords from text using NLP
-   * @param {string} text - Input text
-   * @returns {Array} - Extracted keywords
-   */
-  extractKeywords(text) {
-    const tokens = this.tokenizer.tokenize(text.toLowerCase());
     
-    // Remove stop words
-    const stopWords = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'with', 'by']);
-    const filteredTokens = tokens.filter(token => !stopWords.has(token) && token.length > 2);
-    
-    // Stem words and count frequencies
-    const stemmed = filteredTokens.map(token => this.stemmer.stem(token));
-    const frequencies = stemmed.reduce((acc, token) => {
-      acc[token] = (acc[token] || 0) + 1;
-      return acc;
-    }, {});
-    
-    // Convert to array and sort by frequency
-    const sortedKeywords = Object.entries(frequencies)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 20)
-      .map(([keyword]) => keyword);
-    
-    return sortedKeywords;
-  }
-  
-  /**
-   * Get opportunity by ID
-   * @param {string} id - Opportunity ID
-   * @returns {Object|null} - Opportunity data or null if not found
-   */
-  getOpportunityById(id) {
-    return this.opportunities.has(id) ? this.opportunities.get(id) : null;
-  }
-  
-  /**
-   * Search opportunities by criteria
-   * @param {Object} criteria - Search criteria
-   * @returns {Array} - Matching opportunities
-   */
-  searchOpportunities(criteria = {}) {
-    const results = [];
-    
-    for (const opp of this.opportunities.values()) {
-      let match = true;
-      
-      // Check if opportunity matches all criteria
-      for (const [key, value] of Object.entries(criteria)) {
-        if (key === 'keyword') {
-          // Special case for keyword search
-          const hasKeyword = opp.title.toLowerCase().includes(value.toLowerCase()) || 
-                             opp.description.toLowerCase().includes(value.toLowerCase()) ||
-                             opp.keywords.some(k => k.includes(value.toLowerCase()));
-          
-          if (!hasKeyword) {
-            match = false;
-            break;
-          }
-        } else if (key === 'minValue') {
-          if (!opp.value || opp.value < value) {
-            match = false;
-            break;
-          }
-        } else if (key === 'maxValue') {
-          if (!opp.value || opp.value > value) {
-            match = false;
-            break;
-          }
-        } else if (opp[key] !== value) {
-          match = false;
-          break;
-        }
-      }
-      
-      if (match) {
-        results.push(opp);
-      }
-    }
-    
-    return results;
-  }
-  
-  /**
-   * Get statistics about collected data
-   * @returns {Object} - Collection statistics
-   */
-  getStatistics() {
-    const totalOpportunities = this.opportunities.size;
-    const bySource = {};
-    const byCategory = {};
-    const byAgency = {};
-    
-    for (const opp of this.opportunities.values()) {
-      // Count by source
-      bySource[opp.source] = (bySource[opp.source] || 0) + 1;
-      
-      // Count by category
-      byCategory[opp.category] = (byCategory[opp.category] || 0) + 1;
-      
-      // Count by agency
-      byAgency[opp.agency] = (byAgency[opp.agency] || 0) + 1;
-    }
+    // Apply pagination
+    const startIndex = (page - 1) * limit;
+    const paginatedResults = results.slice(startIndex, startIndex + limit);
     
     return {
-      totalOpportunities,
-      bySource,
-      byCategory,
-      byAgency,
-      lastUpdated: this.lastUpdated
+      opportunities: paginatedResults,
+      total: results.length,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(results.length / limit)
     };
   }
-  
-  // Helper methods (implementation details)
-  constructAPIParams(source, filters) {
-    // Implement source-specific parameter mapping
-    const params = {};
+
+  /**
+   * Get detailed information about a specific opportunity
+   * @param {string} id - Opportunity ID
+   * @return {object} Opportunity details
+   */
+  getOpportunityDetails(id) {
+    console.log(`Getting details for opportunity: ${id}`);
+    const opportunity = this.opportunities.find(opp => opp.id === id);
     
-    if (source.id === 'sam_gov') {
-      params.api_key = source.apiKey;
-      params.postedFrom = filters.fromDate;
-      params.postedTo = filters.toDate;
-      params.keyword = filters.keyword;
-      // Add more SAM.gov specific parameters
-    } else if (source.id === 'usaspending') {
-      params.page = 1;
-      params.limit = 100;
-      params.sort = 'published_date';
-      params.order = 'desc';
-      // Add more USASpending specific parameters
+    if (!opportunity) {
+      throw new Error(`Opportunity with ID ${id} not found`);
     }
     
-    return params;
+    return opportunity;
   }
-  
-  constructScraperURL(source, filters) {
-    // Implement source-specific URL construction
-    let url = source.url;
+
+  /**
+   * Get company profile information
+   * @param {string} id - Company ID
+   * @return {object} Company profile
+   */
+  getCompanyProfile(id) {
+    console.log(`Getting company profile: ${id}`);
+    const company = this.companies.find(comp => comp.id === id);
     
-    if (source.id === 'ted_europa') {
-      if (filters.keyword) {
-        url += `?keywords=${encodeURIComponent(filters.keyword)}`;
-      }
-      // Add more TED specific URL parameters
+    if (!company) {
+      throw new Error(`Company with ID ${id} not found`);
     }
     
-    return url;
+    return company;
   }
-  
-  transformAPIResponse(source, data) {
-    // Transform API-specific response to standard format
-    const transformed = [];
+
+  /**
+   * Save or update a company profile
+   * @param {object} profileData - Company profile data
+   * @return {object} Updated company profile
+   */
+  saveCompanyProfile(profileData) {
+    console.log('Saving company profile');
     
-    if (source.id === 'sam_gov') {
-      const opportunities = data.opportunitiesData || [];
+    // Check if company exists
+    const existingCompanyIndex = this.companies.findIndex(comp => comp.id === profileData.id);
+    
+    if (existingCompanyIndex >= 0) {
+      // Update existing company
+      this.companies[existingCompanyIndex] = {
+        ...this.companies[existingCompanyIndex],
+        ...profileData,
+        updatedAt: new Date().toISOString()
+      };
+      return this.companies[existingCompanyIndex];
+    } else {
+      // Create new company
+      const newCompany = {
+        ...profileData,
+        id: profileData.id || `COMP-${this.companies.length + 1}`.padStart(7, '0'),
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      this.companies.push(newCompany);
+      return newCompany;
+    }
+  }
+
+  /**
+   * Get active opportunities for a user
+   * @param {string} userId - User ID
+   * @return {array} Active opportunities
+   */
+  getActiveOpportunities(userId) {
+    console.log(`Getting active opportunities for user: ${userId}`);
+    
+    // For demonstration, return the active bids mapped to opportunities
+    return this.activeBids
+      .filter(bid => bid.userId === userId)
+      .map(bid => {
+        const opportunity = this.getOpportunityDetails(bid.opportunityId);
+        return {
+          ...opportunity,
+          bidProgress: bid.progress,
+          bidStage: bid.stage,
+          bidTeam: bid.team,
+          bidDocuments: bid.documents
+        };
+      });
+  }
+
+  /**
+   * Get recent activities for a user
+   * @param {string} userId - User ID
+   * @return {array} Recent activities
+   */
+  getRecentActivities(userId) {
+    console.log(`Getting recent activities for user: ${userId}`);
+    
+    return this.activities
+      .filter(activity => activity.userId === userId)
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  }
+
+  /**
+   * Get team activities
+   * @param {string} userId - User ID
+   * @param {number} page - Page number
+   * @param {number} limit - Results per page
+   * @return {object} Team activities
+   */
+  getTeamActivities(userId, page = 1, limit = 20) {
+    console.log(`Getting team activities for user: ${userId}`);
+    
+    // For demonstration, we'll return all activities
+    // In a real implementation, this would filter based on team membership
+    const activities = [...this.activities]
+      .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+    
+    // Apply pagination
+    const startIndex = (page - 1) * limit;
+    const paginatedResults = activities.slice(startIndex, startIndex + limit);
+    
+    return {
+      activities: paginatedResults,
+      total: activities.length,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(activities.length / limit)
+    };
+  }
+
+  /**
+   * Get bids for a user
+   * @param {string} userId - User ID
+   * @param {string} status - Bid status filter
+   * @param {number} page - Page number
+   * @param {number} limit - Results per page
+   * @return {object} User bids
+   */
+  getUserBids(userId, status = 'all', page = 1, limit = 10) {
+    console.log(`Getting bids for user: ${userId} with status: ${status}`);
+    
+    // Combine active bids with historical bid data
+    const allBids = [
+      ...this.activeBids.map(bid => ({
+        ...bid,
+        status: 'active'
+      })),
+      ...this.pastBids
+        .filter(bid => {
+          // In a real implementation, this would filter based on user association
+          // For demo, we're returning all past bids
+          return true;
+        })
+        .map(bid => ({
+          ...bid,
+          status: bid.outcome === 'Won' ? 'won' : 'lost'
+        }))
+    ];
+    
+    // Apply status filter
+    let filteredBids = allBids;
+    if (status !== 'all') {
+      filteredBids = allBids.filter(bid => bid.status === status);
+    }
+    
+    // Sort by date (most recent first)
+    filteredBids.sort((a, b) => {
+      const dateA = a.bidDate || a.dueDate;
+      const dateB = b.bidDate || b.dueDate;
+      return new Date(dateB) - new Date(dateA);
+    });
+    
+    // Apply pagination
+    const startIndex = (page - 1) * limit;
+    const paginatedResults = filteredBids.slice(startIndex, startIndex + limit);
+    
+    return {
+      bids: paginatedResults,
+      total: filteredBids.length,
+      page: page,
+      limit: limit,
+      totalPages: Math.ceil(filteredBids.length / limit)
+    };
+  }
+
+  /**
+   * Get calendar events for a user
+   * @param {string} userId - User ID
+   * @param {string} start - Start date (ISO string)
+   * @param {string} end - End date (ISO string)
+   * @return {array} Calendar events
+   */
+  getUserCalendarEvents(userId, start, end) {
+    console.log(`Getting calendar events for user: ${userId} from ${start} to ${end}`);
+    
+    let events = this.calendarEvents.filter(event => event.userId === userId);
+    
+    // Apply date filtering if provided
+    if (start) {
+      const startDate = new Date(start);
+      events = events.filter(event => new Date(event.start) >= startDate);
+    }
+    
+    if (end) {
+      const endDate = new Date(end);
+      events = events.filter(event => new Date(event.start) <= endDate);
+    }
+    
+    // Sort by date
+    events.sort((a, b) => new Date(a.start) - new Date(b.start));
+    
+    return events;
+  }
+
+  /**
+   * Get notifications for a user
+   * @param {string} userId - User ID
+   * @param {boolean} unreadOnly - Whether to fetch unread notifications only
+   * @return {array} User notifications
+   */
+  getUserNotifications(userId, unreadOnly = false) {
+    console.log(`Getting notifications for user: ${userId}, unread only: ${unreadOnly}`);
+    
+    let notifications = this.notifications.filter(notif => notif.userId === userId);
+    
+    if (unreadOnly) {
+      notifications = notifications.filter(notif => !notif.read);
+    }
+    
+    // Sort by date (most recent first)
+    notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    
+    return notifications;
+  }
+
+  /**
+   * Mark a notification as read
+   * @param {string} userId - User ID
+   * @param {string} notificationId - Notification ID
+   */
+  markNotificationRead(userId, notificationId) {
+    console.log(`Marking notification ${notificationId} as read for user: ${userId}`);
+    
+    const notificationIndex = this.notifications.findIndex(
+      n => n.id === notificationId && n.userId === userId
+    );
+    
+    if (notificationIndex >= 0) {
+      this.notifications[notificationIndex].read = true;
+    } else {
+      throw new Error(`Notification not found`);
+    }
+    
+    return { success: true };
+  }
+
+  /**
+   * Get user settings
+   * @param {string} userId - User ID
+   * @return {object} User settings
+   */
+  getUserSettings(userId) {
+    console.log(`Getting settings for user: ${userId}`);
+    
+    const user = this.users.find(u => u.id === userId);
+    
+    if (!user) {
+      throw new Error(`User with ID ${userId} not found`);
+    }
+    
+    return user.settings;
+  }
+
+  /**
+   * Update user settings
+   * @param {string} userId - User ID
+   * @param {object} settings - Updated settings
+   * @return {object} Updated user settings
+   */
+  updateUserSettings(userId, settings) {
+    console.log(`Updating settings for user: ${userId}`);
+    
+    const userIndex = this.users.findIndex(u => u.id === userId);
+    
+    if (userIndex >= 0) {
+      this.users[userIndex].settings = {
+        ...this.users[userIndex].settings,
+        ...settings
+      };
       
-      opportunities.forEach(opp => {
-        transformed.push({
-          id: opp.noticeId,
-          source: source.name,
-          sourceId: opp.noticeId,
-          title: opp.title,
-          description: opp.description,
-          publishDate: opp.publishDate,
-          closeDate: opp.responseDeadline,
-          agency: opp.departmentAgency,
-          type: opp.noticeType,
-          category: opp.classificationCode,
-          value: opp.baseAndAllOptionsValue,
-          location: opp.placeOfPerformance,
-          contactInfo: opp.primaryContactInfo,
-          url: `https://sam.gov/opp/${opp.noticeId}/view`,
-          documents: opp.attachments || [],
-          status: opp.status
-        });
-      });
-    } else if (source.id === 'usaspending') {
-      // Implement USASpending.gov specific transformation
+      return this.users[userIndex].settings;
+    } else {
+      throw new Error(`User with ID ${userId} not found`);
     }
-    
-    return transformed;
   }
-  
-  extractOpportunitiesFromHTML(source, $) {
-    const opportunities = [];
+
+  /**
+   * Fetch data from SAM.gov (simulated)
+   * @param {object} params - Search parameters
+   * @return {array} Opportunities from SAM.gov
+   */
+  fetchFromSAMGov(params) {
+    console.log(`Fetching data from SAM.gov with params:`, params);
     
-    if (source.id === 'ted_europa') {
-      // Example TED scraper implementation
-      $('.tender-notice').each((i, el) => {
-        const title = $(el).find('.tender-title').text().trim();
-        const id = $(el).attr('data-notice-id');
-        const publishDate = $(el).find('.publish-date').text().trim();
-        const closeDate = $(el).find('.close-date').text().trim();
-        const agency = $(el).find('.contracting-authority').text().trim();
-        const description = $(el).find('.description').text().trim();
-        const url = $(el).find('a.notice-link').attr('href');
-        
-        opportunities.push({
-          id,
-          source: source.name,
-          sourceId: id,
-          title,
-          description,
-          publishDate,
-          closeDate,
-          agency,
-          url: url ? `https://ted.europa.eu${url}` : null
-        });
-      });
-    }
+    // This is a simulated function - in a real implementation,
+    // this would make API calls to SAM.gov or scrape the website
     
-    return opportunities;
+    // For demonstration, return a subset of the sample opportunities
+    const simulatedResults = this.opportunities.slice(0, 3).map(opp => ({
+      ...opp,
+      source: 'SAM.gov'
+    }));
+    
+    return simulatedResults;
+  }
+
+  /**
+   * Scrape a procurement website for data (simulated)
+   * @param {string} url - Website URL
+   * @return {object} Scraped data
+   */
+  async scrapeWebsite(url) {
+    console.log(`Scraping website: ${url}`);
+    
+    // This is a simulated function - in a real implementation,
+    // this would make HTTP requests and parse HTML
+    
+    // For demonstration, return a simulated response
+    return {
+      success: true,
+      source: url,
+      data: {
+        opportunities: [
+          {
+            title: 'Simulated Opportunity from Web Scraping',
+            agency: 'Simulated Agency',
+            dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString(),
+            description: 'This is a simulated opportunity from web scraping'
+          }
+        ]
+      }
+    };
   }
 }
 
