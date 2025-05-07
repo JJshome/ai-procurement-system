@@ -22,9 +22,7 @@ const {
 } = require('./modules');
 
 // Import API routes
-const apiRoutes = require('./routes/api');
-const authRoutes = require('./routes/auth');
-const dashboardRoutes = require('./routes/dashboard');
+const { apiRoutes, authRoutes, dashboardRoutes } = require('./routes');
 
 // Initialize express application
 const app = express();
