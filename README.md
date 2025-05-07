@@ -1,249 +1,188 @@
-# 🚀 AI-Powered Procurement System (AIPS)
+# 인공지능 기반 공공조달 입찰 최적화 시스템 (AI-Powered Procurement System)
 
-<p align="center">
-  <img src="public/assets/aips-banner.svg" alt="AIPS Banner" width="800">
-</p>
+<div align="center">
+  <img src="public/assets/aips-banner.svg" alt="AI-Powered Procurement System" width="800px">
+  
+  <p align="center">
+    <b>혁신적인 AI 기술로 공공조달 프로세스를 최적화하는 지능형 플랫폼</b>
+  </p>
+  
+  <p align="center">
+    <a href="#주요-기능">주요 기능</a> •
+    <a href="#시스템-아키텍처">시스템 아키텍처</a> •
+    <a href="#기술-스택">기술 스택</a> •
+    <a href="#설치-방법">설치 방법</a> •
+    <a href="#데모">데모</a> •
+    <a href="#로드맵">로드맵</a>
+  </p>
+  
+  <p align="center">
+    <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="Version 0.1.0">
+    <img src="https://img.shields.io/badge/license-MIT-green" alt="License MIT">
+    <img src="https://img.shields.io/badge/platform-web-lightgrey" alt="Platform Web">
+  </p>
+</div>
 
-<p align="center">
-  <strong>Revolutionizing public procurement with AI, blockchain, and automation</strong><br>
-  <em>Based on Ucaretron Inc.'s patented technology</em>
-</p>
+## 📋 프로젝트 개요
 
-<p align="center">
-  <a href="#-features">Features</a> •
-  <a href="#-demo">Demo</a> •
-  <a href="#-quickstart">Quickstart</a> •
-  <a href="#-architecture">Architecture</a> •
-  <a href="#-technologies">Technologies</a> •
-  <a href="#-workflow">Workflow</a> •
-  <a href="#-license">License</a>
-</p>
+이 시스템은 인공지능(AI) 기술을 활용하여 공공조달 입찰 프로세스를 최적화하고 자동화하는 혁신적인 플랫폼입니다. 다양한 데이터 소스에서 정보를 수집하고 분석하여 입찰 전략 수립과 성공적인 문서 작성을 지원합니다. 블록체인 기술을 통해 데이터의 무결성을 보장하고, 사용자 친화적인 인터페이스로 복잡한 입찰 과정을 단순화합니다.
 
-## 🌟 Overview
+<div align="center">
+  <img src="public/assets/dashboard-preview.png" alt="Dashboard Preview" width="80%">
+</div>
 
-The AI-Powered Procurement System (AIPS) transforms the public procurement bidding process through advanced artificial intelligence and automation technologies. This platform collects and analyzes data from various sources to support bid strategy development and successful document preparation, significantly improving efficiency and win rates.
+## ✨ 주요 기능
 
-<p align="center">
-  <img src="public/assets/overview-animation.gif" alt="AIPS Overview Animation" width="600">
-</p>
+### 🔍 데이터 수집 및 분석
+- SAM.gov와 같은 다양한 공공조달 플랫폼에서 실시간 데이터 수집
+- 빅데이터 분석을 통한 시장 동향 및 경쟁 정보 파악
+- 과거 입찰 데이터를 통한 성공 패턴 식별
 
-## ✨ Features
+### 🤖 AI 기반 문서 자동화
+- NLP 기술을 활용한 RFP(Request for Proposal) 문서 자동 분석
+- 맞춤형 입찰 제안서 자동 생성
+- 다국어 지원 및 현지화 기능
 
-### 🔍 Intelligent Data Collection & Analysis
+### 📊 예측 분석 및 의사결정 지원
+- 머신러닝 모델을 활용한 낙찰 확률 예측
+- 최적 입찰가 추천 및 경쟁 전략 제안
+- 시각화 도구를 통한 직관적인 데이터 해석
 
-<p align="center">
-  <img src="public/assets/feature-data-collection.svg" alt="Data Collection" width="300">
-</p>
+### 🔗 블록체인 기술 적용
+- 입찰 과정의 투명성 및 무결성 보장
+- 스마트 계약을 통한 자동화된 프로세스
+- 안전한 데이터 관리 및 접근 제어
 
-- Automatically gathers procurement data from SAM.gov and other sources
-- Uses NLP to analyze RFP requirements and extract key information
-- Monitors market trends and competitive intelligence in real-time
+### 👥 협업 도구
+- 실시간 문서 공동 편집 기능
+- 팀 간 효율적인 커뮤니케이션 지원
+- AI 챗봇을 통한 24/7 지원 서비스
 
-### 🧠 AI-Powered Analytics & Prediction
+## 🏗️ 시스템 아키텍처
 
-<p align="center">
-  <img src="public/assets/feature-analytics.svg" alt="Analytics Dashboard" width="300">
-</p>
+이 시스템은 다음과 같은 주요 모듈로 구성되어 있습니다:
 
-- Predicts bid success probability using ensemble ML models
-- Recommends optimal pricing strategies based on historical data
-- Identifies strengths and weaknesses in your proposal
+<div align="center">
+  <img src="public/assets/architecture.png" alt="System Architecture" width="80%">
+</div>
 
-### 📄 Automated Document Generation
+1. **데이터 수집 모듈** - 다양한 소스에서 데이터를 수집하고 전처리합니다.
+2. **AI 분석 모듈** - 수집된 데이터를 분석하고 예측 모델을 구축합니다.
+3. **자동화 및 최적화 솔루션** - 입찰 문서 생성 및 프로세스 최적화를 수행합니다.
+4. **사용자 인터페이스** - 직관적인 대시보드와 시각화 도구를 제공합니다.
+5. **블록체인 레이어** - 데이터의 무결성과 투명성을 보장합니다.
+6. **보안 모듈** - 데이터 암호화 및 접근 제어를 관리합니다.
 
-<p align="center">
-  <img src="public/assets/feature-document-gen.svg" alt="Document Generation" width="300">
-</p>
+## 🛠️ 기술 스택
 
-- Creates customized bid documents based on RFP requirements
-- Generates technical proposals, pricing volumes, and past performance
-- Tailors content to highlight your organization's strengths
+### 프론트엔드
+- React.js
+- Redux
+- Material-UI
+- D3.js (데이터 시각화)
 
-### 🔗 Blockchain-Based Security & Verification
+### 백엔드
+- Node.js
+- Express
+- GraphQL
+- MongoDB (메타데이터 저장)
+- Redis (캐싱)
 
-<p align="center">
-  <img src="public/assets/feature-blockchain.svg" alt="Blockchain Security" width="300">
-</p>
+### AI 및 머신러닝
+- TensorFlow/PyTorch
+- OpenAI API
+- BERT (자연어 처리)
+- XGBoost (예측 모델링)
 
-- Ensures document integrity and audit trails with immutable records
-- Implements smart contracts for automated bid submission and evaluation
-- Protects sensitive bid information with advanced encryption
+### 블록체인
+- Hyperledger Fabric
+- 스마트 계약 (Solidity)
 
-### 👥 Real-Time Collaboration
+### 클라우드 및 배포
+- Docker
+- Kubernetes
+- AWS/Azure
 
-<p align="center">
-  <img src="public/assets/feature-collaboration.svg" alt="Collaboration Platform" width="300">
-</p>
+## 🚀 설치 방법
 
-- Enables simultaneous document editing and review
-- Provides specialized AI assistants for technical writing, pricing, and compliance
-- Manages tasks and team workflows with intelligent coordination
+### 사전 요구사항
+- Node.js 16.x 이상
+- MongoDB
+- Redis
+- Docker & Docker Compose
 
-## 🎮 Demo
-
-Try our interactive demo to experience how AIPS can transform your procurement process:
-
-[Launch AIPS Demo](https://jjshome.github.io/ai-procurement-system/)
-
-Use these credentials:
-- Username: `demo@example.com`
-- Password: `AIprocurement2025`
-
-<p align="center">
-  <img src="public/assets/demo-animation.gif" alt="AIPS Demo Animation" width="600">
-</p>
-
-## 🚀 Quickstart
-
-### Prerequisites
-
-- Node.js 14.x or higher
-- MongoDB 4.x or higher
-- Recent web browser (Chrome, Firefox, Edge)
-
-### Installation
+### 로컬 개발 환경 설정
 
 ```bash
-# Clone the repository
+# 저장소 클론
 git clone https://github.com/JJshome/ai-procurement-system.git
-
-# Navigate to the project directory
 cd ai-procurement-system
 
-# Install dependencies
+# 의존성 설치
 npm install
 
-# Configure environment variables
+# 환경 변수 설정
 cp .env.example .env
-# Edit .env with your configuration
+# .env 파일을 편집하여 필요한 API 키와 설정 추가
 
-# Start the development server
+# 개발 서버 실행
 npm run dev
 ```
 
-## 🏗️ Architecture
+### Docker를 이용한 배포
 
-AIPS is built with a modular architecture designed for flexibility, scalability, and performance:
+```bash
+# Docker 이미지 빌드
+docker-compose build
 
-<p align="center">
-  <img src="public/assets/architecture-diagram.svg" alt="Architecture Diagram" width="600">
-</p>
-
-### Core Modules
-
-1. **Data Collection Module**
-   - Gathers and processes data from multiple procurement sources
-   - Maintains company profiles and past performance records
-   - Monitors market trends and competitive intelligence
-
-2. **AI Analysis Module**
-   - Analyzes collected data to identify patterns and insights
-   - Predicts bid success probability and optimal strategies
-   - Generates recommendations for bid approach and pricing
-
-3. **Document Generation Module**
-   - Creates customized bid documents based on templates and AI analysis
-   - Tailors content to highlight organizational strengths
-   - Ensures compliance with RFP requirements
-
-4. **Blockchain Module**
-   - Provides secure, immutable storage for bid documents
-   - Implements smart contracts for bid submission and evaluation
-   - Ensures data integrity and auditability
-
-5. **Collaboration Module**
-   - Enables real-time document editing and review
-   - Provides specialized AI assistants for bid development
-   - Manages tasks and team workflows
-
-## 💻 Technologies
-
-AIPS leverages cutting-edge technologies to deliver a powerful procurement solution:
-
-- **AI/ML**: TensorFlow.js, Natural language processing, Ensemble models
-- **Blockchain**: Ethereum, Smart contracts, Zero-knowledge proofs
-- **Frontend**: React, Tailwind CSS, D3.js for visualizations
-- **Backend**: Node.js, Express, MongoDB
-- **Collaboration**: WebSockets, Operational Transformation for real-time editing
-- **Security**: AES-256 encryption, Blockchain-based verification, OAuth 2.0
-
-## 📊 Results & Impact
-
-AIPS delivers measurable improvements to the procurement process:
-
-<p align="center">
-  <img src="public/assets/results-chart.svg" alt="Results Chart" width="500">
-</p>
-
-- **40% Time Saved** in bid preparation
-- **35% Success Rate Improvement** for winning contracts
-- **60% Reduction** in compliance issues
-- **30% Cost Savings** in the bidding process
-
-## 🔄 Workflow
-
-Here's how AIPS transforms the procurement process:
-
-<p align="center">
-  <img src="public/assets/workflow-diagram.svg" alt="Workflow Diagram" width="600">
-</p>
-
-1. **Data Collection**: Automatically gather information from procurement sources
-2. **Analysis**: AI evaluates opportunities and predicts success probability
-3. **Strategy**: Develop optimal bid approach based on AI recommendations
-4. **Document Creation**: Generate customized bid documents
-5. **Team Collaboration**: Collaborate in real-time with AI assistance
-6. **Submission**: Submit bid with blockchain verification
-7. **Tracking**: Monitor bid status and receive updates
-
-## 📋 Project Structure
-
-```
-ai-procurement-system/
-├── public/                 # Static assets
-│   ├── assets/             # Images and animations
-│   ├── css/                # Stylesheets
-│   ├── js/                 # Client-side JavaScript
-│   └── index.html          # Main HTML file
-├── src/                    # Source code
-│   ├── data/               # Sample data for demonstration
-│   ├── modules/            # Core system modules
-│   │   ├── AIAnalysisModule.js       # AI analytics functionality
-│   │   ├── BlockchainModule.js       # Blockchain integration
-│   │   ├── CollaborationModule.js    # Team collaboration features
-│   │   ├── DataCollectionModule.js   # Data collection logic
-│   │   └── DocumentGenerationModule.js # Document generation capabilities
-│   ├── routes/             # API endpoints
-│   ├── utils/              # Utility functions
-│   └── index.js            # Server entry point
-├── tests/                  # Test suite
-├── .env.example            # Environment variables example
-├── package.json            # Project dependencies
-└── README.md               # Project documentation
+# 컨테이너 실행
+docker-compose up -d
 ```
 
-## 🔮 Future Development
+## 🎮 데모
 
-We're continuously improving AIPS with these planned enhancements:
+시스템의 주요 기능을 체험할 수 있는 데모 버전이 준비되어 있습니다.
 
-- Integration with additional procurement platforms beyond SAM.gov
-- Enhanced AI capabilities using more sophisticated language models
-- Mobile application development
-- Advanced analytics dashboard for bid performance tracking
-- API for third-party integrations
+- **데모 URL**: [https://demo.ai-procurement-system.com](https://demo.ai-procurement-system.com)
+- **테스트 계정**: demo@example.com / password123
 
-## 📜 License
+<div align="center">
+  <img src="public/assets/demo-preview.gif" alt="Demo Preview" width="80%">
+</div>
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📈 로드맵
 
-## 🔗 Technology Foundation
+- **2025 Q2**
+  - 대시보드 UI/UX 개선
+  - 추가 데이터 소스 연동
+  - 입찰 문서 템플릿 라이브러리 확장
 
-AIPS is based on Ucaretron Inc.'s patented AI-based public procurement bidding optimization technology, which combines artificial intelligence, blockchain, and automation to revolutionize the procurement process.
+- **2025 Q3**
+  - 고급 예측 분석 모델 도입
+  - 다국어 지원 확대
+  - 모바일 애플리케이션 출시
 
----
+- **2025 Q4**
+  - 블록체인 기능 강화
+  - API 생태계 구축
+  - 파트너십 프로그램 론칭
 
-<p align="center">
-  <img src="public/assets/footer-logo.svg" alt="AIPS Logo" width="150">
-  <br>
-  © 2025 Ucaretron Inc. All rights reserved.
-</p>
+## 🤝 기여하기
+
+모든 형태의 기여를 환영합니다! 기여하는 방법:
+
+1. 이 저장소를 포크하세요
+2. 새로운 기능 브랜치를 만드세요 (`git checkout -b feature/amazing-feature`)
+3. 변경사항을 커밋하세요 (`git commit -m 'Add some amazing feature'`)
+4. 브랜치에 푸시하세요 (`git push origin feature/amazing-feature`)
+5. Pull Request를 제출하세요
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
+## 📞 연락처
+
+프로젝트 관리자 - [@JJshome](https://github.com/JJshome) - contact@ai-procurement-system.com
+
+프로젝트 링크: [https://github.com/JJshome/ai-procurement-system](https://github.com/JJshome/ai-procurement-system)
