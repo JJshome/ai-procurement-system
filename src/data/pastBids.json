@@ -1,0 +1,284 @@
+{
+  "pastBids": [
+    {
+      "id": "BID-2024-001",
+      "companyId": "COMP-001",
+      "opportunityTitle": "Secure Cloud Migration for Defense Systems",
+      "agency": "Department of Defense",
+      "bidDate": "2024-02-15T09:30:00Z",
+      "bidAmount": 4750000,
+      "competitorCount": 7,
+      "outcome": "Won",
+      "winningBid": 4750000,
+      "evaluationScores": {
+        "technical": 92,
+        "past_performance": 88,
+        "price": 82,
+        "overall": 87.4
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Value-based",
+        "technicalEmphasis": "Zero-trust security architecture",
+        "pastPerformanceHighlights": ["Previous DoD cloud projects", "FedRAMP expertise"],
+        "differentiators": ["Proprietary security framework", "Military veteran team members"]
+      },
+      "lessonsLearned": [
+        "Strong technical approach was the key differentiator",
+        "Earlier engagement with the agency could have improved understanding of requirements",
+        "Competitive pricing with clear value proposition was effective"
+      ]
+    },
+    {
+      "id": "BID-2024-002",
+      "companyId": "COMP-001",
+      "opportunityTitle": "Enterprise Data Analytics Platform",
+      "agency": "Department of Commerce",
+      "bidDate": "2024-01-08T10:15:00Z",
+      "bidAmount": 3850000,
+      "competitorCount": 5,
+      "outcome": "Lost",
+      "winningBid": 3200000,
+      "evaluationScores": {
+        "technical": 85,
+        "past_performance": 87,
+        "price": 71,
+        "overall": 81
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Premium solution",
+        "technicalEmphasis": "Advanced AI capabilities",
+        "pastPerformanceHighlights": ["Similar analytics projects", "Data security expertise"],
+        "differentiators": ["Proprietary machine learning algorithms", "Superior data visualization"]
+      },
+      "lessonsLearned": [
+        "Bid was priced too high for the client's budget constraints",
+        "Competitor offered a more cost-effective solution with adequate technical capabilities",
+        "Need to better align pricing with client budget expectations"
+      ]
+    },
+    {
+      "id": "BID-2024-003",
+      "companyId": "COMP-001",
+      "opportunityTitle": "Cybersecurity Operations Center",
+      "agency": "Department of Homeland Security",
+      "bidDate": "2024-03-20T14:00:00Z",
+      "bidAmount": 6200000,
+      "competitorCount": 6,
+      "outcome": "Won",
+      "winningBid": 6200000,
+      "evaluationScores": {
+        "technical": 94,
+        "past_performance": 91,
+        "price": 84,
+        "overall": 89.7
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Competitive mid-range",
+        "technicalEmphasis": "AI-powered threat intelligence",
+        "pastPerformanceHighlights": ["Previous DHS security projects", "Incident response expertise"],
+        "differentiators": ["24/7 SOC capabilities", "Proprietary threat detection system"]
+      },
+      "lessonsLearned": [
+        "Strong past performance with the agency was critical to success",
+        "Technical approach directly addressed the agency's specific pain points",
+        "Including innovation elements in the proposal was well-received"
+      ]
+    },
+    {
+      "id": "BID-2024-004",
+      "companyId": "COMP-002",
+      "opportunityTitle": "Nationwide Environmental Monitoring Network",
+      "agency": "Environmental Protection Agency",
+      "bidDate": "2024-01-22T11:00:00Z",
+      "bidAmount": 7100000,
+      "competitorCount": 4,
+      "outcome": "Won",
+      "winningBid": 7100000,
+      "evaluationScores": {
+        "technical": 93,
+        "past_performance": 89,
+        "price": 85,
+        "overall": 89
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Value-based",
+        "technicalEmphasis": "IoT sensor network with AI analytics",
+        "pastPerformanceHighlights": ["Water quality monitoring projects", "Environmental data management"],
+        "differentiators": ["Proprietary environmental sensors", "Real-time analytics platform"]
+      },
+      "lessonsLearned": [
+        "Highlighting sustainability credentials was highly effective",
+        "Technical innovation was the primary decision factor",
+        "Demonstrating end-to-end solution capabilities provided advantage"
+      ]
+    },
+    {
+      "id": "BID-2024-005",
+      "companyId": "COMP-002",
+      "opportunityTitle": "Clean Energy Integration Framework",
+      "agency": "Department of Energy",
+      "bidDate": "2024-02-05T13:45:00Z",
+      "bidAmount": 5200000,
+      "competitorCount": 8,
+      "outcome": "Won",
+      "winningBid": 5200000,
+      "evaluationScores": {
+        "technical": 95,
+        "past_performance": 88,
+        "price": 83,
+        "overall": 88.7
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Competitive mid-range",
+        "technicalEmphasis": "Smart grid integration with renewable sources",
+        "pastPerformanceHighlights": ["Previous DOE projects", "Renewable energy expertise"],
+        "differentiators": ["Proprietary energy forecasting algorithms", "Microgrid experience"]
+      },
+      "lessonsLearned": [
+        "Strong technical approach focusing on innovation was key",
+        "Past performance with the agency provided significant advantage",
+        "Addressing specific sustainability goals in proposal was effective"
+      ]
+    },
+    {
+      "id": "BID-2024-006",
+      "companyId": "COMP-002",
+      "opportunityTitle": "Sustainable Infrastructure Planning System",
+      "agency": "Department of Transportation",
+      "bidDate": "2024-03-15T10:30:00Z",
+      "bidAmount": 4600000,
+      "competitorCount": 5,
+      "outcome": "Lost",
+      "winningBid": 4100000,
+      "evaluationScores": {
+        "technical": 87,
+        "past_performance": 85,
+        "price": 76,
+        "overall": 82.6
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Premium solution",
+        "technicalEmphasis": "Climate-resilient infrastructure planning",
+        "pastPerformanceHighlights": ["State-level infrastructure projects", "Climate modeling"],
+        "differentiators": ["Advanced environmental impact assessment", "Carbon footprint reduction"]
+      },
+      "lessonsLearned": [
+        "Pricing was too high compared to competitors",
+        "Needed stronger transportation-specific case studies",
+        "Technical approach was well-received but didn't justify the premium"
+      ]
+    },
+    {
+      "id": "BID-2024-007",
+      "companyId": "COMP-003",
+      "opportunityTitle": "Veterans Healthcare Telehealth Platform",
+      "agency": "Department of Veterans Affairs",
+      "bidDate": "2024-02-28T09:00:00Z",
+      "bidAmount": 5050000,
+      "competitorCount": 6,
+      "outcome": "Won",
+      "winningBid": 5050000,
+      "evaluationScores": {
+        "technical": 91,
+        "past_performance": 86,
+        "price": 87,
+        "overall": 88
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Competitive mid-range",
+        "technicalEmphasis": "EHR-integrated telehealth with AI diagnostics",
+        "pastPerformanceHighlights": ["Hospital telehealth implementations", "VA-specific expertise"],
+        "differentiators": ["Military veteran accessibility features", "Rural healthcare focus"]
+      },
+      "lessonsLearned": [
+        "Focus on accessibility and rural healthcare was decisive",
+        "Understanding of veteran-specific needs was critical",
+        "Demonstrating HIPAA compliance and security was essential"
+      ]
+    },
+    {
+      "id": "BID-2024-008",
+      "companyId": "COMP-003",
+      "opportunityTitle": "Public Health Data Exchange Platform",
+      "agency": "Centers for Disease Control",
+      "bidDate": "2024-01-15T11:30:00Z",
+      "bidAmount": 6400000,
+      "competitorCount": 4,
+      "outcome": "Lost",
+      "winningBid": 5900000,
+      "evaluationScores": {
+        "technical": 88,
+        "past_performance": 83,
+        "price": 79,
+        "overall": 83.3
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Value-based premium",
+        "technicalEmphasis": "FHIR-based data exchange with blockchain security",
+        "pastPerformanceHighlights": ["Health data interoperability projects", "Public health initiatives"],
+        "differentiators": ["Advanced privacy-preserving analytics", "Multi-agency data sharing"]
+      },
+      "lessonsLearned": [
+        "Needed stronger CDC-specific case studies",
+        "Competitor had more public health agency experience",
+        "Technical approach was strong but pricing was too high"
+      ]
+    },
+    {
+      "id": "BID-2024-009",
+      "companyId": "COMP-004",
+      "opportunityTitle": "Smart Traffic Management System",
+      "agency": "City of Chicago",
+      "bidDate": "2024-02-10T14:00:00Z",
+      "bidAmount": 2750000,
+      "competitorCount": 5,
+      "outcome": "Won",
+      "winningBid": 2750000,
+      "evaluationScores": {
+        "technical": 94,
+        "past_performance": 89,
+        "price": 86,
+        "overall": 89.7
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Competitive mid-range",
+        "technicalEmphasis": "IoT-based traffic management with predictive analytics",
+        "pastPerformanceHighlights": ["Urban mobility projects", "Smart city initiatives"],
+        "differentiators": ["Chicago-specific traffic modeling", "Public transit integration"]
+      },
+      "lessonsLearned": [
+        "Local knowledge and customization was decisive",
+        "Previous experience in the city provided significant advantage",
+        "Demonstrating adaptability to existing infrastructure was important"
+      ]
+    },
+    {
+      "id": "BID-2024-010",
+      "companyId": "COMP-005",
+      "opportunityTitle": "Classified Communications Security System",
+      "agency": "Department of Defense",
+      "bidDate": "2024-03-05T10:00:00Z",
+      "bidAmount": 3500000,
+      "competitorCount": 3,
+      "outcome": "Won",
+      "winningBid": 3500000,
+      "evaluationScores": {
+        "technical": 96,
+        "past_performance": 92,
+        "price": 85,
+        "overall": 91
+      },
+      "bidStrategy": {
+        "pricingStrategy": "Value-based premium",
+        "technicalEmphasis": "Quantum-resistant encryption with zero-trust architecture",
+        "pastPerformanceHighlights": ["Classified DoD systems", "Intelligence community projects"],
+        "differentiators": ["Post-quantum cryptography expertise", "Military veteran leadership team"]
+      },
+      "lessonsLearned": [
+        "Superior technical approach was the decisive factor",
+        "Security clearances and facility clearance were essential",
+        "Detailed threat modeling in the proposal was well-received"
+      ]
+    }
+  ]
+}
