@@ -197,25 +197,6 @@ docker-compose up -d
    - 제안된 솔루션의 구현 방법과 일정 계획
    - 마일스톤, 실행 조직, 위험 관리 전략 구체화
 
-## 📸 스크린샷
-
-<div align="center">
-  <p><strong>RFP 업로드 화면</strong></p>
-  <img src="public/screenshots/rfp-upload.png" alt="RFP Upload Screen" width="80%">
-  
-  <p><strong>AI 분석 화면</strong></p>
-  <img src="public/screenshots/rfp-analysis.png" alt="AI Analysis Screen" width="80%">
-  
-  <p><strong>요구사항 검토 화면</strong></p>
-  <img src="public/screenshots/requirements-review.png" alt="Requirements Review Screen" width="80%">
-  
-  <p><strong>문서 생성 화면</strong></p>
-  <img src="public/screenshots/document-generation.png" alt="Document Generation Screen" width="80%">
-  
-  <p><strong>최종 검토 화면</strong></p>
-  <img src="public/screenshots/final-review.png" alt="Final Review Screen" width="80%">
-</div>
-
 ## 🌟 설치 요구사항
 
 - **프론트엔드**: 최신 모던 웹 브라우저 (Chrome, Firefox, Safari, Edge)
