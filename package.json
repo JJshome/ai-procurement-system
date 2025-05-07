@@ -1,72 +1,58 @@
 {
   "name": "ai-procurement-system",
-  "version": "1.0.0",
-  "description": "AI-based public procurement bidding optimization system based on Ucaretron Inc. patent technology",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "test": "jest",
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.js\"",
-    "build": "webpack --mode production"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JJshome/ai-procurement-system.git"
-  },
-  "keywords": [
-    "AI",
-    "procurement",
-    "bidding",
-    "optimization",
-    "blockchain",
-    "NLP",
-    "machine-learning"
-  ],
-  "author": "JJshome",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/JJshome/ai-procurement-system/issues"
-  },
-  "homepage": "https://github.com/JJshome/ai-procurement-system#readme",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "@tensorflow/tfjs-node": "^4.11.0",
-    "axios": "^1.6.5",
-    "cheerio": "^1.0.0-rc.12",
-    "cors": "^2.8.5",
-    "docx": "^8.2.2",
-    "dotenv": "^16.3.1",
-    "ethers": "^6.9.0",
-    "express": "^4.18.2",
-    "express-session": "^1.17.3",
-    "handlebars": "^4.7.8",
-    "ml-xgboost": "^1.1.2",
-    "mongodb": "^6.3.0",
-    "morgan": "^1.10.0",
-    "natural": "^6.8.0",
-    "openai": "^4.24.1",
-    "pdf-lib": "^1.17.1",
-    "rich-text": "^4.1.0",
-    "sharedb": "^4.1.1",
-    "socket.io": "^4.7.2",
-    "uuid": "^9.0.1",
-    "websocket": "^1.0.34",
-    "winston": "^3.11.0"
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.3",
+    "@mui/material": "^5.14.3",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
+    "date-fns": "^2.30.0",
+    "formik": "^2.4.3",
+    "lodash": "^4.17.21",
+    "pdfjs-dist": "^3.8.162",
+    "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-pdf": "^7.1.2",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.14.2",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-jest": "^27.6.0",
-    "eslint-plugin-node": "^11.1.0",
-    "jest": "^29.7.0",
-    "nodemon": "^3.0.2",
-    "prettier": "^3.1.1",
-    "supertest": "^6.3.3",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4"
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "react-scripts": "5.0.1"
   },
-  "engines": {
-    "node": ">=16.0.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
