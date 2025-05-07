@@ -11,11 +11,12 @@
     <a href="#주요-기능">주요 기능</a> •
     <a href="#시스템-아키텍처">시스템 아키텍처</a> •
     <a href="#기술-스택">기술 스택</a> •
-    <a href="#설치-방법">설치 방법</a>
+    <a href="#설치-방법">설치 방법</a> •
+    <a href="#데모-흐름">데모 흐름</a>
   </p>
   
   <p align="center">
-    <img src="https://img.shields.io/badge/version-0.1.0-blue" alt="Version 0.1.0">
+    <img src="https://img.shields.io/badge/version-0.2.0-blue" alt="Version 0.2.0">
     <img src="https://img.shields.io/badge/license-MIT-green" alt="License MIT">
     <img src="https://img.shields.io/badge/platform-web-lightgrey" alt="Platform Web">
   </p>
@@ -137,22 +138,103 @@ docker-compose build
 docker-compose up -d
 ```
 
+## 📱 데모 흐름
+
+본 시스템의 데모는, 공공조달 입찰에 참여하려는 기업이 RFP(Request for Proposal) 문서를 업로드하고, AI를 활용하여 자동으로 분석하고 입찰 문서를 생성하는 전체 프로세스를 시연합니다.
+
 <div align="center">
   <img src="public/assets/demo-preview.svg" alt="Demo Preview" width="80%">
 </div>
 
-## 시뮬레이션 환경 기능
-
-1. **RFP 문서 업로드**
-   - 사용자가 RFP 문서를 업로드하면 시스템이 이를 자동으로 처리
+### 1. RFP 문서 업로드
+   - 사용자가 RFP 문서를 업로드하여 분석 프로세스 시작
    - 다양한 형식(PDF, DOCX, TXT)의 파일 지원
    - 드래그 앤 드롭 인터페이스 제공
 
-2. **AI 분석 과정**
+### 2. AI 분석 과정
    - 문서 텍스트 추출 → 자연어 처리 분석 → 요구사항 식별 → 메타데이터 추출 → 분류 및 우선순위 지정 → 요약 및 결과 생성
    - 각 단계별 진행 상황을 시각적으로 표시
    - 실시간 분석 결과 미리보기 제공
 
-3. **요구사항 검토 및 문서 생성**
-   - 분석된 요구사항을 사용자가 검토하고 필요시 수정 가능
-   - 자동 생성된 입찰 문서에는 회사 소개, 제안 개요, 기술 접근법, 프로젝트 일정, 비용 제안 등의 섹션 포함
+### 3. 요구사항 검토 및 수정
+   - 분석된 요구사항을 사용자가 검토하고 필요시 수정
+   - 요구사항의 우선순위와 카테고리 조정 가능
+   - 추출되지 않은 요구사항 수동 추가 기능
+
+### 4. 문서 생성
+   - AI가 요구사항을 기반으로 맞춤형 입찰 제안서 자동 생성
+   - 문서 구성 및 섹션 커스터마이징 기능
+   - 회사 정보와 과거 실적 자동 통합
+
+### 5. 최종 검토 및 제출
+   - 생성된 문서의 최종 검토 및 체크리스트 확인
+   - 요구사항 충족 여부 검증
+   - 완성된 문서 제출 및 상태 추적
+
+이 완전한 데모 흐름을 통해 사용자는 인공지능이 공공조달 입찰 과정을 어떻게 최적화하고 효율화할 수 있는지 직접 체험할 수 있습니다.
+
+## 📝 문서 유형
+
+입찰 프로세스에서 지원하는 문서 유형은 다음과 같습니다:
+
+1. **RFP (Request for Proposal)**
+   - 입찰 요구사항 및 조건을 상세히 기술한 문서
+   - AI가 자동으로 분석하여 주요 요구사항 추출
+
+2. **제안서 (Proposal)**
+   - 입찰 요구사항에 대한 상세한 솔루션을 제시하는 문서
+   - 회사 정보, 기술 사양, 접근 방법, 가격 제안 등 포함
+
+3. **요구사항 분석 보고서**
+   - 추출된 요구사항의 분류 및 우선순위 평가
+   - 성공적인 입찰을 위한 전략적 평가 제공
+
+4. **예상 비용 산출서**
+   - AI가 해당 프로젝트에 대한 비용 추정 제공
+   - 시장 가격과 경쟁사 분석을 통한 경쟁력 있는 가격 제안
+
+5. **프로젝트 실행 계획서**
+   - 제안된 솔루션의 구현 방법과 일정 계획
+   - 마일스톤, 실행 조직, 위험 관리 전략 구체화
+
+## 📸 스크린샷
+
+<div align="center">
+  <p><strong>RFP 업로드 화면</strong></p>
+  <img src="public/screenshots/rfp-upload.png" alt="RFP Upload Screen" width="80%">
+  
+  <p><strong>AI 분석 화면</strong></p>
+  <img src="public/screenshots/rfp-analysis.png" alt="AI Analysis Screen" width="80%">
+  
+  <p><strong>요구사항 검토 화면</strong></p>
+  <img src="public/screenshots/requirements-review.png" alt="Requirements Review Screen" width="80%">
+  
+  <p><strong>문서 생성 화면</strong></p>
+  <img src="public/screenshots/document-generation.png" alt="Document Generation Screen" width="80%">
+  
+  <p><strong>최종 검토 화면</strong></p>
+  <img src="public/screenshots/final-review.png" alt="Final Review Screen" width="80%">
+</div>
+
+## 🌟 설치 요구사항
+
+- **프론트엔드**: 최신 모던 웹 브라우저 (Chrome, Firefox, Safari, Edge)
+- **백엔드**: Node.js 16+, MongoDB 4.4+, Redis 6+
+- **API 연동**: OpenAI API 키, SAM.gov API 인증 정보
+- **블록체인**: Hyperledger Fabric 2.2+ 네트워크
+- **스토리지**: 최소 10GB 디스크 공간
+
+## 🛠️ 새로운 기능 (v0.2.0)
+
+- **완전한 데모 흐름 구현**: 요구사항 검토, 문서 생성, 최종 검토 페이지 추가
+- **일관된 UI/UX 개선**: 사용자 경험 메트릭스에 기반한 인터페이스 개선
+- **엔터프라이즈 기능 강화**: 다중 사용자 지원 및 협업 기능 개선
+- **새로운 AI 모델 적용**: Larege Language Model 기반 분석 및 문서 생성 성능 향상
+- **표참조 분석 기능**: 표 기반 정보 추출 및 분석 기능 추가
+
+## 🤗 참여 메인테이너
+
+- 현재 이 프로젝트는 개발 단계에 있으며, 기여하고 싶으신 분들은 아래 이메일로 문의해주세요.
+- 이메일: example@example.com
+- 라이센스: MIT License
+- 버전: 0.2.0 (2023년 8월 업데이트)
