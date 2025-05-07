@@ -1,990 +1,854 @@
 /**
+ * AI-Powered Procurement System (AIPS)
  * Document Generation Module
  * 
- * This module leverages Large Language Models to automatically generate
- * tailored bid documents based on opportunity requirements and company profiles.
+ * This module provides functionality to automatically generate bid documents
+ * based on opportunity information and company profiles.
  * 
- * Features:
- * - AI-powered bid document generation
- * - Template-based document structure
- * - Company strength highlighting
- * - Requirement compliance validation
- * - Automatic document formatting
- * - Multi-language support
+ * Based on Ucaretron Inc.'s patent technology for optimizing 
+ * public procurement bidding processes through artificial intelligence.
  */
 
-const { OpenAI } = require('openai');
-const fs = require('fs').promises;
+// Import required libraries
+const fs = require('fs');
 const path = require('path');
-const docx = require('docx');
-const pdf = require('pdf-lib');
-const handlebars = require('handlebars');
-const logger = require('../utils/logger');
+const { Document, Paragraph, TextRun, Table, TableRow, TableCell, AlignmentType, BorderStyle } = require('docx');
+
+// Import sample data for demonstration
+const sampleOpportunities = require('../data/opportunities.json');
+const sampleCompanies = require('../data/companies.json');
+const samplePastBids = require('../data/pastBids.json');
 
 class DocumentGenerationModule {
   constructor() {
-    // Initialize OpenAI client
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY
-    });
+    console.log('Initializing Document Generation Module...');
+    this.opportunities = sampleOpportunities.opportunities;
+    this.companies = sampleCompanies.companies;
+    this.pastBids = samplePastBids.pastBids;
     
-    // Initialize template cache
-    this.templateCache = new Map();
-    
-    // Document type handlers
-    this.formatters = {
-      docx: this.formatDocx.bind(this),
-      pdf: this.formatPdf.bind(this),
-      html: this.formatHtml.bind(this),
-      markdown: this.formatMarkdown.bind(this),
-      plain: this.formatPlainText.bind(this)
-    };
-    
-    // Load document templates
-    this.loadTemplates();
-    
-    logger.info('Document Generation Module initialized');
-  }
-  
-  /**
-   * Load document templates from filesystem
-   */
-  async loadTemplates() {
-    try {
-      const templatesDir = path.join(__dirname, '../../templates');
-      const templates = await fs.readdir(templatesDir);
-      
-      for (const template of templates) {
-        if (template.endsWith('.hbs') || template.endsWith('.template')) {
-          const templateName = path.basename(template, path.extname(template));
-          const templatePath = path.join(templatesDir, template);
-          const templateContent = await fs.readFile(templatePath, 'utf-8');
-          
-          // Compile and cache the template
-          this.templateCache.set(templateName, handlebars.compile(templateContent));
-          logger.debug(`Loaded template: ${templateName}`);
-        }
-      }
-      
-      logger.info(`Loaded ${this.templateCache.size} document templates`);
-    } catch (error) {
-      logger.error('Error loading document templates:', error);
-    }
-  }
-  
-  /**
-   * Generate a bid document based on opportunity, company profile, and analysis
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile data
-   * @param {Object} analysis - Analysis results from AIAnalysisModule
-   * @param {Object} options - Generation options
-   * @returns {Object} - Generated document
-   */
-  async generateBidDocument(opportunity, companyProfile, analysis, options = {}) {
-    logger.info(`Generating bid document for opportunity: ${opportunity.id}`);
-    
-    try {
-      // Set default options
-      const documentOptions = {
-        template: options.template || 'standard_rfp_response',
-        format: options.format || 'docx',
-        language: options.language || 'en',
-        emphasizeStrengths: options.emphasizeStrengths !== false,
-        includeExamples: options.includeExamples !== false,
-        includeAnalysis: options.includeAnalysis !== false,
-        customSections: options.customSections || []
-      };
-      
-      // Generate document content using AI
-      const documentContent = await this.generateDocumentContent(
-        opportunity, 
-        companyProfile, 
-        analysis, 
-        documentOptions
-      );
-      
-      // Apply the selected template
-      const formattedContent = await this.applyTemplate(
-        documentContent, 
-        documentOptions.template
-      );
-      
-      // Format the document in the requested output format
-      const document = await this.formatDocument(
-        formattedContent, 
-        documentOptions.format,
-        opportunity,
-        companyProfile
-      );
-      
-      logger.info(`Document generation successful for opportunity: ${opportunity.id}`);
-      return document;
-    } catch (error) {
-      logger.error(`Error generating bid document for opportunity ${opportunity.id}:`, error);
-      throw new Error('Failed to generate bid document');
-    }
-  }
-  
-  /**
-   * Generate document content using Large Language Model
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @param {Object} analysis - Analysis results
-   * @param {Object} options - Generation options
-   * @returns {Object} - Document content sections
-   */
-  async generateDocumentContent(opportunity, companyProfile, analysis, options) {
-    logger.debug('Generating document content with LLM');
-    
-    try {
-      // Prepare system prompt for the LLM
-      const systemPrompt = this.createSystemPrompt(opportunity, companyProfile, analysis, options);
-      
-      // Execute LLM call to generate document content
-      const response = await this.openai.chat.completions.create({
-        model: "gpt-4-turbo",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { 
-            role: "user", 
-            content: `Generate a high-quality bid document for the opportunity titled "${opportunity.title}" for ${companyProfile.name}.`
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 4000,
-        response_format: { type: "json_object" }
-      });
-      
-      // Parse the response
-      const content = JSON.parse(response.choices[0].message.content);
-      
-      // Validate the generated content
-      this.validateGeneratedContent(content, opportunity);
-      
-      // Add metadata
-      content.metadata = {
-        generatedAt: new Date().toISOString(),
-        opportunityId: opportunity.id,
-        companyId: companyProfile.id,
-        template: options.template,
-        format: options.format,
-        language: options.language
-      };
-      
-      return content;
-    } catch (error) {
-      logger.error('Error generating document content with LLM:', error);
-      
-      // Fallback to template-based generation if LLM fails
-      return this.generateFallbackContent(opportunity, companyProfile, analysis, options);
-    }
-  }
-  
-  /**
-   * Create a system prompt for the LLM
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @param {Object} analysis - Analysis results
-   * @param {Object} options - Generation options
-   * @returns {string} - System prompt
-   */
-  createSystemPrompt(opportunity, companyProfile, analysis, options) {
-    return `
-      You are an expert in creating high-quality bid documents for government procurement opportunities.
-      Your task is to generate a comprehensive and persuasive bid document for the following opportunity:
-      
-      OPPORTUNITY DETAILS:
-      Title: ${opportunity.title}
-      ID: ${opportunity.id}
-      Agency: ${opportunity.agency}
-      Description: ${opportunity.description}
-      Value: ${opportunity.value || 'Not specified'}
-      Close Date: ${opportunity.closeDate || 'Not specified'}
-      Category: ${opportunity.category || 'Not specified'}
-      
-      COMPANY PROFILE:
-      Name: ${companyProfile.name}
-      Description: ${companyProfile.description}
-      Years in Business: ${companyProfile.yearsInBusiness || 'Not specified'}
-      Annual Revenue: ${companyProfile.annualRevenue || 'Not specified'}
-      Employee Count: ${companyProfile.employeeCount || 'Not specified'}
-      Expertise Categories: ${(companyProfile.expertiseCategories || []).join(', ')}
-      Past Clients: ${(companyProfile.pastClients || []).join(', ')}
-      
-      ANALYSIS HIGHLIGHTS:
-      Success Probability: ${analysis.successProbability * 100}%
-      Key Strengths: ${(analysis.strategicAdvantages || []).map(a => a.description).join(', ')}
-      Competitive Positioning: ${analysis.competitiveAnalysis?.competitiveDynamics || 'Not analyzed'}
-      
-      DOCUMENT REQUIREMENTS:
-      - Create a comprehensive bid document with all standard sections
-      - ${options.emphasizeStrengths ? 'Emphasize company strengths that align with the opportunity' : 'Present a balanced view of company capabilities'}
-      - ${options.includeExamples ? 'Include relevant past performance examples' : 'Focus on capabilities rather than past examples'}
-      - Language: ${options.language === 'en' ? 'English' : options.language}
-      - Structure the document with clear sections and subsections
-      - Ensure compliance with all opportunity requirements
-      - Be professional, precise, and persuasive
-      
-      CUSTOM INSTRUCTIONS:
-      ${options.customInstructions || 'No custom instructions provided.'}
-      
-      OUTPUT FORMAT:
-      Return a JSON object with the following sections:
-      - executive_summary: A comprehensive summary of the proposal
-      - company_overview: Background and capabilities of the company
-      - approach: Proposed approach to meeting requirements
-      - technical_solution: Technical details of the proposed solution
-      - management_approach: How the project will be managed
-      - past_performance: Relevant past projects and outcomes
-      - pricing: Pricing strategy and justification
-      - compliance_matrix: How the proposal meets all requirements
-      - appendices: Additional supporting information
-      
-      Each section should be comprehensive and ready for inclusion in a formal bid document.
-    `;
-  }
-  
-  /**
-   * Validate the content generated by the LLM
-   * @param {Object} content - Generated content
-   * @param {Object} opportunity - Opportunity data
-   */
-  validateGeneratedContent(content, opportunity) {
-    // Check for required sections
-    const requiredSections = [
-      'executive_summary',
-      'company_overview',
-      'approach',
-      'technical_solution',
-      'management_approach',
-      'past_performance',
-      'pricing'
-    ];
-    
-    for (const section of requiredSections) {
-      if (!content[section] || content[section].trim() === '') {
-        logger.warn(`Generated content missing required section: ${section}`);
-        content[section] = `[This ${section.replace('_', ' ')} section needs to be completed]`;
-      }
-    }
-    
-    // Check for opportunity-specific requirements
-    if (opportunity.requirements && opportunity.requirements.length > 0) {
-      if (!content.compliance_matrix) {
-        content.compliance_matrix = {};
-      }
-      
-      for (const req of opportunity.requirements) {
-        if (!content.compliance_matrix[req.id]) {
-          logger.warn(`Generated content missing compliance for requirement: ${req.id}`);
-          content.compliance_matrix[req.id] = `[Compliance response for ${req.id} needs to be completed]`;
-        }
-      }
-    }
-  }
-  
-  /**
-   * Generate fallback content when LLM generation fails
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @param {Object} analysis - Analysis results
-   * @param {Object} options - Generation options
-   * @returns {Object} - Document content sections
-   */
-  generateFallbackContent(opportunity, companyProfile, analysis, options) {
-    logger.debug('Using fallback content generation');
-    
-    return {
-      executive_summary: this.generateFallbackExecutiveSummary(opportunity, companyProfile),
-      company_overview: this.generateFallbackCompanyOverview(companyProfile),
-      approach: `[Approach to addressing ${opportunity.title}]`,
-      technical_solution: `[Technical solution for ${opportunity.title}]`,
-      management_approach: `[Management approach for ${opportunity.title}]`,
-      past_performance: this.generateFallbackPastPerformance(companyProfile),
-      pricing: `[Pricing proposal for ${opportunity.title}]`,
-      compliance_matrix: this.generateFallbackComplianceMatrix(opportunity),
-      appendices: `[Appendices for ${opportunity.title}]`,
-      metadata: {
-        generatedAt: new Date().toISOString(),
-        opportunityId: opportunity.id,
-        companyId: companyProfile.id,
-        template: options.template,
-        format: options.format,
-        language: options.language,
-        generationMethod: 'fallback'
-      }
-    };
-  }
-  
-  /**
-   * Generate fallback executive summary
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Executive summary content
-   */
-  generateFallbackExecutiveSummary(opportunity, companyProfile) {
-    return `${companyProfile.name} is pleased to submit this proposal in response to ${opportunity.agency}'s Request for Proposal for "${opportunity.title}". 
-    
-With ${companyProfile.yearsInBusiness || 'many'} years of experience in the industry and a proven track record of successful projects, our team is well-positioned to deliver exceptional results for this project. 
-
-Our approach combines industry best practices, innovative solutions, and a dedicated team of professionals to ensure the project meets all requirements and exceeds expectations. We understand the challenges involved and have developed a comprehensive strategy to address them effectively.
-
-We are committed to delivering this project on time and within budget while maintaining the highest standards of quality. Our team looks forward to the opportunity to work with ${opportunity.agency} on this important initiative.`;
-  }
-  
-  /**
-   * Generate fallback company overview
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Company overview content
-   */
-  generateFallbackCompanyOverview(companyProfile) {
-    return `${companyProfile.name} is a ${companyProfile.description || 'leading provider in the industry'}.
-    
-Founded ${companyProfile.yearFounded ? `in ${companyProfile.yearFounded}` : 'many years ago'}, our company has grown to employ ${companyProfile.employeeCount || 'numerous'} professionals and achieve an annual revenue of ${companyProfile.annualRevenue || 'substantial market presence'}.
-
-Our core expertise includes ${(companyProfile.expertiseCategories || ['industry expertise']).join(', ')}, allowing us to deliver exceptional solutions to our clients. We have successfully served a diverse range of clients, including ${(companyProfile.pastClients || ['various organizations']).slice(0, 5).join(', ')}.
-
-Our mission is to provide innovative, efficient, and effective solutions that help our clients achieve their objectives and overcome their challenges. We are committed to excellence, integrity, and customer satisfaction in everything we do.`;
-  }
-  
-  /**
-   * Generate fallback past performance
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Past performance content
-   */
-  generateFallbackPastPerformance(companyProfile) {
-    const pastProjects = companyProfile.pastProjects || [];
-    
-    if (pastProjects.length === 0) {
-      return `${companyProfile.name} has a strong track record of successful project delivery. However, specific past performance examples are not available at this time.`;
-    }
-    
-    let content = `${companyProfile.name} has successfully completed numerous projects similar to this opportunity. Below are some relevant examples of our past performance:\n\n`;
-    
-    pastProjects.slice(0, 3).forEach((project, index) => {
-      content += `Project ${index + 1}: ${project.title || 'Relevant Project'}\n`;
-      content += `Client: ${project.client || 'Client name'}\n`;
-      content += `Value: ${project.value || 'Not specified'}\n`;
-      content += `Duration: ${project.duration || 'Not specified'}\n`;
-      content += `Description: ${project.description || 'Project description not available.'}\n`;
-      content += `Outcome: ${project.outcome || 'Successfully completed project meeting all requirements.'}\n\n`;
-    });
-    
-    return content;
-  }
-  
-  /**
-   * Generate fallback compliance matrix
-   * @param {Object} opportunity - Opportunity data
-   * @returns {Object} - Compliance matrix
-   */
-  generateFallbackComplianceMatrix(opportunity) {
-    const matrix = {};
-    
-    if (opportunity.requirements && opportunity.requirements.length > 0) {
-      opportunity.requirements.forEach(req => {
-        matrix[req.id] = `${req.description}: Our solution complies with this requirement.`;
-      });
-    } else {
-      matrix['general_compliance'] = 'Our solution fully complies with all requirements specified in the RFP.';
-    }
-    
-    return matrix;
-  }
-  
-  /**
-   * Apply a template to the document content
-   * @param {Object} content - Document content
-   * @param {string} templateName - Template name
-   * @returns {string} - Formatted content
-   */
-  async applyTemplate(content, templateName) {
-    logger.debug(`Applying template: ${templateName}`);
-    
-    try {
-      // Check if template exists
-      if (!this.templateCache.has(templateName)) {
-        logger.warn(`Template ${templateName} not found, falling back to default template`);
-        templateName = 'standard_rfp_response';
-        
-        // If still not found, create a simple default template
-        if (!this.templateCache.has(templateName)) {
-          logger.warn('Default template not found, using built-in template');
-          return this.applyBuiltInTemplate(content);
-        }
-      }
-      
-      // Apply the template
-      const template = this.templateCache.get(templateName);
-      return template(content);
-    } catch (error) {
-      logger.error(`Error applying template ${templateName}:`, error);
-      // Fall back to built-in template
-      return this.applyBuiltInTemplate(content);
-    }
-  }
-  
-  /**
-   * Apply a built-in template when template file is unavailable
-   * @param {Object} content - Document content
-   * @returns {string} - Formatted content
-   */
-  applyBuiltInTemplate(content) {
-    return `
-# ${content.metadata ? `Proposal for ${content.metadata.opportunityId}` : 'Proposal'}
-
-## Executive Summary
-
-${content.executive_summary || ''}
-
-## Company Overview
-
-${content.company_overview || ''}
-
-## Approach
-
-${content.approach || ''}
-
-## Technical Solution
-
-${content.technical_solution || ''}
-
-## Management Approach
-
-${content.management_approach || ''}
-
-## Past Performance
-
-${content.past_performance || ''}
-
-## Pricing
-
-${content.pricing || ''}
-
-## Compliance Matrix
-
-${Object.entries(content.compliance_matrix || {}).map(([key, value]) => `* ${key}: ${value}`).join('\n')}
-
-## Appendices
-
-${content.appendices || ''}
-`;
-  }
-  
-  /**
-   * Format the document in the requested output format
-   * @param {string} content - Formatted content
-   * @param {string} format - Output format
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {Object} - Formatted document
-   */
-  async formatDocument(content, format, opportunity, companyProfile) {
-    logger.debug(`Formatting document as ${format}`);
-    
-    try {
-      // Check if formatter exists for the format
-      if (!this.formatters[format]) {
-        logger.warn(`Formatter for ${format} not found, falling back to plain text`);
-        format = 'plain';
-      }
-      
-      // Format the document
-      const document = await this.formatters[format](content, opportunity, companyProfile);
-      
-      return {
-        content: document,
-        format,
-        metadata: {
-          generatedAt: new Date().toISOString(),
-          opportunityId: opportunity.id,
-          companyId: companyProfile.id,
-          format
-        }
-      };
-    } catch (error) {
-      logger.error(`Error formatting document as ${format}:`, error);
-      // Fall back to plain text
-      return {
-        content: content,
-        format: 'plain',
-        metadata: {
-          generatedAt: new Date().toISOString(),
-          opportunityId: opportunity.id,
-          companyId: companyProfile.id,
-          format: 'plain',
-          fallback: true
-        }
-      };
-    }
-  }
-  
-  /**
-   * Format document as DOCX
-   * @param {string} content - Formatted content
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {Buffer} - DOCX document
-   */
-  async formatDocx(content, opportunity, companyProfile) {
-    // Parse markdown content
-    const sections = this.parseMarkdownSections(content);
-    
-    // Create docx document
-    const doc = new docx.Document({
-      title: `Proposal for ${opportunity.title}`,
-      description: `Bid document for ${opportunity.title} by ${companyProfile.name}`,
-      styles: {
-        paragraphStyles: [
+    // Templates storage
+    this.templates = {
+      'technical_proposal': {
+        sections: [
           {
-            id: "Heading1",
-            name: "Heading 1",
-            basedOn: "Normal",
-            next: "Normal",
-            quickFormat: true,
-            run: {
-              size: 28,
-              bold: true,
-              color: "2E74B5"
-            },
-            paragraph: {
-              spacing: {
-                after: 120
-              }
-            }
+            id: 'cover_page',
+            title: 'Cover Page',
+            content: 'Cover page template with company and opportunity information.'
           },
           {
-            id: "Heading2",
-            name: "Heading 2",
-            basedOn: "Normal",
-            next: "Normal",
-            quickFormat: true,
-            run: {
-              size: 24,
-              bold: true,
-              color: "2E74B5"
-            },
-            paragraph: {
-              spacing: {
-                before: 240,
-                after: 120
-              }
-            }
+            id: 'executive_summary',
+            title: 'Executive Summary',
+            content: 'Executive summary template providing an overview of the proposal.'
+          },
+          {
+            id: 'technical_approach',
+            title: 'Technical Approach',
+            content: 'Technical approach template outlining the proposed solution.'
+          },
+          {
+            id: 'management_approach',
+            title: 'Management Approach',
+            content: 'Management approach template describing project management methodology.'
+          },
+          {
+            id: 'past_performance',
+            title: 'Past Performance',
+            content: 'Past performance template showcasing relevant previous work.'
+          },
+          {
+            id: 'staffing_plan',
+            title: 'Staffing Plan',
+            content: 'Staffing plan template outlining the proposed team structure.'
+          },
+          {
+            id: 'quality_assurance',
+            title: 'Quality Assurance Plan',
+            content: 'Quality assurance plan template describing QA processes.'
+          },
+          {
+            id: 'implementation_schedule',
+            title: 'Implementation Schedule',
+            content: 'Implementation schedule template with project timeline.'
+          },
+          {
+            id: 'appendices',
+            title: 'Appendices',
+            content: 'Appendices template for supplementary information.'
+          }
+        ]
+      },
+      'price_proposal': {
+        sections: [
+          {
+            id: 'cover_page',
+            title: 'Cover Page',
+            content: 'Cover page template for price proposal.'
+          },
+          {
+            id: 'pricing_summary',
+            title: 'Pricing Summary',
+            content: 'Pricing summary template with total costs and breakdown.'
+          },
+          {
+            id: 'detailed_pricing',
+            title: 'Detailed Pricing',
+            content: 'Detailed pricing template with line item costs.'
+          },
+          {
+            id: 'assumptions',
+            title: 'Assumptions and Exclusions',
+            content: 'Template for listing pricing assumptions and exclusions.'
+          },
+          {
+            id: 'price_narrative',
+            title: 'Price Narrative',
+            content: 'Price narrative template explaining the pricing strategy.'
+          }
+        ]
+      },
+      'past_performance': {
+        sections: [
+          {
+            id: 'cover_page',
+            title: 'Cover Page',
+            content: 'Cover page template for past performance volume.'
+          },
+          {
+            id: 'reference_summary',
+            title: 'References Summary',
+            content: 'Template summarizing past performance references.'
+          },
+          {
+            id: 'detailed_references',
+            title: 'Detailed References',
+            content: 'Template for detailed description of past projects.'
+          },
+          {
+            id: 'performance_metrics',
+            title: 'Performance Metrics',
+            content: 'Template for showcasing performance metrics from past projects.'
+          }
+        ]
+      },
+      'executive_summary': {
+        sections: [
+          {
+            id: 'cover_page',
+            title: 'Cover Page',
+            content: 'Cover page template for executive summary.'
+          },
+          {
+            id: 'summary',
+            title: 'Executive Summary',
+            content: 'Comprehensive executive summary template.'
+          },
+          {
+            id: 'key_benefits',
+            title: 'Key Benefits',
+            content: 'Template highlighting key benefits of the proposal.'
+          },
+          {
+            id: 'qualifications',
+            title: 'Company Qualifications',
+            content: 'Template summarizing company qualifications.'
+          }
+        ]
+      },
+      'capability_statement': {
+        sections: [
+          {
+            id: 'company_overview',
+            title: 'Company Overview',
+            content: 'Template for company overview section.'
+          },
+          {
+            id: 'core_capabilities',
+            title: 'Core Capabilities',
+            content: 'Template for describing core capabilities.'
+          },
+          {
+            id: 'differentiators',
+            title: 'Differentiators',
+            content: 'Template for highlighting company differentiators.'
+          },
+          {
+            id: 'past_performance',
+            title: 'Past Performance',
+            content: 'Template for summarizing past performance.'
+          },
+          {
+            id: 'certifications',
+            title: 'Certifications',
+            content: 'Template for listing relevant certifications.'
+          },
+          {
+            id: 'contact_information',
+            title: 'Contact Information',
+            content: 'Template for company contact information.'
           }
         ]
       }
-    });
+    };
     
-    // Create document sections
-    const docSections = [];
+    // Storage for generated documents
+    this.generatedDocuments = [];
+  }
+
+  /**
+   * Generate a document based on opportunity and company data
+   * @param {string} opportunityId - ID of the opportunity
+   * @param {string} documentType - Type of document to generate
+   * @param {object} parameters - Additional parameters for document generation
+   * @return {object} Generated document information
+   */
+  generateDocument(opportunityId, documentType, parameters = {}) {
+    console.log(`Generating ${documentType} for opportunity ${opportunityId}`);
     
-    // Cover page
-    docSections.push(
-      new docx.Paragraph({
-        text: `Proposal for: ${opportunity.title}`,
-        heading: docx.HeadingLevel.HEADING_1,
-        alignment: docx.AlignmentType.CENTER
-      }),
-      new docx.Paragraph({
-        text: `Submitted by: ${companyProfile.name}`,
-        alignment: docx.AlignmentType.CENTER,
-        spacing: {
-          after: 400
-        }
-      }),
-      new docx.Paragraph({
-        text: `Submitted to: ${opportunity.agency}`,
-        alignment: docx.AlignmentType.CENTER
-      }),
-      new docx.Paragraph({
-        text: `Date: ${new Date().toLocaleDateString()}`,
-        alignment: docx.AlignmentType.CENTER,
-        spacing: {
-          after: 400
-        }
-      }),
-      new docx.Paragraph({
-        text: `Opportunity ID: ${opportunity.id}`,
-        alignment: docx.AlignmentType.CENTER
-      }),
-      new docx.Paragraph({
-        text: `Closing Date: ${new Date(opportunity.closeDate).toLocaleDateString()}`,
-        alignment: docx.AlignmentType.CENTER
-      }),
-      new docx.Paragraph({
-        children: [
-          new docx.PageBreak()
-        ]
-      })
-    );
+    // Find opportunity
+    const opportunity = this.opportunities.find(opp => opp.id === opportunityId);
+    if (!opportunity) {
+      throw new Error(`Opportunity with ID ${opportunityId} not found`);
+    }
     
-    // Table of contents
-    docSections.push(
-      new docx.Paragraph({
-        text: "Table of Contents",
-        heading: docx.HeadingLevel.HEADING_1
-      }),
-      ...Object.keys(sections).map((sectionKey, index) => {
-        return new docx.Paragraph({
-          text: `${index + 1}. ${this.formatSectionTitle(sectionKey)}`,
-          spacing: {
-            after: 120
+    // Get company profile
+    const companyId = parameters.companyId || 'COMP-001'; // Default to first company if not specified
+    const company = this.companies.find(comp => comp.id === companyId);
+    if (!company) {
+      throw new Error(`Company with ID ${companyId} not found`);
+    }
+    
+    // Check if document type is valid
+    if (!this.templates[documentType]) {
+      throw new Error(`Document type "${documentType}" not supported`);
+    }
+    
+    // Generate document ID
+    const documentId = `DOC-${Date.now().toString().substring(3)}`;
+    
+    // Generate document content
+    const documentContent = this._generateDocumentContent(opportunity, company, documentType, parameters);
+    
+    // Save generated document
+    const generatedDocument = {
+      id: documentId,
+      opportunityId: opportunity.id,
+      opportunityTitle: opportunity.title,
+      companyId: company.id,
+      companyName: company.name,
+      documentType,
+      generatedAt: new Date().toISOString(),
+      content: documentContent,
+      status: 'complete',
+      sections: this.templates[documentType].sections.map(section => section.title)
+    };
+    
+    this.generatedDocuments.push(generatedDocument);
+    
+    return {
+      documentId,
+      opportunityId: opportunity.id,
+      opportunityTitle: opportunity.title,
+      companyId: company.id,
+      companyName: company.name,
+      documentType,
+      generatedAt: new Date().toISOString(),
+      sections: this.templates[documentType].sections.map(section => section.title),
+      status: 'complete'
+    };
+  }
+
+  /**
+   * Get a generated document by ID
+   * @param {string} id - Document ID
+   * @return {object} Generated document
+   */
+  getDocument(id) {
+    console.log(`Getting document ${id}`);
+    
+    const document = this.generatedDocuments.find(doc => doc.id === id);
+    
+    if (!document) {
+      throw new Error(`Document with ID ${id} not found`);
+    }
+    
+    return document;
+  }
+
+  /**
+   * Generate the content for a document based on its type
+   * @private
+   */
+  _generateDocumentContent(opportunity, company, documentType, parameters) {
+    switch (documentType) {
+      case 'technical_proposal':
+        return this._generateTechnicalProposal(opportunity, company, parameters);
+      case 'price_proposal':
+        return this._generatePriceProposal(opportunity, company, parameters);
+      case 'past_performance':
+        return this._generatePastPerformance(opportunity, company, parameters);
+      case 'executive_summary':
+        return this._generateExecutiveSummary(opportunity, company, parameters);
+      case 'capability_statement':
+        return this._generateCapabilityStatement(opportunity, company, parameters);
+      default:
+        throw new Error(`Document type "${documentType}" not supported`);
+    }
+  }
+
+  /**
+   * Generate a technical proposal document
+   * @private
+   */
+  _generateTechnicalProposal(opportunity, company, parameters) {
+    // In a real implementation, this would generate a complete technical proposal
+    // For demonstration, we're generating a simulated structure
+    
+    return {
+      coverPage: {
+        title: `Technical Proposal for ${opportunity.title}`,
+        agency: opportunity.agency,
+        rfpNumber: opportunity.id,
+        company: company.name,
+        date: new Date().toLocaleDateString(),
+        contactPerson: company.contact ? company.contact.name : 'Contact Person',
+        contactEmail: company.contact ? company.contact.email : 'contact@example.com',
+        contactPhone: company.contact ? company.contact.phone : '(555) 123-4567'
+      },
+      executiveSummary: {
+        overview: `${company.name} is pleased to submit this technical proposal in response to the ${opportunity.title} solicitation. Our team has carefully reviewed the requirements and has developed a comprehensive approach that leverages our extensive experience in ${opportunity.category} and our proven methodologies to deliver exceptional results for ${opportunity.agency}.`,
+        keyBenefits: [
+          `Deep expertise in ${opportunity.category} with a track record of successful implementations`,
+          `Innovative approach that incorporates cutting-edge technologies and best practices`,
+          `Experienced team with relevant certifications and domain knowledge`,
+          `Proven project management methodology ensuring on-time, on-budget delivery`
+        ],
+        valueProposition: `Our solution offers ${opportunity.agency} a unique combination of technical excellence, domain expertise, and proven performance that will ensure successful implementation and ongoing support.`
+      },
+      technicalApproach: {
+        overview: `Our technical approach is designed to meet and exceed the requirements specified in the solicitation while providing a scalable, secure, and user-friendly solution.`,
+        methodology: `We will employ our proprietary ${company.name} Implementation Methodology (${company.name.substring(0, 3).toUpperCase()}IM), which has been refined through numerous successful projects.`,
+        keyFeatures: [
+          `Comprehensive requirements analysis and validation`,
+          `Iterative development with frequent client engagement`,
+          `Rigorous testing and quality assurance`,
+          `Seamless integration with existing systems`,
+          `Knowledge transfer and training for agency personnel`
+        ],
+        technicalDetails: `Our solution will leverage industry-leading technologies including [specific technologies relevant to the opportunity]. The architecture will be designed for scalability, security, and performance, with a focus on [specific aspects relevant to the opportunity].`
+      },
+      managementApproach: {
+        projectManagement: `We will utilize a proven project management approach based on [PMI/Agile/Other] methodologies, tailored to the specific needs of this project.`,
+        team: {
+          projectManager: {
+            role: 'Project Manager',
+            responsibilities: 'Overall project leadership, client communication, resource management',
+            experience: '15+ years in similar projects'
+          },
+          technicalLead: {
+            role: 'Technical Lead',
+            responsibilities: 'Technical architecture, solution design, technical quality assurance',
+            experience: '12+ years in similar technical environments'
+          },
+          subjectMatterExpert: {
+            role: 'Subject Matter Expert',
+            responsibilities: 'Domain expertise, requirements validation, solution guidance',
+            experience: '10+ years in the field'
           }
-        });
-      }),
-      new docx.Paragraph({
-        children: [
-          new docx.PageBreak()
+        },
+        communicationPlan: `We will implement a comprehensive communication plan including weekly status reports, bi-weekly progress meetings, and a dedicated project portal for document sharing and issue tracking.`,
+        riskManagement: `Our risk management approach includes proactive identification, assessment, mitigation planning, and continuous monitoring of project risks.`
+      },
+      pastPerformance: {
+        overview: `${company.name} has a proven track record of successfully delivering similar projects for government agencies.`,
+        relevantProjects: company.pastPerformance ? company.pastPerformance.map(project => ({
+          client: project.client,
+          projectName: project.project,
+          value: project.value,
+          year: project.year,
+          description: project.description,
+          relevance: `This project demonstrates our capability in [aspects relevant to the current opportunity].`
+        })) : [
+          {
+            client: 'Sample Agency',
+            projectName: 'Sample Project',
+            value: 1000000,
+            year: 2024,
+            description: 'Sample project description',
+            relevance: 'Sample relevance statement'
+          }
         ]
-      })
-    );
+      },
+      qualityAssurance: {
+        approach: `Our quality assurance approach ensures that all deliverables meet or exceed the specified requirements and quality standards.`,
+        processes: [
+          `Requirements traceability matrix to ensure all requirements are addressed`,
+          `Comprehensive testing including unit, integration, system, and user acceptance testing`,
+          `Independent quality assurance reviews at key project milestones`,
+          `Continuous improvement based on lessons learned and best practices`
+        ],
+        metrics: `We will track and report on key quality metrics including defect density, test coverage, and requirements fulfillment.`
+      },
+      implementationSchedule: {
+        overview: `We propose the following implementation schedule to complete the project within the required timeframe.`,
+        phases: [
+          {
+            name: 'Initiation',
+            duration: '2 weeks',
+            keyActivities: ['Project kickoff', 'Requirements validation', 'Team onboarding']
+          },
+          {
+            name: 'Planning',
+            duration: '3 weeks',
+            keyActivities: ['Detailed project planning', 'Architecture design', 'Risk assessment']
+          },
+          {
+            name: 'Execution',
+            duration: '16 weeks',
+            keyActivities: ['Development', 'Configuration', 'Integration', 'Testing']
+          },
+          {
+            name: 'Transition',
+            duration: '3 weeks',
+            keyActivities: ['User acceptance testing', 'Training', 'Documentation']
+          },
+          {
+            name: 'Closure',
+            duration: '2 weeks',
+            keyActivities: ['Final delivery', 'Project closure', 'Transition to support']
+          }
+        ],
+        milestones: [
+          { name: 'Project Kickoff', date: 'Week 1' },
+          { name: 'Requirements Approval', date: 'Week 3' },
+          { name: 'Architecture Approval', date: 'Week 5' },
+          { name: 'Development Complete', date: 'Week 21' },
+          { name: 'UAT Complete', date: 'Week 24' },
+          { name: 'Project Complete', date: 'Week 26' }
+        ]
+      },
+      conclusion: {
+        summary: `${company.name} is uniquely positioned to deliver a successful solution for the ${opportunity.title} project. Our technical approach, experienced team, and proven track record will ensure that ${opportunity.agency} receives a high-quality solution that meets all requirements and delivers exceptional value.`,
+        nextSteps: `We welcome the opportunity to discuss our proposal in detail and address any questions or concerns you may have.`
+      }
+    };
+  }
+
+  /**
+   * Generate a price proposal document
+   * @private
+   */
+  _generatePriceProposal(opportunity, company, parameters) {
+    // Calculate a realistic bid amount based on opportunity value
+    const baseAmount = opportunity.value || 5000000;
+    const bidAmount = Math.round(baseAmount * (0.9 + Math.random() * 0.2));
     
-    // Content sections
-    Object.entries(sections).forEach(([sectionKey, sectionContent], index) => {
-      docSections.push(
-        new docx.Paragraph({
-          text: `${index + 1}. ${this.formatSectionTitle(sectionKey)}`,
-          heading: docx.HeadingLevel.HEADING_1
-        })
-      );
-      
-      // Split section content into paragraphs
-      const paragraphs = sectionContent.split('\n\n');
-      
-      paragraphs.forEach(para => {
-        if (para.trim() !== '') {
-          docSections.push(
-            new docx.Paragraph({
-              text: para.trim(),
-              spacing: {
-                after: 120
-              }
-            })
-          );
+    // Calculate labor categories and rates
+    const laborCategories = [
+      { name: 'Project Manager', rate: 175, hours: Math.round(1040 * (bidAmount / 5000000)) }, // 6 months full time 
+      { name: 'Technical Lead', rate: 150, hours: Math.round(1040 * (bidAmount / 5000000)) }, // 6 months full time
+      { name: 'Senior Engineer', rate: 125, hours: Math.round(2080 * (bidAmount / 5000000)) }, // 1 year full time
+      { name: 'Engineer', rate: 100, hours: Math.round(4160 * (bidAmount / 5000000)) }, // 2 years full time
+      { name: 'Quality Assurance', rate: 90, hours: Math.round(1040 * (bidAmount / 5000000)) }  // 6 months full time
+    ];
+    
+    // Calculate totals
+    const laborTotal = laborCategories.reduce((total, category) => 
+      total + (category.rate * category.hours), 0);
+    
+    const otherDirectCosts = Math.round(laborTotal * 0.15);
+    const travel = Math.round(laborTotal * 0.05);
+    const materials = Math.round(laborTotal * 0.1);
+    
+    const subtotal = laborTotal + otherDirectCosts + travel + materials;
+    const generalAndAdmin = Math.round(subtotal * 0.12);
+    const fee = Math.round((subtotal + generalAndAdmin) * 0.08);
+    
+    const totalCost = subtotal + generalAndAdmin + fee;
+    
+    return {
+      coverPage: {
+        title: `Price Proposal for ${opportunity.title}`,
+        agency: opportunity.agency,
+        rfpNumber: opportunity.id,
+        company: company.name,
+        date: new Date().toLocaleDateString(),
+        contactPerson: company.contact ? company.contact.name : 'Contact Person',
+        contactEmail: company.contact ? company.contact.email : 'contact@example.com',
+        contactPhone: company.contact ? company.contact.phone : '(555) 123-4567'
+      },
+      pricingSummary: {
+        totalPrice: totalCost,
+        currency: 'USD',
+        validityPeriod: '90 days',
+        startDate: 'Within 30 days of award',
+        duration: '26 weeks',
+        paymentTerms: 'Net 30 days'
+      },
+      detailedPricing: {
+        laborCategories: laborCategories,
+        laborTotal: laborTotal,
+        otherDirectCosts: {
+          travel: travel,
+          materials: materials,
+          otherCosts: otherDirectCosts,
+          odcTotal: otherDirectCosts + travel + materials
+        },
+        generalAndAdmin: generalAndAdmin,
+        fee: fee,
+        totalCost: totalCost
+      },
+      assumptions: {
+        general: [
+          'Pricing is based on the requirements specified in the RFP',
+          'Work will be performed during normal business hours (8am-5pm local time)',
+          'Client will provide timely access to necessary facilities, systems, and personnel',
+          'Changes to requirements may require price adjustments'
+        ],
+        specific: [
+          'Travel estimate assumes X trips to client site',
+          'Materials include software licenses and hardware components as specified',
+          'Schedule is based on timely client reviews and approvals'
+        ]
+      },
+      priceNarrative: {
+        overview: `${company.name} has developed this pricing proposal to provide ${opportunity.agency} with a competitive, transparent, and realistic pricing structure for the ${opportunity.title} project.`,
+        methodology: `Our pricing is based on a detailed analysis of the project requirements, scope, and timeline. We have leveraged our experience with similar projects to ensure accurate estimates while maintaining competitive rates.`,
+        valueJustification: `While our proposal may not represent the lowest possible cost, it offers the best value through a combination of competitive pricing, technical excellence, and risk mitigation. Our experienced team and proven methodology will minimize risks and ensure successful project completion.`,
+        costSavings: `We have identified several opportunities for cost savings throughout the project lifecycle, including [examples relevant to the opportunity].`
+      }
+    };
+  }
+
+  /**
+   * Generate a past performance document
+   * @private
+   */
+  _generatePastPerformance(opportunity, company, parameters) {
+    // Get relevant past performance
+    const pastProjects = company.pastPerformance || [
+      {
+        client: 'Sample Agency',
+        project: 'Sample Project',
+        value: 1000000,
+        year: 2024,
+        description: 'Sample project description'
+      }
+    ];
+    
+    // Generate content
+    return {
+      coverPage: {
+        title: `Past Performance for ${opportunity.title}`,
+        agency: opportunity.agency,
+        rfpNumber: opportunity.id,
+        company: company.name,
+        date: new Date().toLocaleDateString(),
+        contactPerson: company.contact ? company.contact.name : 'Contact Person',
+        contactEmail: company.contact ? company.contact.email : 'contact@example.com',
+        contactPhone: company.contact ? company.contact.phone : '(555) 123-4567'
+      },
+      introduction: {
+        overview: `${company.name} has a proven track record of successfully delivering projects similar to ${opportunity.title}. Our past performance demonstrates our technical capabilities, management approach, and commitment to client satisfaction.`,
+        relevance: `The projects presented in this volume have been selected based on their similarity to the current opportunity in terms of scope, complexity, technical requirements, and client type.`
+      },
+      pastProjects: pastProjects.map(project => ({
+        client: project.client,
+        projectName: project.project,
+        contractNumber: `CT-${Math.floor(1000000 + Math.random() * 9000000)}`,
+        contractType: ['Firm Fixed Price', 'Time & Materials', 'Cost Plus Fixed Fee'][Math.floor(Math.random() * 3)],
+        period: `${project.year} - ${project.year + 1}`,
+        value: project.value,
+        description: project.description,
+        scope: [
+          'Project scope item 1',
+          'Project scope item 2',
+          'Project scope item 3'
+        ],
+        outcomes: [
+          'Completed on time and within budget',
+          'Exceeded client expectations',
+          'Implemented innovative solutions to complex challenges'
+        ],
+        relevance: [
+          `Similar ${opportunity.category} focus`,
+          `Comparable size and complexity`,
+          `Similar agency requirements`
+        ],
+        clientReference: {
+          name: 'Client Reference',
+          title: 'Project Sponsor',
+          email: 'reference@example.gov',
+          phone: '(555) 123-4567'
         }
-      });
-      
-      // Add page break after each section except the last one
-      if (index < Object.keys(sections).length - 1) {
-        docSections.push(
-          new docx.Paragraph({
-            children: [
-              new docx.PageBreak()
-            ]
-          })
-        );
-      }
-    });
-    
-    doc.addSection({
-      children: docSections
-    });
-    
-    // Generate document buffer
-    return await docx.Packer.toBuffer(doc);
-  }
-  
-  /**
-   * Format document as PDF
-   * @param {string} content - Formatted content
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {Buffer} - PDF document
-   */
-  async formatPdf(content, opportunity, companyProfile) {
-    // Create PDF document
-    const pdfDoc = await pdf.PDFDocument.create();
-    
-    // Add metadata
-    pdfDoc.setTitle(`Proposal for ${opportunity.title}`);
-    pdfDoc.setAuthor(companyProfile.name);
-    pdfDoc.setSubject(`Bid for ${opportunity.title}`);
-    pdfDoc.setKeywords([opportunity.category, 'proposal', 'bid', companyProfile.name]);
-    
-    // Add content
-    const page = pdfDoc.addPage();
-    const { width, height } = page.getSize();
-    const fontSize = 12;
-    
-    // Add title
-    page.drawText(`Proposal for ${opportunity.title}`, {
-      x: 50,
-      y: height - 50,
-      size: 24
-    });
-    
-    // Add company name
-    page.drawText(`Submitted by: ${companyProfile.name}`, {
-      x: 50,
-      y: height - 100,
-      size: 16
-    });
-    
-    // Simple implementation - in production would use more sophisticated PDF generation
-    // with proper layout, formatting, images, etc.
-    page.drawText("This is a generated PDF proposal. For full content, please use the DOCX format.", {
-      x: 50,
-      y: height - 150,
-      size: fontSize,
-      maxWidth: width - 100
-    });
-    
-    // Save document
-    return await pdfDoc.save();
-  }
-  
-  /**
-   * Format document as HTML
-   * @param {string} content - Formatted content
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - HTML document
-   */
-  async formatHtml(content, opportunity, companyProfile) {
-    // Parse markdown content
-    const sections = this.parseMarkdownSections(content);
-    
-    // Basic HTML template
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposal for ${opportunity.title}</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
-      color: #333;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .cover-page {
-      text-align: center;
-      margin-bottom: 50px;
-    }
-    .cover-page h1 {
-      color: #2E74B5;
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-    .cover-page p {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    .section {
-      margin-bottom: 30px;
-    }
-    h2 {
-      color: #2E74B5;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 10px;
-    }
-    .toc {
-      background-color: #f8f8f8;
-      padding: 20px;
-      border-radius: 5px;
-      margin-bottom: 30px;
-    }
-    .toc ul {
-      list-style-type: none;
-      padding-left: 10px;
-    }
-    .toc li {
-      margin-bottom: 10px;
-    }
-    .toc a {
-      text-decoration: none;
-      color: #2E74B5;
-    }
-    .toc a:hover {
-      text-decoration: underline;
-    }
-  </style>
-</head>
-<body>
-  <div class="cover-page">
-    <h1>Proposal for: ${opportunity.title}</h1>
-    <p>Submitted by: ${companyProfile.name}</p>
-    <p>Submitted to: ${opportunity.agency}</p>
-    <p>Date: ${new Date().toLocaleDateString()}</p>
-    <p>Opportunity ID: ${opportunity.id}</p>
-    <p>Closing Date: ${new Date(opportunity.closeDate).toLocaleDateString()}</p>
-  </div>
-  
-  <div class="toc">
-    <h2>Table of Contents</h2>
-    <ul>
-      ${Object.keys(sections).map((sectionKey, index) => {
-        return `<li><a href="#section-${index + 1}">${index + 1}. ${this.formatSectionTitle(sectionKey)}</a></li>`;
-      }).join('\n      ')}
-    </ul>
-  </div>
-  
-  ${Object.entries(sections).map(([sectionKey, sectionContent], index) => {
-    return `
-  <div class="section" id="section-${index + 1}">
-    <h2>${index + 1}. ${this.formatSectionTitle(sectionKey)}</h2>
-    ${sectionContent.split('\n\n').map(para => {
-      if (para.trim() !== '') {
-        return `<p>${para.trim()}</p>`;
-      }
-      return '';
-    }).join('\n    ')}
-  </div>`;
-  }).join('\n  ')}
-</body>
-</html>
-`;
-    
-    return html;
-  }
-  
-  /**
-   * Format document as Markdown
-   * @param {string} content - Formatted content
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Markdown document
-   */
-  async formatMarkdown(content, opportunity, companyProfile) {
-    // Add header information
-    const header = `# Proposal for: ${opportunity.title}
-
-*Submitted by:* ${companyProfile.name}  
-*Submitted to:* ${opportunity.agency}  
-*Date:* ${new Date().toLocaleDateString()}  
-*Opportunity ID:* ${opportunity.id}  
-*Closing Date:* ${new Date(opportunity.closeDate).toLocaleDateString()}  
-
-## Table of Contents
-
-`;
-    
-    // Parse and add table of contents
-    const sections = this.parseMarkdownSections(content);
-    const toc = Object.keys(sections).map((sectionKey, index) => {
-      return `${index + 1}. [${this.formatSectionTitle(sectionKey)}](#${sectionKey.toLowerCase().replace(/_/g, '-')})`;
-    }).join('\n');
-    
-    return header + toc + '\n\n' + content;
-  }
-  
-  /**
-   * Format document as plain text
-   * @param {string} content - Formatted content
-   * @param {Object} opportunity - Opportunity data
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Plain text document
-   */
-  async formatPlainText(content, opportunity, companyProfile) {
-    // Add header information
-    const header = `PROPOSAL FOR: ${opportunity.title.toUpperCase()}
-
-Submitted by: ${companyProfile.name}
-Submitted to: ${opportunity.agency}
-Date: ${new Date().toLocaleDateString()}
-Opportunity ID: ${opportunity.id}
-Closing Date: ${new Date(opportunity.closeDate).toLocaleDateString()}
-
-TABLE OF CONTENTS
-`;
-    
-    // Parse and add table of contents
-    const sections = this.parseMarkdownSections(content);
-    const toc = Object.keys(sections).map((sectionKey, index) => {
-      return `${index + 1}. ${this.formatSectionTitle(sectionKey)}`;
-    }).join('\n');
-    
-    // Replace markdown formatting with plain text
-    let plainContent = content
-      .replace(/^# (.*)/gm, '$1\n' + '='.repeat(80))
-      .replace(/^## (.*)/gm, '$1\n' + '-'.repeat(80))
-      .replace(/\*\*(.*?)\*\*/g, '$1')
-      .replace(/\*(.*?)\*/g, '$1')
-      .replace(/\[(.*?)\]\((.*?)\)/g, '$1 ($2)');
-    
-    return header + toc + '\n\n' + plainContent;
-  }
-  
-  /**
-   * Parse markdown sections
-   * @param {string} content - Markdown content
-   * @returns {Object} - Sections with content
-   */
-  parseMarkdownSections(content) {
-    const sections = {};
-    let currentSection = null;
-    let currentContent = [];
-    
-    // Split content into lines
-    const lines = content.split('\n');
-    
-    // Process each line
-    for (const line of lines) {
-      // Check if line is a section header
-      const sectionMatch = line.match(/^## (.+)$/);
-      
-      if (sectionMatch) {
-        // Save previous section if exists
-        if (currentSection) {
-          sections[currentSection] = currentContent.join('\n');
-          currentContent = [];
+      })),
+      performanceMetrics: {
+        onTimeDelivery: '97%',
+        withinBudget: '95%',
+        qualityRating: '4.8/5.0',
+        clientSatisfaction: '4.9/5.0',
+        repeatBusiness: '85%'
+      },
+      awards: [
+        {
+          name: 'Excellence in Government Contracting',
+          year: 2024,
+          issuer: 'Government Technology Association'
+        },
+        {
+          name: 'Innovation in Public Sector Solutions',
+          year: 2023,
+          issuer: 'Public Sector Innovation Awards'
         }
-        
-        // Start new section
-        currentSection = this.normalizeSectionKey(sectionMatch[1]);
-      } else if (currentSection) {
-        // Add content to current section
-        currentContent.push(line);
+      ],
+      conclusion: {
+        summary: `${company.name}'s past performance demonstrates our capability to successfully deliver the ${opportunity.title} project for ${opportunity.agency}. Our track record of on-time, on-budget delivery and high client satisfaction makes us an ideal partner for this initiative.`,
+        commitment: `We are committed to bringing the same level of excellence, innovation, and dedication to this project, ensuring that ${opportunity.agency} receives exceptional value and outstanding results.`
       }
+    };
+  }
+
+  /**
+   * Generate an executive summary document
+   * @private
+   */
+  _generateExecutiveSummary(opportunity, company, parameters) {
+    return {
+      coverPage: {
+        title: `Executive Summary for ${opportunity.title}`,
+        agency: opportunity.agency,
+        rfpNumber: opportunity.id,
+        company: company.name,
+        date: new Date().toLocaleDateString(),
+        contactPerson: company.contact ? company.contact.name : 'Contact Person',
+        contactEmail: company.contact ? company.contact.email : 'contact@example.com',
+        contactPhone: company.contact ? company.contact.phone : '(555) 123-4567'
+      },
+      summary: {
+        introduction: `${company.name} is pleased to present this proposal for the ${opportunity.title} solicitation. We have carefully analyzed the requirements and developed a comprehensive solution that leverages our expertise in ${opportunity.category} to deliver exceptional value to ${opportunity.agency}.`,
+        solutionOverview: `Our proposed solution combines industry-leading technologies, proven methodologies, and an experienced team to address the challenges outlined in the solicitation. We will [brief description of solution approach].`,
+        whyUs: `${company.name} is uniquely qualified to deliver this project due to our extensive experience in ${opportunity.category}, our successful track record with similar government contracts, and our deep understanding of ${opportunity.agency}'s mission and requirements.`
+      },
+      keyBenefits: {
+        benefit1: {
+          title: 'Technical Excellence',
+          description: 'Our solution leverages cutting-edge technologies and best practices to deliver a secure, scalable, and high-performance system.'
+        },
+        benefit2: {
+          title: 'Experienced Team',
+          description: 'Our team brings extensive experience in similar projects, ensuring efficient execution and high-quality results.'
+        },
+        benefit3: {
+          title: 'Proven Methodology',
+          description: 'Our proprietary implementation methodology has been refined through numerous successful projects, minimizing risks and ensuring on-time, on-budget delivery.'
+        },
+        benefit4: {
+          title: 'Long-term Value',
+          description: 'Our solution is designed for sustainability, with built-in flexibility to accommodate future growth and changing requirements.'
+        }
+      },
+      qualifications: {
+        companyOverview: `Founded in ${company.founded}, ${company.name} is a ${company.size} company specializing in ${company.capabilities ? company.capabilities.join(', ') : 'various capabilities'}. We have a proven track record of delivering successful solutions for government and commercial clients.`,
+        relevantExperience: `We have successfully completed ${company.pastPerformance ? company.pastPerformance.length : 'numerous'} projects similar to ${opportunity.title}, demonstrating our expertise in ${opportunity.category} and our ability to meet the specific needs of government agencies.`,
+        certifications: company.certifications ? company.certifications.join(', ') : 'Various industry certifications',
+        clientTestimonials: [
+          {
+            quote: 'The team delivered exceptional results, exceeding our expectations in every aspect of the project.',
+            source: 'Previous Client, Government Agency'
+          },
+          {
+            quote: 'Their technical expertise and commitment to quality set them apart from other contractors we have worked with.',
+            source: 'Previous Client, Government Agency'
+          }
+        ]
+      },
+      conclusion: {
+        summary: `${company.name} is ideally positioned to deliver a successful solution for the ${opportunity.title} project. Our technical approach, experienced team, and proven track record will ensure that ${opportunity.agency} receives a high-quality solution that meets all requirements and delivers exceptional value.`,
+        callToAction: `We welcome the opportunity to discuss our proposal in detail and address any questions you may have. Please contact ${company.contact ? company.contact.name : 'our team'} at ${company.contact ? company.contact.email : 'contact@example.com'} or ${company.contact ? company.contact.phone : '(555) 123-4567'} to schedule a discussion.`
+      }
+    };
+  }
+
+  /**
+   * Generate a capability statement document
+   * @private
+   */
+  _generateCapabilityStatement(opportunity, company, parameters) {
+    return {
+      companyOverview: {
+        name: company.name,
+        founded: company.founded,
+        size: company.size,
+        employees: company.employees,
+        headquarters: company.headquarters,
+        description: company.description,
+        mission: `To deliver innovative and effective solutions that help our clients achieve their strategic objectives.`,
+        vision: `To be the partner of choice for organizations seeking transformative solutions in ${company.capabilities ? company.capabilities.join(', ') : 'our areas of expertise'}.`
+      },
+      coreCapabilities: company.capabilities ? company.capabilities.map(capability => ({
+        name: capability,
+        description: `Comprehensive ${capability} services tailored to client needs.`,
+        keyServices: [
+          `${capability} Service 1`,
+          `${capability} Service 2`,
+          `${capability} Service 3`
+        ]
+      })) : [
+        {
+          name: 'Core Capability 1',
+          description: 'Description of capability 1',
+          keyServices: ['Service 1', 'Service 2', 'Service 3']
+        }
+      ],
+      differentiators: {
+        overview: `${company.name} stands apart from our competitors through a unique combination of technical expertise, industry experience, and client-focused approach.`,
+        keyDifferentiators: [
+          {
+            title: 'Technical Excellence',
+            description: 'Industry-leading technical expertise and innovative solutions'
+          },
+          {
+            title: 'Proven Methodology',
+            description: 'Proprietary methodology refined through numerous successful projects'
+          },
+          {
+            title: 'Client-Focused Approach',
+            description: 'Deep understanding of client needs and commitment to their success'
+          },
+          {
+            title: 'Experienced Team',
+            description: 'Highly skilled professionals with deep domain expertise'
+          }
+        ]
+      },
+      pastPerformance: {
+        overview: `${company.name} has a proven track record of successfully delivering projects for government and commercial clients.`,
+        projects: company.pastPerformance ? company.pastPerformance.map(project => ({
+          client: project.client,
+          name: project.project,
+          value: project.value,
+          year: project.year,
+          description: project.description
+        })) : [
+          {
+            client: 'Sample Client',
+            name: 'Sample Project',
+            value: 1000000,
+            year: 2024,
+            description: 'Sample project description'
+          }
+        ]
+      },
+      certifications: {
+        overview: `${company.name} maintains various industry certifications that demonstrate our commitment to quality, security, and excellence.`,
+        certifications: company.certifications ? company.certifications.map(cert => ({
+          name: cert,
+          description: `Description of ${cert} certification.`,
+          year: 2024
+        })) : [
+          {
+            name: 'Sample Certification',
+            description: 'Sample certification description',
+            year: 2024
+          }
+        ]
+      },
+      contactInformation: {
+        name: company.contact ? company.contact.name : 'Contact Person',
+        title: company.contact ? company.contact.title : 'Contact Title',
+        email: company.contact ? company.contact.email : 'contact@example.com',
+        phone: company.contact ? company.contact.phone : '(555) 123-4567',
+        website: company.website || 'www.example.com',
+        address: company.headquarters || 'Company Headquarters'
+      }
+    };
+  }
+
+  /**
+   * Create a Word document from a generated document (simulated)
+   * @param {string} documentId - ID of the document to export
+   * @param {string} format - Format to export (docx, pdf)
+   * @return {object} Exported document information
+   */
+  exportDocument(documentId, format = 'docx') {
+    console.log(`Exporting document ${documentId} to ${format} format`);
+    
+    // Get the document
+    const document = this.getDocument(documentId);
+    
+    if (!document) {
+      throw new Error(`Document with ID ${documentId} not found`);
     }
     
-    // Save last section
-    if (currentSection) {
-      sections[currentSection] = currentContent.join('\n');
+    // Simulate export process
+    // In a real implementation, this would generate actual files using libraries
+    return {
+      documentId: document.id,
+      opportunityId: document.opportunityId,
+      companyId: document.companyId,
+      documentType: document.documentType,
+      exportedFormat: format,
+      exportedAt: new Date().toISOString(),
+      fileSize: `${Math.round(Math.random() * 500) + 500}KB`,
+      fileName: `${document.documentType.replace('_', '-')}-${document.opportunityId}.${format}`,
+      downloadUrl: `/api/documents/${document.id}/download?format=${format}`
+    };
+  }
+
+  /**
+   * Convert a document to a different format (simulated)
+   * @param {string} documentId - ID of the document to convert
+   * @param {string} targetFormat - Target format (docx, pdf, html)
+   * @return {object} Conversion information
+   */
+  convertDocument(documentId, targetFormat) {
+    console.log(`Converting document ${documentId} to ${targetFormat}`);
+    
+    // Get the document
+    const document = this.getDocument(documentId);
+    
+    if (!document) {
+      throw new Error(`Document with ID ${documentId} not found`);
     }
     
-    return sections;
+    // Simulate conversion process
+    // In a real implementation, this would convert between formats using libraries
+    return {
+      documentId: document.id,
+      originalFormat: 'json',
+      targetFormat: targetFormat,
+      convertedAt: new Date().toISOString(),
+      fileSize: `${Math.round(Math.random() * 500) + 500}KB`,
+      fileName: `${document.documentType.replace('_', '-')}-${document.opportunityId}.${targetFormat}`,
+      downloadUrl: `/api/documents/${document.id}/download?format=${targetFormat}`
+    };
   }
-  
+
   /**
-   * Format section title for display
-   * @param {string} sectionKey - Section key
-   * @returns {string} - Formatted title
+   * Generate a document template (simulated)
+   * @param {string} templateType - Type of template to generate
+   * @param {object} parameters - Template parameters
+   * @return {object} Template information
    */
-  formatSectionTitle(sectionKey) {
-    return sectionKey
-      .replace(/_/g, ' ')
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
-  }
-  
-  /**
-   * Normalize section key
-   * @param {string} title - Section title
-   * @returns {string} - Normalized key
-   */
-  normalizeSectionKey(title) {
-    return title
-      .toLowerCase()
-      .replace(/\s+/g, '_')
-      .replace(/[^a-z0-9_]/g, '');
-  }
-  
-  /**
-   * Generate a section of compliance response
-   * @param {Object} requirement - Requirement object
-   * @param {Object} companyProfile - Company profile
-   * @returns {string} - Compliance response
-   */
-  generateComplianceResponse(requirement, companyProfile) {
-    return `${companyProfile.name} fully complies with the requirement: ${requirement.description}. 
+  createTemplate(templateType, parameters = {}) {
+    console.log(`Creating template of type ${templateType}`);
     
-Our solution addresses this requirement through our proven approach and technical capabilities. We have successfully implemented similar requirements in past projects and will apply the same expertise to meet this requirement effectively.`;
+    // Check if template type is valid
+    if (!this.templates[templateType]) {
+      throw new Error(`Template type "${templateType}" not supported`);
+    }
+    
+    // Generate template ID
+    const templateId = `TEMPLATE-${Date.now().toString().substring(5)}`;
+    
+    // Simulate template creation
+    return {
+      templateId,
+      templateType,
+      name: parameters.name || `${templateType.replace('_', ' ')} Template`,
+      createdAt: new Date().toISOString(),
+      sections: this.templates[templateType].sections.map(section => section.title),
+      customFields: parameters.customFields || []
+    };
   }
 }
 
