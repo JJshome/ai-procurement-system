@@ -11,9 +11,7 @@
     <a href="#주요-기능">주요 기능</a> •
     <a href="#시스템-아키텍처">시스템 아키텍처</a> •
     <a href="#기술-스택">기술 스택</a> •
-    <a href="#설치-방법">설치 방법</a> •
-    <a href="#데모">데모</a> •
-    <a href="#로드맵">로드맵</a>
+    <a href="#설치-방법">설치 방법</a>
   </p>
   
   <p align="center">
@@ -28,7 +26,7 @@
 이 시스템은 인공지능(AI) 기술을 활용하여 공공조달 입찰 프로세스를 최적화하고 자동화하는 혁신적인 플랫폼입니다. 다양한 데이터 소스에서 정보를 수집하고 분석하여 입찰 전략 수립과 성공적인 문서 작성을 지원합니다. 블록체인 기술을 통해 데이터의 무결성을 보장하고, 사용자 친화적인 인터페이스로 복잡한 입찰 과정을 단순화합니다.
 
 <div align="center">
-  <img src="public/assets/dashboard-preview.png" alt="Dashboard Preview" width="80%">
+  <img src="public/assets/dashboard-preview.svg" alt="Dashboard Preview" width="80%">
 </div>
 
 ## ✨ 주요 기능
@@ -63,7 +61,7 @@
 이 시스템은 다음과 같은 주요 모듈로 구성되어 있습니다:
 
 <div align="center">
-  <img src="public/assets/architecture.png" alt="System Architecture" width="80%">
+  <img src="public/assets/architecture.svg" alt="System Architecture" width="80%">
 </div>
 
 1. **데이터 수집 모듈** - 다양한 소스에서 데이터를 수집하고 전처리합니다.
@@ -139,50 +137,22 @@ docker-compose build
 docker-compose up -d
 ```
 
-## 🎮 데모
-
-시스템의 주요 기능을 체험할 수 있는 데모 버전이 준비되어 있습니다.
-
-- **데모 URL**: [https://demo.ai-procurement-system.com](https://demo.ai-procurement-system.com)
-- **테스트 계정**: demo@example.com / password123
-
 <div align="center">
-  <img src="public/assets/demo-preview.gif" alt="Demo Preview" width="80%">
+  <img src="public/assets/demo-preview.svg" alt="Demo Preview" width="80%">
 </div>
 
-## 📈 로드맵
+## 시뮬레이션 환경 기능
 
-- **2025 Q2**
-  - 대시보드 UI/UX 개선
-  - 추가 데이터 소스 연동
-  - 입찰 문서 템플릿 라이브러리 확장
+1. **RFP 문서 업로드**
+   - 사용자가 RFP 문서를 업로드하면 시스템이 이를 자동으로 처리
+   - 다양한 형식(PDF, DOCX, TXT)의 파일 지원
+   - 드래그 앤 드롭 인터페이스 제공
 
-- **2025 Q3**
-  - 고급 예측 분석 모델 도입
-  - 다국어 지원 확대
-  - 모바일 애플리케이션 출시
+2. **AI 분석 과정**
+   - 문서 텍스트 추출 → 자연어 처리 분석 → 요구사항 식별 → 메타데이터 추출 → 분류 및 우선순위 지정 → 요약 및 결과 생성
+   - 각 단계별 진행 상황을 시각적으로 표시
+   - 실시간 분석 결과 미리보기 제공
 
-- **2025 Q4**
-  - 블록체인 기능 강화
-  - API 생태계 구축
-  - 파트너십 프로그램 론칭
-
-## 🤝 기여하기
-
-모든 형태의 기여를 환영합니다! 기여하는 방법:
-
-1. 이 저장소를 포크하세요
-2. 새로운 기능 브랜치를 만드세요 (`git checkout -b feature/amazing-feature`)
-3. 변경사항을 커밋하세요 (`git commit -m 'Add some amazing feature'`)
-4. 브랜치에 푸시하세요 (`git push origin feature/amazing-feature`)
-5. Pull Request를 제출하세요
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다. 자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
-
-## 📞 연락처
-
-프로젝트 관리자 - [@JJshome](https://github.com/JJshome) - contact@ai-procurement-system.com
-
-프로젝트 링크: [https://github.com/JJshome/ai-procurement-system](https://github.com/JJshome/ai-procurement-system)
+3. **요구사항 검토 및 문서 생성**
+   - 분석된 요구사항을 사용자가 검토하고 필요시 수정 가능
+   - 자동 생성된 입찰 문서에는 회사 소개, 제안 개요, 기술 접근법, 프로젝트 일정, 비용 제안 등의 섹션 포함
