@@ -1,0 +1,483 @@
+{
+  "opportunities": [
+    {
+      "id": "OPP-2025-001",
+      "title": "Advanced Cybersecurity Solutions for Federal Agency",
+      "agency": "Department of Homeland Security",
+      "category": "Information Technology",
+      "type": "RFP",
+      "releaseDate": "2025-04-10T08:00:00Z",
+      "closeDate": "2025-06-15T23:59:59Z",
+      "value": 1500000,
+      "description": "The Department of Homeland Security is seeking proposals for advanced cybersecurity solutions to protect critical infrastructure systems. The selected contractor will implement AI-powered threat detection, zero-trust architecture, and quantum-resistant encryption methods.",
+      "requirements": [
+        "Minimum of 8 years providing federal cybersecurity services",
+        "CMMC Level 3 certification or higher",
+        "Experience with zero-trust architecture implementation",
+        "24/7 SOC capabilities",
+        "Staff with necessary security clearances"
+      ],
+      "documents": [
+        {
+          "id": "DOC-001",
+          "title": "RFP Main Document",
+          "type": "pdf",
+          "size": "2.4MB"
+        },
+        {
+          "id": "DOC-002",
+          "title": "Technical Requirements",
+          "type": "pdf",
+          "size": "5.1MB"
+        },
+        {
+          "id": "DOC-003",
+          "title": "Pricing Template",
+          "type": "xlsx",
+          "size": "512KB"
+        }
+      ],
+      "contact": {
+        "name": "Sarah Johnson",
+        "email": "sarah.johnson@dhs.gov",
+        "phone": "(202) 555-0142"
+      },
+      "status": "Active",
+      "tags": ["cybersecurity", "federal", "AI", "zero-trust", "encryption"],
+      "naicsCode": "541512",
+      "successProbability": 0.75
+    },
+    {
+      "id": "OPP-2025-002",
+      "title": "Smart City Transportation Management System",
+      "agency": "City of Austin",
+      "category": "Transportation",
+      "type": "RFP",
+      "releaseDate": "2025-03-25T08:00:00Z",
+      "closeDate": "2025-05-20T23:59:59Z",
+      "value": 3800000,
+      "description": "The City of Austin is seeking proposals for an integrated smart transportation management system to reduce traffic congestion, improve safety, and enhance public transit efficiency. The solution should incorporate IoT sensors, AI/ML algorithms for traffic prediction, and a unified control platform.",
+      "requirements": [
+        "Experience implementing smart city solutions",
+        "Proven track record with IoT sensor networks",
+        "AI/ML capabilities for predictive analytics",
+        "Integration with existing transportation infrastructure",
+        "Cloud-based management platform",
+        "Mobile app development for public access to real-time data"
+      ],
+      "documents": [
+        {
+          "id": "DOC-004",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "3.7MB"
+        },
+        {
+          "id": "DOC-005",
+          "title": "System Architecture Requirements",
+          "type": "pdf",
+          "size": "2.9MB"
+        },
+        {
+          "id": "DOC-006",
+          "title": "Current Infrastructure Documentation",
+          "type": "pdf",
+          "size": "8.2MB"
+        }
+      ],
+      "contact": {
+        "name": "Michael Rodriguez",
+        "email": "m.rodriguez@austintx.gov",
+        "phone": "(512) 555-0187"
+      },
+      "status": "Active",
+      "tags": ["smart city", "transportation", "IoT", "AI/ML", "traffic management"],
+      "naicsCode": "541512",
+      "successProbability": 0.62
+    },
+    {
+      "id": "OPP-2025-003",
+      "title": "Healthcare Data Interoperability Platform",
+      "agency": "Department of Health and Human Services",
+      "category": "Healthcare",
+      "type": "RFP",
+      "releaseDate": "2025-04-02T08:00:00Z",
+      "closeDate": "2025-06-01T23:59:59Z",
+      "value": 6200000,
+      "description": "HHS is seeking proposals for a nationwide healthcare data interoperability platform to facilitate secure sharing of medical records between healthcare providers, researchers, and patients. The platform must comply with HL7 FHIR standards, ensure HIPAA compliance, and incorporate blockchain technology for data integrity.",
+      "requirements": [
+        "Experience with HL7 FHIR implementation",
+        "HIPAA compliance expertise",
+        "Blockchain implementation for healthcare data",
+        "AI-powered data anonymization capabilities",
+        "API development for third-party integration",
+        "Robust identity verification system"
+      ],
+      "documents": [
+        {
+          "id": "DOC-007",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "4.6MB"
+        },
+        {
+          "id": "DOC-008",
+          "title": "Technical Specifications",
+          "type": "pdf",
+          "size": "7.3MB"
+        },
+        {
+          "id": "DOC-009",
+          "title": "Compliance Requirements",
+          "type": "pdf",
+          "size": "3.8MB"
+        }
+      ],
+      "contact": {
+        "name": "Dr. Elizabeth Chen",
+        "email": "elizabeth.chen@hhs.gov",
+        "phone": "(301) 555-0219"
+      },
+      "status": "Active",
+      "tags": ["healthcare", "interoperability", "FHIR", "blockchain", "HIPAA"],
+      "naicsCode": "541512",
+      "successProbability": 0.83
+    },
+    {
+      "id": "OPP-2025-004",
+      "title": "Renewable Energy Grid Integration Solution",
+      "agency": "Department of Energy",
+      "category": "Energy",
+      "type": "RFP",
+      "releaseDate": "2025-02-15T08:00:00Z",
+      "closeDate": "2025-05-10T23:59:59Z",
+      "value": 12500000,
+      "description": "The Department of Energy is soliciting proposals for advanced grid integration solutions to accommodate increasing renewable energy sources. The system should optimize energy distribution, manage intermittency challenges, and incorporate predictive analytics for demand forecasting.",
+      "requirements": [
+        "Experience with utility-scale grid management systems",
+        "AI/ML capabilities for energy forecasting",
+        "Integration with diverse renewable energy sources",
+        "Real-time monitoring and control systems",
+        "Cybersecurity features for critical infrastructure",
+        "Scalable architecture for nationwide deployment"
+      ],
+      "documents": [
+        {
+          "id": "DOC-010",
+          "title": "RFP Main Document",
+          "type": "pdf",
+          "size": "5.8MB"
+        },
+        {
+          "id": "DOC-011",
+          "title": "Technical Requirements",
+          "type": "pdf",
+          "size": "9.2MB"
+        },
+        {
+          "id": "DOC-012",
+          "title": "Current Grid Architecture Documentation",
+          "type": "pdf",
+          "size": "11.5MB"
+        }
+      ],
+      "contact": {
+        "name": "Dr. James Wilson",
+        "email": "j.wilson@energy.gov",
+        "phone": "(202) 555-0327"
+      },
+      "status": "Active",
+      "tags": ["renewable energy", "grid management", "AI/ML", "energy forecasting"],
+      "naicsCode": "541330",
+      "successProbability": 0.59
+    },
+    {
+      "id": "OPP-2025-005",
+      "title": "Next-Generation Emergency Response System",
+      "agency": "FEMA",
+      "category": "Emergency Management",
+      "type": "RFP",
+      "releaseDate": "2025-04-18T08:00:00Z",
+      "closeDate": "2025-07-01T23:59:59Z",
+      "value": 8700000,
+      "description": "FEMA is seeking proposals for a next-generation emergency response coordination system to enhance disaster preparedness and response capabilities. The system should leverage AI, satellite imagery, IoT sensors, and predictive analytics to improve situational awareness and resource allocation during emergency situations.",
+      "requirements": [
+        "Experience with emergency management systems",
+        "AI-powered predictive analytics for disaster modeling",
+        "Remote sensing and satellite imagery integration",
+        "Mobile application for first responders",
+        "Offline functionality for disrupted communications",
+        "Multi-agency coordination capabilities"
+      ],
+      "documents": [
+        {
+          "id": "DOC-013",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "4.3MB"
+        },
+        {
+          "id": "DOC-014",
+          "title": "System Requirements",
+          "type": "pdf",
+          "size": "6.7MB"
+        },
+        {
+          "id": "DOC-015",
+          "title": "Current Systems Documentation",
+          "type": "pdf",
+          "size": "3.4MB"
+        }
+      ],
+      "contact": {
+        "name": "Robert Martinez",
+        "email": "r.martinez@fema.gov",
+        "phone": "(202) 555-0492"
+      },
+      "status": "Active",
+      "tags": ["emergency management", "disaster response", "AI", "predictive analytics"],
+      "naicsCode": "541512",
+      "successProbability": 0.71
+    },
+    {
+      "id": "OPP-2025-006",
+      "title": "Cloud-Based Education Management Platform",
+      "agency": "Department of Education",
+      "category": "Education",
+      "type": "RFP",
+      "releaseDate": "2025-03-05T08:00:00Z",
+      "closeDate": "2025-05-30T23:59:59Z",
+      "value": 4200000,
+      "description": "The Department of Education is soliciting proposals for a comprehensive cloud-based education management platform to support K-12 schools nationwide. The system should include learning management, student assessment, analytics, resource management, and parent-teacher communication features.",
+      "requirements": [
+        "Experience developing education technology solutions",
+        "Cloud-native architecture with high availability",
+        "AI-powered personalized learning capabilities",
+        "Integration with existing SIS systems",
+        "Comprehensive data analytics and reporting",
+        "Mobile applications for students, teachers, and parents"
+      ],
+      "documents": [
+        {
+          "id": "DOC-016",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "3.9MB"
+        },
+        {
+          "id": "DOC-017",
+          "title": "Functional Requirements",
+          "type": "pdf",
+          "size": "5.2MB"
+        },
+        {
+          "id": "DOC-018",
+          "title": "Technical Specifications",
+          "type": "pdf",
+          "size": "4.7MB"
+        }
+      ],
+      "contact": {
+        "name": "Patricia Lee",
+        "email": "patricia.lee@ed.gov",
+        "phone": "(202) 555-0615"
+      },
+      "status": "Active",
+      "tags": ["education", "cloud computing", "K-12", "learning management", "analytics"],
+      "naicsCode": "611420",
+      "successProbability": 0.68
+    },
+    {
+      "id": "OPP-2025-007",
+      "title": "Advanced Water Quality Monitoring System",
+      "agency": "Environmental Protection Agency",
+      "category": "Environmental",
+      "type": "RFP",
+      "releaseDate": "2025-04-22T08:00:00Z",
+      "closeDate": "2025-06-30T23:59:59Z",
+      "value": 3600000,
+      "description": "The EPA is seeking proposals for a nationwide water quality monitoring system utilizing IoT sensors, AI analytics, and blockchain technology to ensure water safety and regulatory compliance. The system should provide real-time monitoring, predictive contamination alerts, and public transparency.",
+      "requirements": [
+        "Experience with environmental monitoring systems",
+        "IoT sensor network design and implementation",
+        "AI-powered water quality analysis",
+        "Blockchain implementation for data integrity",
+        "Cloud-based management platform",
+        "Public-facing transparency portal"
+      ],
+      "documents": [
+        {
+          "id": "DOC-019",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "4.1MB"
+        },
+        {
+          "id": "DOC-020",
+          "title": "Technical Requirements",
+          "type": "pdf",
+          "size": "6.3MB"
+        },
+        {
+          "id": "DOC-021",
+          "title": "Compliance Standards",
+          "type": "pdf",
+          "size": "2.8MB"
+        }
+      ],
+      "contact": {
+        "name": "Dr. Thomas Lee",
+        "email": "t.lee@epa.gov",
+        "phone": "(202) 555-0728"
+      },
+      "status": "Active",
+      "tags": ["environmental", "water quality", "IoT", "blockchain", "monitoring"],
+      "naicsCode": "541330",
+      "successProbability": 0.76
+    },
+    {
+      "id": "OPP-2025-008",
+      "title": "Digital Identity Verification System",
+      "agency": "Social Security Administration",
+      "category": "Identity Management",
+      "type": "RFP",
+      "releaseDate": "2025-03-18T08:00:00Z",
+      "closeDate": "2025-06-10T23:59:59Z",
+      "value": 7800000,
+      "description": "The SSA is seeking proposals for a secure digital identity verification system to modernize identity management for government services. The solution should incorporate biometric verification, blockchain for identity records, and zero-knowledge proofs for privacy-preserving verification.",
+      "requirements": [
+        "Experience with government identity management systems",
+        "Biometric authentication implementation",
+        "Blockchain-based identity management",
+        "Zero-knowledge proof technology",
+        "NIST 800-63-3 Level 3 compliance",
+        "Accessibility features for all users"
+      ],
+      "documents": [
+        {
+          "id": "DOC-022",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "4.8MB"
+        },
+        {
+          "id": "DOC-023",
+          "title": "Security Requirements",
+          "type": "pdf",
+          "size": "5.5MB"
+        },
+        {
+          "id": "DOC-024",
+          "title": "Technical Specifications",
+          "type": "pdf",
+          "size": "7.2MB"
+        }
+      ],
+      "contact": {
+        "name": "Jennifer Adams",
+        "email": "j.adams@ssa.gov",
+        "phone": "(410) 555-0843"
+      },
+      "status": "Active",
+      "tags": ["identity management", "biometrics", "blockchain", "zero-knowledge proofs"],
+      "naicsCode": "541512",
+      "successProbability": 0.81
+    },
+    {
+      "id": "OPP-2025-009",
+      "title": "Quantum-Secure Communications Infrastructure",
+      "agency": "Department of Defense",
+      "category": "Communications",
+      "type": "RFP",
+      "releaseDate": "2025-05-01T08:00:00Z",
+      "closeDate": "2025-08-15T23:59:59Z",
+      "value": 18500000,
+      "description": "The DoD is soliciting proposals for a quantum-secure communications infrastructure to protect against current and future cybersecurity threats. The system should implement post-quantum cryptography, quantum key distribution, and advanced network security protocols.",
+      "requirements": [
+        "Top Secret facility clearance",
+        "Experience with government secure communications",
+        "Post-quantum cryptography implementation",
+        "Quantum key distribution technology",
+        "Zero-trust architecture",
+        "Compatibility with existing DoD systems"
+      ],
+      "documents": [
+        {
+          "id": "DOC-025",
+          "title": "RFP Document (Classified)",
+          "type": "pdf",
+          "size": "5.7MB"
+        },
+        {
+          "id": "DOC-026",
+          "title": "Technical Requirements (Classified)",
+          "type": "pdf",
+          "size": "8.9MB"
+        },
+        {
+          "id": "DOC-027",
+          "title": "Security Specifications (Classified)",
+          "type": "pdf",
+          "size": "6.4MB"
+        }
+      ],
+      "contact": {
+        "name": "Col. William Taylor",
+        "email": "w.taylor@mail.mil",
+        "phone": "(703) 555-0967"
+      },
+      "status": "Active",
+      "tags": ["quantum", "cybersecurity", "communications", "cryptography", "defense"],
+      "naicsCode": "541330",
+      "successProbability": 0.57
+    },
+    {
+      "id": "OPP-2025-010",
+      "title": "Public Transportation Electrification Program",
+      "agency": "Department of Transportation",
+      "category": "Transportation",
+      "type": "RFP",
+      "releaseDate": "2025-04-15T08:00:00Z",
+      "closeDate": "2025-07-10T23:59:59Z",
+      "value": 25000000,
+      "description": "The DOT is seeking proposals for a comprehensive public transportation electrification program, including electric buses, charging infrastructure, and smart grid integration. The program aims to help municipalities transition to zero-emission public transit systems.",
+      "requirements": [
+        "Experience with large-scale transportation electrification",
+        "Electric vehicle charging infrastructure design",
+        "Smart grid integration expertise",
+        "Fleet management software development",
+        "Municipal transit system experience",
+        "Sustainable energy integration capabilities"
+      ],
+      "documents": [
+        {
+          "id": "DOC-028",
+          "title": "RFP Document",
+          "type": "pdf",
+          "size": "6.3MB"
+        },
+        {
+          "id": "DOC-029",
+          "title": "Technical Requirements",
+          "type": "pdf",
+          "size": "8.7MB"
+        },
+        {
+          "id": "DOC-030",
+          "title": "Implementation Guidelines",
+          "type": "pdf",
+          "size": "5.9MB"
+        }
+      ],
+      "contact": {
+        "name": "Angela Morrison",
+        "email": "a.morrison@dot.gov",
+        "phone": "(202) 555-1084"
+      },
+      "status": "Active",
+      "tags": ["transportation", "electrification", "zero-emission", "public transit", "smart grid"],
+      "naicsCode": "541330",
+      "successProbability": 0.74
+    }
+  ]
+}
